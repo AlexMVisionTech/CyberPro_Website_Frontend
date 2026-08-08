@@ -136,12 +136,7 @@ export default function Home() {
   return (
     <div className="home">
       <section className="hero">
-        <div className="hero__bg">
-          <div className="hero__grid-overlay" />
-          <div className="hero__circle hero__circle--1" />
-          <div className="hero__circle hero__circle--2" />
-          <div className="hero__circle hero__circle--3" />
-        </div>
+        <div className="hero__bg" />
         <div className="container hero__inner">
           <div className="hero__content">
             <div className="hero__badge">
