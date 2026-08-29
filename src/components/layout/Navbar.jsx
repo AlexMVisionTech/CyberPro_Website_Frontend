@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import ApplicationModal from './ApplicationModal.jsx';
+import { useModal } from '../../hooks/useModal.jsx';
 import './Navbar.css';
 
 const NAV_LINKS = [
@@ -20,7 +21,7 @@ const NAV_LINKS = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
+  const { modalOpen, selectedProgram, openModal, closeModal } = useModal();
   const location = useLocation();
 
   useEffect(() => {
@@ -58,7 +59,7 @@ export default function Navbar() {
         </nav>
 
         <div className="navbar__actions">
-          <button onClick={() => setModalOpen(true)} className="btn btn-primary btn-sm">
+          <button onClick={() => openModal()} className="btn btn-primary btn-sm">
             Apply Now
           </button>
           <button
@@ -85,7 +86,7 @@ export default function Navbar() {
               {link.label}
             </NavLink>
           ))}
-          <button onClick={() => setModalOpen(true)} className="btn btn-primary" style={{ marginTop: '16px', width: '100%' }}>
+          <button onClick={() => openModal()} className="btn btn-primary" style={{ marginTop: '16px', width: '100%' }}>
             Apply Now
           </button>
         </nav>
@@ -95,7 +96,7 @@ export default function Navbar() {
         <div className="navbar__overlay" onClick={() => setMobileOpen(false)} />
       )}
 
-      <ApplicationModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+      <ApplicationModal isOpen={modalOpen} onClose={closeModal} selectedProgram={selectedProgram} />
     </header>
   );
 }

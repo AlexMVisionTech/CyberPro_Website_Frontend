@@ -5,12 +5,12 @@ import ScrollReveal from '../components/ScrollReveal';
 import './Events.css';
 
 const EVENTS = [
-  { title: 'Zero-Day Cyber Defense CTF', date: 'Aug 15, 2026', type: 'Hackathon', cat: 'ctf', desc: 'Breach isolated virtual environments, capture dynamic flags, and earn points on the leaderboard.', color: 'badge-blue' },
-  { title: 'Generative AI Security Pipelines', date: 'Sep 02, 2026', type: 'Webinar', cat: 'webinar', desc: 'Learn safe prompt parsing and hardening pipelines against model poisoning with guest speakers.', color: 'badge-orange' },
-  { title: 'AWS Enterprise Cloud Foundations', date: 'Sep 20, 2026', type: 'Bootcamp', cat: 'bootcamp', desc: 'Intensive hands-on lab walkthrough of AWS container configuration, IAM, and bucket policies.', color: 'badge-green' },
-  { title: 'SOC Operations Deep Dive', date: 'Oct 05, 2026', type: 'Webinar', cat: 'webinar', desc: 'Understand SIEM configuration, log correlation, and real-time alert triage in enterprise SOC environments.', color: 'badge-orange' },
-  { title: 'Network Forensics Challenge', date: 'Oct 18, 2026', type: 'CTF', cat: 'ctf', desc: 'Analyze packet captures, trace attack vectors, and reconstruct incident timelines.', color: 'badge-blue' },
-  { title: 'Python for Security Automation', date: 'Nov 01, 2026', type: 'Bootcamp', cat: 'bootcamp', desc: 'Build security automation scripts, API integrations, and threat intelligence collectors.', color: 'badge-green' },
+  { title: 'Zero-Day Cyber Defense CTF', date: 'Aug 15, 2026', type: 'Hackathon', cat: 'ctf', desc: 'Breach isolated virtual environments, capture dynamic flags, and earn points on the leaderboard.', color: 'badge-blue', img: '/images/events/ctf-cyber-defense.svg' },
+  { title: 'Generative AI Security Pipelines', date: 'Sep 02, 2026', type: 'Webinar', cat: 'webinar', desc: 'Learn safe prompt parsing and hardening pipelines against model poisoning with guest speakers.', color: 'badge-orange', img: '/images/events/ai-security-webinar.svg' },
+  { title: 'AWS Enterprise Cloud Foundations', date: 'Sep 20, 2026', type: 'Bootcamp', cat: 'bootcamp', desc: 'Intensive hands-on lab walkthrough of AWS container configuration, IAM, and bucket policies.', color: 'badge-green', img: '/images/events/aws-bootcamp.svg' },
+  { title: 'SOC Operations Deep Dive', date: 'Oct 05, 2026', type: 'Webinar', cat: 'webinar', desc: 'Understand SIEM configuration, log correlation, and real-time alert triage in enterprise SOC environments.', color: 'badge-orange', img: '/images/events/soc-webinar.svg' },
+  { title: 'Network Forensics Challenge', date: 'Oct 18, 2026', type: 'CTF', cat: 'ctf', desc: 'Analyze packet captures, trace attack vectors, and reconstruct incident timelines.', color: 'badge-blue', img: '/images/events/network-forensics.svg' },
+  { title: 'Python for Security Automation', date: 'Nov 01, 2026', type: 'Bootcamp', cat: 'bootcamp', desc: 'Build security automation scripts, API integrations, and threat intelligence collectors.', color: 'badge-green', img: '/images/events/python-bootcamp.svg' },
 ];
 
 const TABS = [
@@ -58,7 +58,11 @@ export default function Events() {
             {filtered.map((event, i) => (
               <ScrollReveal key={i} delay={i * 0.05}>
                 <div className="event-card">
-                  <div className="event-card__header">
+                  <div className="event-card__image">
+                    <img src={event.img} alt={event.title} loading="lazy" />
+                  </div>
+                  <div className="event-card__body">
+                    <div className="event-card__header">
                     <span className={`badge ${event.color}`}>{event.type}</span>
                     <span className="event-card__date">
                       <Calendar size={14} /> {event.date}
@@ -69,6 +73,7 @@ export default function Events() {
                   <button className="btn btn-primary btn-sm" style={{ marginTop: 'auto', alignSelf: 'flex-start' }}>
                     Register Now
                   </button>
+                  </div>
                 </div>
               </ScrollReveal>
             ))}

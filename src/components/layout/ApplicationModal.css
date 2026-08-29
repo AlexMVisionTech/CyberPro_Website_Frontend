@@ -19,9 +19,9 @@
 .modal-container {
   background: var(--bg-primary);
   border: 1px solid var(--border);
-  border-radius: 20px;
+  border-radius: 16px;
   width: 100%;
-  max-width: 720px;
+  max-width: 680px;
   max-height: 92vh;
   overflow-y: auto;
   box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255,255,255,0.05);
@@ -32,13 +32,13 @@
 /* ---- Dark Hero Header ---- */
 .modal-hero {
   background: var(--navy);
-  padding: 36px 40px 28px;
+  padding: 28px 32px 24px;
   position: relative;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .modal-hero__title {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 800;
   color: white;
   margin-bottom: 6px;
@@ -53,15 +53,15 @@
 
 .modal-close {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 16px;
+  right: 16px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
   color: rgba(255, 255, 255, 0.6);
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
@@ -78,7 +78,7 @@
   display: flex;
   align-items: flex-start;
   gap: 0;
-  margin-top: 28px;
+  margin-top: 24px;
   position: relative;
   padding: 0 4px;
 }
@@ -94,8 +94,8 @@
 }
 
 .stepper__circle {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.06);
   border: 2px solid rgba(255, 255, 255, 0.1);
@@ -138,7 +138,7 @@
 
 .stepper__track {
   position: absolute;
-  top: 18px;
+  top: 16px;
   left: 12.5%;
   right: 12.5%;
   height: 2px;
@@ -156,7 +156,7 @@
 
 /* ---- Form Body ---- */
 .modal-form {
-  padding: 32px 40px 36px;
+  padding: 28px 32px 32px;
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -165,26 +165,26 @@
 .step-content {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
   animation: fadeInUp 0.3s ease;
 }
 
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 16px;
 }
 
 /* ---- Program Picker ---- */
 .program-picker {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
 }
 
 .program-picker__item {
-  padding: 10px 18px;
-  border-radius: 10px;
+  padding: 8px 16px;
+  border-radius: 8px;
   font-size: 13px;
   font-weight: 600;
   font-family: var(--font-body);
@@ -218,13 +218,13 @@
 .preference-group {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .option-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  gap: 10px;
 }
 
 .option-grid--2 {
@@ -235,9 +235,9 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
-  padding: 20px;
-  border-radius: 14px;
+  gap: 6px;
+  padding: 16px;
+  border-radius: 12px;
   background: var(--bg-secondary);
   border: 1.5px solid var(--border);
   cursor: pointer;
@@ -258,8 +258,8 @@
 }
 
 .option-card__radio {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   border: 2px solid var(--border-strong);
   position: relative;
@@ -280,7 +280,7 @@
 }
 
 .option-card__label {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--text-primary);
 }
@@ -296,15 +296,15 @@
   background: var(--bg-secondary);
   border: 1px solid var(--border);
   border-radius: 14px;
-  padding: 24px;
+  padding: 20px;
 }
 
 .review-card__section {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 20px;
-  padding-bottom: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
   border-bottom: 1px solid var(--border);
 }
 
@@ -316,7 +316,7 @@
 .review-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 12px;
 }
 
 .review-item {
@@ -347,9 +347,9 @@
 .modal-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-top: 28px;
-  padding-top: 24px;
+  gap: 10px;
+  margin-top: 24px;
+  padding-top: 20px;
   border-top: 1px solid var(--border);
 }
 
@@ -383,16 +383,16 @@
   }
 
   .modal-hero {
-    padding: 28px 24px 24px;
+    padding: 24px 20px 20px;
   }
 
   .modal-form {
-    padding: 24px;
+    padding: 20px;
   }
 
   .form-row {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 12px;
   }
 
   .option-grid {
@@ -412,6 +412,6 @@
   }
 
   .modal-hero__title {
-    font-size: 20px;
+    font-size: 18px;
   }
 }

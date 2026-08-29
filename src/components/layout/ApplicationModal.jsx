@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, ArrowRight, ArrowLeft, User, BookOpen, Settings2, CheckCircle2 } from 'lucide-react';
 import './ApplicationModal.css';
 
@@ -25,14 +25,20 @@ const STEPS = [
   { label: 'Review', icon: CheckCircle2 },
 ];
 
-export default function ApplicationModal({ isOpen, onClose }) {
+export default function ApplicationModal({ isOpen, onClose, selectedProgram = '' }) {
   const [step, setStep] = useState(0);
   const [form, setForm] = useState({
-    fullName: '', email: '', phone: '', program: '',
+    fullName: '', email: '', phone: '', program: selectedProgram,
     studyMode: '', paymentPlan: '', startDate: '', notes: '',
   });
 
   const update = (key, val) => setForm(prev => ({ ...prev, [key]: val }));
+
+  useEffect(() => {
+    if (selectedProgram) {
+      setForm(prev => ({ ...prev, program: selectedProgram }));
+    }
+  }, [selectedProgram]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

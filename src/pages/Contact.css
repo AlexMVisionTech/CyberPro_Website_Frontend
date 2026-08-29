@@ -5,7 +5,7 @@
 .contact-layout {
   display: grid;
   grid-template-columns: 1fr 1.1fr;
-  gap: 80px;
+  gap: 48px;
   align-items: start;
 }
 
@@ -17,9 +17,9 @@
 
 .contact-info-item {
   display: flex;
-  gap: 20px;
+  gap: 16px;
   align-items: flex-start;
-  padding: 24px;
+  padding: 20px;
   border-radius: var(--radius-lg);
   transition: all 0.3s ease;
   background: transparent;
@@ -34,9 +34,9 @@
 }
 
 .contact-info-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 12px;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
   background: rgba(254, 1, 28, 0.05);
   color: var(--primary);
   display: flex;
@@ -54,9 +54,9 @@
 }
 
 .contact-info-item h3 {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   color: var(--text-primary);
 }
 
@@ -67,7 +67,7 @@
 }
 
 .contact-map {
-  height: 240px;
+  height: 180px;
   border-radius: var(--radius-lg);
   overflow: hidden;
   border: 1px solid var(--border-strong);
@@ -98,7 +98,7 @@
 }
 
 .contact-form-card {
-  padding: 48px;
+  padding: 36px;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);

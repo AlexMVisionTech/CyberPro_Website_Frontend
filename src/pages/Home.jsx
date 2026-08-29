@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Shield, Lock, Brain, Cloud, BarChart3, Code2, Server,
-  Users, Award, CheckCircle2, Monitor, Zap, ArrowRight,
-  Terminal, Globe, ChevronRight, Star, Clock, Calendar, Database
+  Shield, Brain, Cloud, Server,
+  Users, Award, CheckCircle2, Zap, ArrowRight,
+  Terminal, ChevronRight, Star, Clock, Calendar, Database
 } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import Partners from '../components/sections/Partners';
@@ -17,12 +17,12 @@ const CAT_LABELS = {
 };
 
 const PROGRAMS = [
-  { icon: Lock, title: 'Cybersecurity', desc: 'Defensive security, SOC operations, and risk management.', cat: 'security', dur: '6 Months', mode: 'Hybrid', lvl: 'Intermediate', img: '/images/programs/cybersecurity.png' },
-  { icon: Shield, title: 'Ethical Hacking', desc: 'Penetration testing, vulnerability scanning, and wireless security.', cat: 'security', dur: '4 Months', mode: 'Remote', lvl: 'Advanced', img: '/images/programs/ethical_hacking.png' },
-  { icon: Brain, title: 'Artificial Intelligence', desc: 'Neural networks, computer vision, NLP, and generative AI.', cat: 'ai-data', dur: '6 Months', mode: 'Hybrid', lvl: 'Advanced', img: '/images/programs/ai_ml.png' },
-  { icon: Cloud, title: 'Cloud Computing', desc: 'AWS, Azure, GCP architecture and container orchestration.', cat: 'infra', dur: '5 Months', mode: 'Hybrid', lvl: 'Intermediate', img: '/images/programs/cloud_computing.png' },
-  { icon: BarChart3, title: 'Data Science', desc: 'Statistical modeling, Python, Pandas, and Tableau visualization.', cat: 'ai-data', dur: '6 Months', mode: 'Remote', lvl: 'Beginner', img: '/images/programs/data_science.png' },
-  { icon: Code2, title: 'DevOps & Automation', desc: 'CI/CD pipelines, Docker, Kubernetes, and infrastructure as code.', cat: 'devops', dur: '4 Months', mode: 'Hybrid', lvl: 'Intermediate', img: '/images/programs/devops.png' },
+  { title: 'Cybersecurity', desc: 'Defensive security, SOC operations, and risk management.', cat: 'security', dur: '6 Months', mode: 'Hybrid', lvl: 'Intermediate', img: '/images/programs/cybersecurity.png' },
+  { title: 'Ethical Hacking', desc: 'Penetration testing, vulnerability scanning, and wireless security.', cat: 'security', dur: '4 Months', mode: 'Remote', lvl: 'Advanced', img: '/images/programs/ethical_hacking.png' },
+  { title: 'Artificial Intelligence', desc: 'Neural networks, computer vision, NLP, and generative AI.', cat: 'ai-data', dur: '6 Months', mode: 'Hybrid', lvl: 'Advanced', img: '/images/programs/ai_ml.png' },
+  { title: 'Cloud Computing', desc: 'AWS, Azure, GCP architecture and container orchestration.', cat: 'infra', dur: '5 Months', mode: 'Hybrid', lvl: 'Intermediate', img: '/images/programs/cloud_computing.png' },
+  { title: 'Data Science', desc: 'Statistical modeling, Python, Pandas, and Tableau visualization.', cat: 'ai-data', dur: '6 Months', mode: 'Remote', lvl: 'Beginner', img: '/images/programs/data_science.png' },
+  { title: 'DevOps & Automation', desc: 'CI/CD pipelines, Docker, Kubernetes, and infrastructure as code.', cat: 'devops', dur: '4 Months', mode: 'Hybrid', lvl: 'Intermediate', img: '/images/programs/devops.png' },
 ];
 
 const TABS = [
@@ -229,9 +229,6 @@ export default function Home() {
                     <span className="program-card__category">{CAT_LABELS[prog.cat]}</span>
                   </div>
                   <div className="program-card__body">
-                    <div className="program-card__icon">
-                      <prog.icon size={20} />
-                    </div>
                     <h3 className="program-card__title">{prog.title}</h3>
                     <p className="program-card__desc">{prog.desc}</p>
                     <div className="program-card__meta">
@@ -300,17 +297,14 @@ export default function Home() {
           </ScrollReveal>
           <div className="grid grid-4">
             {[
-              { icon: Monitor, title: 'SOC Dashboard', desc: 'Simulated security operations center for real-time log audits, alert triage, and incident response.', tag: 'Security Ops' },
-              { icon: Globe, title: 'Network Simulator', desc: 'Configure RIP, OSPF routers, VLANs, and packet filters in a live virtual topology.', tag: 'Networking' },
-              { icon: Terminal, title: 'Linux Security Lab', desc: 'Server hardening, iptables firewall setups, SSH key management, and privilege audits.', tag: 'System Admin' },
-              { icon: Brain, title: 'AI Security Sandbox', desc: 'Test machine learning models against adversarial inputs and data poisoning attacks.', tag: 'AI / ML' },
+              { title: 'SOC Dashboard', desc: 'Simulated security operations center for real-time log audits, alert triage, and incident response.', tag: 'Security Ops' },
+              { title: 'Network Simulator', desc: 'Configure RIP, OSPF routers, VLANs, and packet filters in a live virtual topology.', tag: 'Networking' },
+              { title: 'Linux Security Lab', desc: 'Server hardening, iptables firewall setups, SSH key management, and privilege audits.', tag: 'System Admin' },
+              { title: 'AI Security Sandbox', desc: 'Test machine learning models against adversarial inputs and data poisoning attacks.', tag: 'AI / ML' },
             ].map((lab, i) => (
               <ScrollReveal key={i} delay={i * 0.08}>
                 <div className="lab-card">
                   <div className="lab-card__header">
-                    <div className="lab-card__icon">
-                      <lab.icon size={22} />
-                    </div>
                     <span className="lab-card__tag">{lab.tag}</span>
                   </div>
                   <div className="lab-card__terminal">
