@@ -11,11 +11,17 @@ export default function Contact() {
 
   return (
     <div>
-      <section className="page-hero">
-        <div className="container">
-          <div className="breadcrumb"><Link to="/">Home</Link><span>/</span><span>Contact</span></div>
-          <h1 className="page-hero__title">Connect with CyberPro</h1>
-          <p className="page-hero__desc">Have questions about enrollment, team training, or partnerships? Our Westlands team is ready to help.</p>
+      <section className="page-hero section-dark" style={{ position: 'relative', overflow: 'hidden' }}>
+        <div className="hero__bg"></div>
+        <div className="hero__grid-overlay" style={{ opacity: 0.3 }}></div>
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          <div className="breadcrumb">
+            <Link to="/" style={{ color: 'rgba(255,255,255,0.6)' }}>Home</Link>
+            <span style={{ color: 'rgba(255,255,255,0.3)' }}>/</span>
+            <span style={{ color: 'white' }}>Contact</span>
+          </div>
+          <h1 className="page-hero__title" style={{ color: 'white' }}>Connect with CyberPro</h1>
+          <p className="page-hero__desc" style={{ color: 'rgba(255,255,255,0.7)' }}>Have questions about enrollment, team training, or partnerships? Our Westlands team is ready to help.</p>
         </div>
       </section>
 
@@ -56,11 +62,13 @@ export default function Contact() {
               </div>
 
               <div className="contact-map">
-                <span>Landmark Plaza, Westlands — Interactive Map</span>
+                <MapPin size={32} style={{ color: 'rgba(254, 1, 28, 0.4)' }} />
+                <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>Landmark Plaza, Westlands</span>
+                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Interactive map integration pending</span>
               </div>
             </div>
 
-            <div className="card" style={{ padding: '40px' }}>
+            <div className="contact-form-card">
               <h2 style={{ fontSize: '24px', fontWeight: 700, marginBottom: '28px' }}>Send a Direct Message</h2>
               <form onSubmit={handleSubmit}>
                 <div className="form-group">

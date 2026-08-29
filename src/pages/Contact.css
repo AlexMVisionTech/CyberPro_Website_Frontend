@@ -5,57 +5,106 @@
 .contact-layout {
   display: grid;
   grid-template-columns: 1fr 1.1fr;
-  gap: 64px;
+  gap: 80px;
   align-items: start;
 }
 
 .contact-info-list {
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 16px;
 }
 
 .contact-info-item {
   display: flex;
-  gap: 16px;
+  gap: 20px;
   align-items: flex-start;
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  transition: all 0.3s ease;
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+.contact-info-item:hover {
+  background: var(--bg-card);
+  border-color: var(--border);
+  box-shadow: var(--shadow-sm);
+  transform: translateX(4px);
 }
 
 .contact-info-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-sm);
-  background: rgba(47, 111, 237, 0.08);
-  color: var(--cyber-blue);
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: rgba(254, 1, 28, 0.05);
+  color: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.contact-info-item:hover .contact-info-icon {
+  background: var(--primary);
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(254, 1, 28, 0.2);
 }
 
 .contact-info-item h3 {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
-  margin-bottom: 4px;
-  color: var(--navy);
+  margin-bottom: 6px;
+  color: var(--text-primary);
 }
 
 .contact-info-item p {
   font-size: 14px;
   color: var(--text-secondary);
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 .contact-map {
-  height: 200px;
-  border-radius: var(--radius);
+  height: 240px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  border: 1px solid var(--border);
-  margin-top: 36px;
-  background: var(--bg-secondary);
+  border: 1px solid var(--border-strong);
+  margin-top: 24px;
+  position: relative;
+  background-image: 
+    radial-gradient(circle at center, rgba(254, 1, 28, 0.1) 0%, transparent 60%),
+    linear-gradient(rgba(7, 25, 51, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(7, 25, 51, 0.05) 1px, transparent 1px);
+  background-size: 100% 100%, 20px 20px, 20px 20px;
+  background-color: var(--bg-card);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 12px;
+  color: var(--text-muted);
+}
+.contact-map::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(2px);
+}
+.contact-map > * {
+  position: relative;
+  z-index: 1;
+}
+
+.contact-form-card {
+  padding: 48px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 @media (max-width: 1024px) {

@@ -3,19 +3,26 @@ import { Link } from 'react-router-dom';
 import {
   Shield, Lock, Brain, Cloud, BarChart3, Code2, Server,
   Users, Award, CheckCircle2, Monitor, Zap, ArrowRight,
-  Terminal, Globe, ChevronRight, Star, Clock, Calendar
+  Terminal, Globe, ChevronRight, Star, Clock, Calendar, Database
 } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import Partners from '../components/sections/Partners';
 import './Home.css';
 
+const CAT_LABELS = {
+  security: 'Security',
+  'ai-data': 'AI & Data',
+  infra: 'Infrastructure',
+  devops: 'Development',
+};
+
 const PROGRAMS = [
-  { icon: Lock, title: 'Cybersecurity', desc: 'Defensive security, SOC operations, and risk management.', cat: 'security', dur: '6 Months', mode: 'Hybrid', lvl: 'Intermediate' },
-  { icon: Shield, title: 'Ethical Hacking', desc: 'Penetration testing, vulnerability scanning, and wireless security.', cat: 'security', dur: '4 Months', mode: 'Remote', lvl: 'Advanced' },
-  { icon: Brain, title: 'Artificial Intelligence', desc: 'Neural networks, computer vision, NLP, and generative AI.', cat: 'ai-data', dur: '6 Months', mode: 'Hybrid', lvl: 'Advanced' },
-  { icon: Cloud, title: 'Cloud Computing', desc: 'AWS, Azure, GCP architecture and container orchestration.', cat: 'infra', dur: '5 Months', mode: 'Hybrid', lvl: 'Intermediate' },
-  { icon: BarChart3, title: 'Data Science', desc: 'Statistical modeling, Python, Pandas, and Tableau visualization.', cat: 'ai-data', dur: '6 Months', mode: 'Remote', lvl: 'Beginner' },
-  { icon: Code2, title: 'DevOps & Automation', desc: 'CI/CD pipelines, Docker, Kubernetes, and infrastructure as code.', cat: 'devops', dur: '4 Months', mode: 'Hybrid', lvl: 'Intermediate' },
+  { icon: Lock, title: 'Cybersecurity', desc: 'Defensive security, SOC operations, and risk management.', cat: 'security', dur: '6 Months', mode: 'Hybrid', lvl: 'Intermediate', img: '/images/programs/cybersecurity.png' },
+  { icon: Shield, title: 'Ethical Hacking', desc: 'Penetration testing, vulnerability scanning, and wireless security.', cat: 'security', dur: '4 Months', mode: 'Remote', lvl: 'Advanced', img: '/images/programs/ethical_hacking.png' },
+  { icon: Brain, title: 'Artificial Intelligence', desc: 'Neural networks, computer vision, NLP, and generative AI.', cat: 'ai-data', dur: '6 Months', mode: 'Hybrid', lvl: 'Advanced', img: '/images/programs/ai_ml.png' },
+  { icon: Cloud, title: 'Cloud Computing', desc: 'AWS, Azure, GCP architecture and container orchestration.', cat: 'infra', dur: '5 Months', mode: 'Hybrid', lvl: 'Intermediate', img: '/images/programs/cloud_computing.png' },
+  { icon: BarChart3, title: 'Data Science', desc: 'Statistical modeling, Python, Pandas, and Tableau visualization.', cat: 'ai-data', dur: '6 Months', mode: 'Remote', lvl: 'Beginner', img: '/images/programs/data_science.png' },
+  { icon: Code2, title: 'DevOps & Automation', desc: 'CI/CD pipelines, Docker, Kubernetes, and infrastructure as code.', cat: 'devops', dur: '4 Months', mode: 'Hybrid', lvl: 'Intermediate', img: '/images/programs/devops.png' },
 ];
 
 const TABS = [
@@ -137,44 +144,49 @@ export default function Home() {
     <div className="home">
       <section className="hero">
         <div className="hero__bg" />
+        <div className="hero__grid-overlay" />
+        
         <div className="container hero__inner">
           <div className="hero__content">
             <div className="hero__badge">
-              <span className="hero__badge-dot" />
-              Admissions Open for 2026
+              <span className="hero__badge-line"></span>
+              <span className="hero__badge-text">Admissions Open 2026</span>
             </div>
             <h1 className="hero__title">
               Master the Art of <span className="text-gradient">Digital Defense.</span>
             </h1>
             <p className="hero__desc">
-              CyberPro Global equips future technology leaders with practical, certification-aligned training through hands-on virtual labs and expert mentorship.
+              CyberPro Global equips future technology leaders with rigorous, certification-aligned training through hands-on virtual sandbox environments.
             </p>
             <div className="hero__actions">
-              <Link to="/programs" className="btn btn-primary btn-lg">Explore Programs <ArrowRight size={18} /></Link>
-              <Link to="/contact" className="btn btn-outline btn-lg">Book a Consultation</Link>
+              <Link to="/programs" className="btn btn-primary btn-lg">Explore Programs</Link>
+              <Link to="/contact" className="btn btn-outline btn-lg">Talk to Admissions</Link>
+            </div>
+            
+            <div className="hero__trusted">
+              <span className="hero__trusted-label">Trusted by alumni at top organizations globally</span>
+              <div className="hero__trusted-logos">
+                <Shield size={20} color="rgba(255,255,255,0.4)" />
+                <Cloud size={20} color="rgba(255,255,255,0.4)" />
+                <Server size={20} color="rgba(255,255,255,0.4)" />
+                <Database size={20} color="rgba(255,255,255,0.4)" />
+              </div>
             </div>
           </div>
+
           <div className="hero__visual">
-            <div className="hero__terminal">
-              <div className="hero__terminal-header">
-                <div className="hero__terminal-dots">
-                  <span /><span /><span />
+            <div className="hero__terminal-wrapper">
+              <div className="hero__terminal">
+                <div className="hero__terminal-header">
+                  <div className="hero__terminal-dots">
+                    <span /><span /><span />
+                  </div>
+                  <span className="hero__terminal-title">security-lab@cyberpro:~</span>
                 </div>
-                <span className="hero__terminal-title">security-lab@cyberpro:~</span>
+                <div className="hero__terminal-body">
+                  <AutoTypingTerminal />
+                </div>
               </div>
-              <div className="hero__terminal-body">
-                <AutoTypingTerminal />
-              </div>
-            </div>
-            <img src="/images/hero_illustration.jpg" alt="Cybersecurity illustration" className="hero__illustration" />
-            <div className="hero__float hero__float--1">
-              <Shield size={16} /> 95% Practical
-            </div>
-            <div className="hero__float hero__float--2">
-              <Award size={16} /> Certified
-            </div>
-            <div className="hero__float hero__float--3">
-              <Terminal size={16} /> Live Labs
             </div>
           </div>
         </div>
@@ -211,20 +223,26 @@ export default function Home() {
           <div className="grid grid-3">
             {filtered.map((prog, i) => (
               <ScrollReveal key={i} delay={i * 0.06}>
-                <div className="card">
-                  <div className="program-icon">
-                    <prog.icon size={22} />
+                <div className="program-card">
+                  <div className="program-card__image">
+                    <img src={prog.img} alt={prog.title} loading="lazy" />
+                    <span className="program-card__category">{CAT_LABELS[prog.cat]}</span>
                   </div>
-                  <h3 className="card-title">{prog.title}</h3>
-                  <p className="card-desc">{prog.desc}</p>
-                  <div className="card-meta">
-                    <span className="badge badge-navy">{prog.dur}</span>
-                    <span className="badge badge-primary">{prog.mode}</span>
-                    <span className="badge badge-green">{prog.lvl}</span>
+                  <div className="program-card__body">
+                    <div className="program-card__icon">
+                      <prog.icon size={20} />
+                    </div>
+                    <h3 className="program-card__title">{prog.title}</h3>
+                    <p className="program-card__desc">{prog.desc}</p>
+                    <div className="program-card__meta">
+                      <span className="badge badge-navy">{prog.dur}</span>
+                      <span className="badge badge-blue">{prog.mode}</span>
+                      <span className="badge badge-green">{prog.lvl}</span>
+                    </div>
+                    <Link to="/programs" className="card-link">
+                      View Details <ChevronRight size={16} />
+                    </Link>
                   </div>
-                  <Link to="/programs" className="card-link">
-                    View Details <ChevronRight size={16} />
-                  </Link>
                 </div>
               </ScrollReveal>
             ))}
@@ -247,18 +265,20 @@ export default function Home() {
               <p className="section-subtitle">What sets CyberPro Global apart in producing high-caliber technology professionals.</p>
             </div>
           </ScrollReveal>
-          <div className="grid grid-4">
+          <div className="grid grid-2">
             {[
-              { icon: Terminal, title: 'Virtual Labs', desc: 'Real sandbox servers, virtual networks, and attack labs inside your browser.' },
-              { icon: Award, title: 'Global Certs', desc: 'Prepare for Cisco, CompTIA, AWS, EC-Council, and Microsoft exams.' },
-              { icon: Zap, title: 'CTF Competitions', desc: 'Regular Capture The Flag events and hackathons to sharpen skills.' },
-              { icon: Users, title: 'Career Coaching', desc: 'Mock interviews, CV optimization, and profile targeting for global recruiters.' },
+              { icon: Terminal, title: 'Virtual Labs Environment', desc: 'Access real sandbox servers, virtual networks, and live attack simulations directly inside your browser. No local configuration required.' },
+              { icon: Award, title: 'Global Certifications', desc: 'Our curriculum strictly aligns with leading industry standards, preparing you for Cisco, CompTIA, AWS, EC-Council, and Microsoft exams.' },
+              { icon: Zap, title: 'CTF Competitions', desc: 'Participate in regular Capture The Flag events and hackathons. Compete with peers globally to sharpen your practical defensive skills.' },
+              { icon: Users, title: 'Career Acceleration', desc: 'Benefit from dedicated mock interviews, CV optimization, and direct profile targeting for our network of global enterprise recruiters.' },
             ].map((f, i) => (
               <ScrollReveal key={i} delay={i * 0.08}>
-                <div className="card">
-                  <div className="program-icon"><f.icon size={22} /></div>
-                  <h3 className="card-title">{f.title}</h3>
-                  <p className="card-desc">{f.desc}</p>
+                <div className="feature-card">
+                  <div className="feature-card__icon"><f.icon size={24} /></div>
+                  <div>
+                    <h3 className="feature-card__title">{f.title}</h3>
+                    <p className="feature-card__desc">{f.desc}</p>
+                  </div>
                 </div>
               </ScrollReveal>
             ))}
@@ -266,33 +286,40 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section">
+      <section className="labs-section">
         <div className="container">
           <ScrollReveal>
-            <div className="flex-between" style={{ flexWrap: 'wrap', gap: '24px', marginBottom: '36px' }}>
+            <div className="labs-header">
               <div>
-                <span className="section-label">Virtual Labs Sandbox</span>
-                <h2 className="section-title" style={{ marginBottom: 0 }}>Fully Immersive In-Browser Labs</h2>
+                <span className="labs-label">Virtual Labs Sandbox</span>
+                <h2 className="labs-title">Fully Immersive In-Browser Labs</h2>
+                <p className="labs-subtitle">Practice real-world scenarios in sandboxed environments. No installations, no configuration — just launch and learn.</p>
               </div>
-              <Link to="/cyber-labs" className="btn btn-primary">Launch Sandbox Labs <ArrowRight size={18} /></Link>
+              <Link to="/cyber-labs" className="btn btn-white btn-lg">Launch Sandbox Labs <ArrowRight size={18} /></Link>
             </div>
           </ScrollReveal>
           <div className="grid grid-4">
             {[
-              { title: 'SOC Dashboard', desc: 'Simulated security operations center for log audits and alerts.', color: 'var(--primary)' },
-              { title: 'Network Simulator', desc: 'Configure RIP, OSPF routers, and packet filters live.', color: 'var(--navy)' },
-              { title: 'Linux Security Lab', desc: 'Server hardening, firewall setups, and privilege audits.', color: 'var(--crimson)' },
-              { title: 'AI Security Sandbox', desc: 'Test assessment models on adversarial input sets.', color: 'var(--teal)' },
+              { icon: Monitor, title: 'SOC Dashboard', desc: 'Simulated security operations center for real-time log audits, alert triage, and incident response.', tag: 'Security Ops' },
+              { icon: Globe, title: 'Network Simulator', desc: 'Configure RIP, OSPF routers, VLANs, and packet filters in a live virtual topology.', tag: 'Networking' },
+              { icon: Terminal, title: 'Linux Security Lab', desc: 'Server hardening, iptables firewall setups, SSH key management, and privilege audits.', tag: 'System Admin' },
+              { icon: Brain, title: 'AI Security Sandbox', desc: 'Test machine learning models against adversarial inputs and data poisoning attacks.', tag: 'AI / ML' },
             ].map((lab, i) => (
               <ScrollReveal key={i} delay={i * 0.08}>
-                <div className="card lab-card">
-                  <div className="lab-visual">
-                    <div className="lab-bar lab-bar--accent" style={{ width: '60%' }} />
-                    <div className="lab-bar" style={{ width: '40%' }} />
-                    <div className="lab-bar lab-bar--accent" style={{ width: '80%' }} />
+                <div className="lab-card">
+                  <div className="lab-card__header">
+                    <div className="lab-card__icon">
+                      <lab.icon size={22} />
+                    </div>
+                    <span className="lab-card__tag">{lab.tag}</span>
                   </div>
-                  <h3 className="card-title">{lab.title}</h3>
-                  <p className="card-desc">{lab.desc}</p>
+                  <div className="lab-card__terminal">
+                    <div className="lab-card__terminal-line"><span className="lab-term-green">$</span> initializing sandbox...</div>
+                    <div className="lab-card__terminal-line"><span className="lab-term-blue">→</span> environment ready</div>
+                    <div className="lab-card__terminal-line"><span className="lab-term-yellow">⚡</span> awaiting input_</div>
+                  </div>
+                  <h3 className="lab-card__title">{lab.title}</h3>
+                  <p className="lab-card__desc">{lab.desc}</p>
                 </div>
               </ScrollReveal>
             ))}
@@ -300,13 +327,16 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section">
+      <section className="impact-section">
         <div className="container">
-          <div className="stats-grid">
+          <div className="impact-bar">
             <StatItem target={1500} suffix="+" label="Students Trained" />
+            <div className="impact-divider" />
             <StatItem target={13} suffix="" label="Academy Programs" />
+            <div className="impact-divider" />
             <StatItem target={45} suffix="+" label="Enterprise Partners" />
-            <StatItem target={94} suffix="%" label="Alumni Placement Rate" />
+            <div className="impact-divider" />
+            <StatItem target={94} suffix="%" label="Alumni Placement" />
           </div>
         </div>
       </section>

@@ -18,29 +18,40 @@ const PUBLICATIONS = [
 export default function Research() {
   return (
     <div>
-      <section className="page-hero">
-        <div className="container">
-          <div className="breadcrumb"><Link to="/">Home</Link><span>/</span><span>Research</span></div>
-          <h1 className="page-hero__title">Research & Innovation</h1>
-          <p className="page-hero__desc">Our faculty conducts applied research in cybersecurity, AI safety, and critical infrastructure protection.</p>
+      <section className="page-hero section-dark" style={{ position: 'relative', overflow: 'hidden' }}>
+        <div className="hero__bg"></div>
+        <div className="hero__grid-overlay" style={{ opacity: 0.3 }}></div>
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          <div className="breadcrumb">
+            <Link to="/" style={{ color: 'rgba(255,255,255,0.6)' }}>Home</Link>
+            <span style={{ color: 'rgba(255,255,255,0.3)' }}>/</span>
+            <span style={{ color: 'white' }}>Research</span>
+          </div>
+          <h1 className="page-hero__title" style={{ color: 'white' }}>Research & Innovation</h1>
+          <p className="page-hero__desc" style={{ color: 'rgba(255,255,255,0.7)' }}>Our faculty conducts applied research in cybersecurity, AI safety, and critical infrastructure protection.</p>
         </div>
       </section>
 
-      <section className="section">
-        <div className="container">
+      <section className="section section-dark" style={{ position: 'relative', overflow: 'hidden' }}>
+        <div className="hero__bg"></div>
+        <div className="research-ambient-glow"></div>
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ textAlign: 'center' }}>
-            <span className="section-label">Research Clusters</span>
-            <h2 className="section-title">Active Research Initiatives</h2>
-            <p className="section-subtitle">Interdisciplinary teams working on problems that matter to Africa and the world.</p>
+            <span className="section-label" style={{ justifyContent: 'center' }}>Research Clusters</span>
+            <h2 className="section-title" style={{ color: 'white' }}>Active Research Initiatives</h2>
+            <p className="section-subtitle" style={{ margin: '0 auto' }}>Interdisciplinary teams working on problems that matter to Africa and the world.</p>
           </div>
-          <div className="grid grid-3" style={{ marginTop: '48px' }}>
+          <div className="grid grid-3" style={{ marginTop: '56px' }}>
             {CLUSTERS.map((c, i) => (
-              <div className="card" key={i}>
-                <div className="program-icon"><c.icon size={22} /></div>
-                <h3 className="card-title">{c.title}</h3>
-                <p className="card-desc">{c.desc}</p>
-                <div style={{ marginTop: 'auto', paddingTop: '20px', fontSize: '13px', color: 'var(--text-muted)' }}>
-                  Lead: {c.lead}
+              <div className="research-card" key={i}>
+                <div className="research-card__header">
+                  <div className="research-card__icon"><c.icon size={22} /></div>
+                  <span className="research-card__tag">Cluster</span>
+                </div>
+                <h3 className="research-card__title">{c.title}</h3>
+                <p className="research-card__desc">{c.desc}</p>
+                <div className="research-card__lead">
+                  &gt; _LEAD: {c.lead}
                 </div>
               </div>
             ))}
@@ -48,25 +59,38 @@ export default function Research() {
         </div>
       </section>
 
-      <section className="section section-alt">
+      <section className="section">
         <div className="container" style={{ maxWidth: '900px' }}>
           <div style={{ textAlign: 'center' }}>
-            <span className="section-label">Publications</span>
+            <span className="section-label" style={{ justifyContent: 'center' }}>Publications</span>
             <h2 className="section-title">Selected Publications</h2>
+            <p className="section-subtitle" style={{ margin: '0 auto' }}>Peer-reviewed research from our faculty across top-tier journals and conferences.</p>
           </div>
           <div className="publications-list">
             {PUBLICATIONS.map((pub, i) => (
               <div className="publication-card" key={i}>
                 <div className="publication-icon">
-                  <FileText size={20} />
+                  <FileText size={22} />
                 </div>
                 <div className="publication-info">
                   <h4>{pub.title}</h4>
                   <p>{pub.authors} — <em>{pub.venue}</em></p>
                 </div>
-                <span className="badge badge-blue">{pub.type}</span>
+                <span className={`badge ${pub.type === 'Journal' ? 'badge-crimson' : 'badge-navy'}`}>{pub.type}</span>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section section-dark" style={{ position: 'relative', overflow: 'hidden' }}>
+        <div className="hero__bg"></div>
+        <div className="container" style={{ position: 'relative', zIndex: 1, textAlign: 'center', maxWidth: '700px' }}>
+          <h2 className="section-title" style={{ color: 'white' }}>Collaborate With Our Research Labs</h2>
+          <p className="section-subtitle" style={{ margin: '0 auto 32px' }}>We welcome partnerships with industry, academia, and government institutions for joint research programs.</p>
+          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link to="/contact" className="btn btn-primary btn-lg">Get in Touch</Link>
+            <Link to="/corporate" className="btn btn-outline btn-lg" style={{ borderColor: 'rgba(255,255,255,0.2)', color: 'white' }}>Corporate Partnerships</Link>
           </div>
         </div>
       </section>

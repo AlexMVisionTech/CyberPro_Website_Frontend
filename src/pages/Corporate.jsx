@@ -19,11 +19,17 @@ const METRICS = [
 export default function Corporate() {
   return (
     <div>
-      <section className="page-hero">
-        <div className="container">
-          <div className="breadcrumb"><Link to="/">Home</Link><span>/</span><span>Corporate Training</span></div>
-          <h1 className="page-hero__title">Corporate Training Solutions</h1>
-          <p className="page-hero__desc">Custom technology training programs designed for enterprises, government agencies, and growing organizations.</p>
+      <section className="page-hero section-dark" style={{ position: 'relative', overflow: 'hidden' }}>
+        <div className="hero__bg"></div>
+        <div className="hero__grid-overlay" style={{ opacity: 0.3 }}></div>
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          <div className="breadcrumb">
+            <Link to="/" style={{ color: 'rgba(255,255,255,0.6)' }}>Home</Link>
+            <span style={{ color: 'rgba(255,255,255,0.3)' }}>/</span>
+            <span style={{ color: 'white' }}>Corporate Training</span>
+          </div>
+          <h1 className="page-hero__title" style={{ color: 'white' }}>Corporate Training Solutions</h1>
+          <p className="page-hero__desc" style={{ color: 'rgba(255,255,255,0.7)' }}>Custom technology training programs designed for enterprises, government agencies, and growing organizations.</p>
         </div>
       </section>
 
@@ -36,27 +42,28 @@ export default function Corporate() {
           </div>
           <div className="grid grid-2" style={{ marginTop: '48px' }}>
             {SERVICES.map((s, i) => (
-              <div className="card" key={i}>
-                <div className="program-icon"><s.icon size={22} /></div>
-                <h3 className="card-title">{s.title}</h3>
-                <p className="card-desc">{s.desc}</p>
+              <div className="service-card" key={i}>
+                <div className="service-card__icon"><s.icon size={26} /></div>
+                <h3 className="service-card__title">{s.title}</h3>
+                <p className="service-card__desc">{s.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section section-alt">
-        <div className="container">
+      <section className="section section-dark" style={{ position: 'relative', overflow: 'hidden' }}>
+        <div className="hero__bg"></div>
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ textAlign: 'center' }}>
-            <span className="section-label">Impact</span>
-            <h2 className="section-title">Trusted by Industry Leaders</h2>
+            <span className="section-label" style={{ justifyContent: 'center' }}>Impact</span>
+            <h2 className="section-title" style={{ color: 'white' }}>Trusted by Industry Leaders</h2>
           </div>
           <div className="corporate-metrics">
             {METRICS.map((m, i) => (
-              <div className="metric-card" key={i}>
-                <div className="metric-value">{m.value}</div>
-                <div className="metric-label">{m.label}</div>
+              <div className="metric-card-dark" key={i}>
+                <div className="metric-value-neon">{m.value}</div>
+                <div className="metric-label-dark">{m.label}</div>
               </div>
             ))}
           </div>
@@ -64,37 +71,45 @@ export default function Corporate() {
       </section>
 
       <section className="section">
-        <div className="container" style={{ maxWidth: '680px', textAlign: 'center' }}>
-          <span className="section-label">Get Started</span>
-          <h2 className="section-title">Schedule a Training Consultation</h2>
-          <p className="section-subtitle">Our enterprise team will assess your organization's needs and design a custom training roadmap.</p>
-          <form onSubmit={e => { e.preventDefault(); alert('Thank you! Our enterprise team will contact you within 24 hours.'); e.target.reset(); }} style={{ textAlign: 'left', marginTop: '40px' }}>
-            <div className="form-group">
-              <label className="form-label">Company Name</label>
-              <input className="form-input" required placeholder="e.g. Safaricom PLC" />
+        <div className="container" style={{ maxWidth: '800px' }}>
+          <div className="corporate-form-card">
+            <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+              <span className="section-label" style={{ justifyContent: 'center' }}>Get Started</span>
+              <h2 className="section-title">Schedule a Training Consultation</h2>
+              <p className="section-subtitle" style={{ margin: '0 auto' }}>Our enterprise team will assess your organization's needs and design a custom training roadmap.</p>
             </div>
-            <div className="form-group">
-              <label className="form-label">Contact Person</label>
-              <input className="form-input" required placeholder="Full name" />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Work Email</label>
-              <input type="email" className="form-input" required placeholder="name@company.com" />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Team Size</label>
-              <select className="form-select" required>
-                <option value="">Select team size</option>
-                <option>5–20 employees</option>
-                <option>20–50 employees</option>
-                <option>50–200 employees</option>
-                <option>200+ employees</option>
-              </select>
-            </div>
-            <button type="submit" className="btn btn-primary btn-lg" style={{ width: '100%', marginTop: '8px' }}>
-              Request Custom Proposal <ArrowRight size={18} />
-            </button>
-          </form>
+            <form onSubmit={e => { e.preventDefault(); alert('Thank you! Our enterprise team will contact you within 24 hours.'); e.target.reset(); }}>
+              <div className="form-row">
+                <div className="form-group">
+                  <label className="form-label">Company Name</label>
+                  <input className="form-input" required placeholder="e.g. Safaricom PLC" />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Contact Person</label>
+                  <input className="form-input" required placeholder="Full name" />
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="form-group">
+                  <label className="form-label">Work Email</label>
+                  <input type="email" className="form-input" required placeholder="name@company.com" />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Team Size</label>
+                  <select className="form-select" required>
+                    <option value="">Select team size</option>
+                    <option>5–20 employees</option>
+                    <option>20–50 employees</option>
+                    <option>50–200 employees</option>
+                    <option>200+ employees</option>
+                  </select>
+                </div>
+              </div>
+              <button type="submit" className="btn btn-primary btn-lg" style={{ width: '100%', marginTop: '16px' }}>
+                Request Custom Proposal <ArrowRight size={18} />
+              </button>
+            </form>
+          </div>
         </div>
       </section>
     </div>

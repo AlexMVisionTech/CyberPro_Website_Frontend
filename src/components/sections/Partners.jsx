@@ -1,3 +1,4 @@
+import ScrollReveal from '../ScrollReveal';
 import './Partners.css';
 
 const PARTNER_LOGOS = [
@@ -14,26 +15,32 @@ export default function Partners() {
   return (
     <section className="partners-section">
       <div className="container">
-        <div className="partners-header">
-          <span className="section-label">Our Partners</span>
-          <h2 className="partners-title">Trusted by Leading Institutions</h2>
-          <p className="partners-subtitle">
-            Collaborating with top universities, government agencies, and industry leaders to deliver world-class technology education.
-          </p>
-        </div>
-        <div className="partners-grid">
-          {PARTNER_LOGOS.map((partner, index) => (
-            <div className="partner-card" key={index}>
-              <div className="partner-logo-wrapper">
-                <img
-                  src={partner.src}
-                  alt={partner.alt}
-                  className="partner-logo"
-                  loading="lazy"
-                />
+        <ScrollReveal>
+          <div className="partners-header">
+            <span className="section-label">Our Partners</span>
+            <h2 className="partners-title">Trusted by Leading Institutions</h2>
+            <p className="partners-subtitle">
+              Collaborating with top universities, government agencies, and industry leaders to deliver world-class technology education.
+            </p>
+          </div>
+        </ScrollReveal>
+        
+        <div className="partners-marquee-container">
+          <div className="partners-marquee">
+            {/* Double the array for seamless infinite scroll */}
+            {[...PARTNER_LOGOS, ...PARTNER_LOGOS].map((partner, index) => (
+              <div className="partner-card" key={index}>
+                <div className="partner-logo-wrapper">
+                  <img
+                    src={partner.src}
+                    alt={partner.alt}
+                    className="partner-logo"
+                    loading="lazy"
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

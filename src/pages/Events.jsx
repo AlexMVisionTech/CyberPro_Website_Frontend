@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar, MapPin, Clock, ArrowRight } from 'lucide-react';
-import './Programs.css';
+import { Calendar, ArrowRight } from 'lucide-react';
+import ScrollReveal from '../components/ScrollReveal';
+import './Events.css';
 
 const EVENTS = [
   { title: 'Zero-Day Cyber Defense CTF', date: 'Aug 15, 2026', type: 'Hackathon', cat: 'ctf', desc: 'Breach isolated virtual environments, capture dynamic flags, and earn points on the leaderboard.', color: 'badge-blue' },
@@ -25,64 +26,95 @@ export default function Events() {
 
   return (
     <div>
-      <section className="page-hero">
+      {/* Dark Hero */}
+      <section className="events-hero">
         <div className="container">
-          <div className="breadcrumb"><Link to="/">Home</Link><span>/</span><span>Events</span></div>
-          <h1 className="page-hero__title">Events & Community</h1>
-          <p className="page-hero__desc">Join our hackathons, webinars, bootcamps, and networking panels. Build your engineering profile.</p>
+          <div className="events-hero__content">
+            <div className="breadcrumb"><Link to="/">Home</Link><span>/</span><span>Events</span></div>
+            <h1 className="events-hero__title">Events & Community</h1>
+            <p className="events-hero__desc">Join our hackathons, webinars, bootcamps, and networking panels. Build your engineering profile and connect with industry leaders.</p>
+          </div>
         </div>
       </section>
 
+      {/* Events Grid */}
       <section className="section">
         <div className="container">
-          <div className="flex-center" style={{ marginBottom: '40px' }}>
-            <div className="tabs">
+          <ScrollReveal>
+            <div className="events-tabs">
               {TABS.map(tab => (
-                <button key={tab.key} className={`tab-btn ${activeTab === tab.key ? 'active' : ''}`} onClick={() => setActiveTab(tab.key)}>
+                <button 
+                  key={tab.key} 
+                  className={`event-tab-btn ${activeTab === tab.key ? 'active' : ''}`} 
+                  onClick={() => setActiveTab(tab.key)}
+                >
                   {tab.label}
                 </button>
               ))}
             </div>
-          </div>
+          </ScrollReveal>
 
           <div className="events-grid">
             {filtered.map((event, i) => (
-              <div className="card event-card" key={i}>
-                <div className="event-card__header">
-                  <span className={`badge ${event.color}`}>{event.type}</span>
-                  <span className="event-card__date">
-                    <Calendar size={14} /> {event.date}
-                  </span>
+              <ScrollReveal key={i} delay={i * 0.05}>
+                <div className="event-card">
+                  <div className="event-card__header">
+                    <span className={`badge ${event.color}`}>{event.type}</span>
+                    <span className="event-card__date">
+                      <Calendar size={14} /> {event.date}
+                    </span>
+                  </div>
+                  <h3 className="event-card__title">{event.title}</h3>
+                  <p className="event-card__desc">{event.desc}</p>
+                  <button className="btn btn-primary btn-sm" style={{ marginTop: 'auto', alignSelf: 'flex-start' }}>
+                    Register Now
+                  </button>
                 </div>
-                <h3 className="event-card__title">{event.title}</h3>
-                <p className="event-card__desc">{event.desc}</p>
-                <button className="btn btn-primary btn-sm" style={{ marginTop: 'auto', alignSelf: 'flex-start' }}>
-                  Register Now
-                </button>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
 
           {filtered.length === 0 && (
             <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--text-muted)' }}>
-              No events in this category yet.
+              No events in this category yet. Check back soon.
             </div>
           )}
         </div>
       </section>
 
+      {/* Gallery */}
       <section className="section section-alt">
-        <div className="container" style={{ textAlign: 'center' }}>
-          <span className="section-label">Gallery</span>
-          <h2 className="section-title">Life at CyberPro</h2>
-          <p className="section-subtitle">Highlights from our campuses, student events, and project presentations.</p>
+        <div className="container">
+          <ScrollReveal>
+            <div style={{ textAlign: 'center' }}>
+              <span className="section-label">Gallery</span>
+              <h2 className="section-title">Life at CyberPro</h2>
+              <p className="section-subtitle">Highlights from our campuses, student events, and project presentations.</p>
+            </div>
+          </ScrollReveal>
+          
           <div className="gallery-grid">
             {['/images/gallery_1.jpg', '/images/gallery_2.jpg', '/images/gallery_3.jpg', '/images/gallery_4.jpg'].map((src, i) => (
-              <div key={i} className="gallery-item">
-                <img src={src} alt={`CyberPro campus ${i + 1}`} />
-              </div>
+              <ScrollReveal key={i} delay={i * 0.1}>
+                <div className="gallery-item">
+                  <img src={src} alt={`CyberPro campus ${i + 1}`} loading="lazy" />
+                </div>
+              </ScrollReveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Dark CTA Bottom */}
+      <section className="events-cta">
+        <div className="container">
+          <ScrollReveal>
+            <h2>Never Miss an Update</h2>
+            <p>Join our community newsletter to get early access to exclusive hackathons, webinars, and tech meetups.</p>
+            <div className="flex-center">
+              <button className="btn btn-white btn-lg">Subscribe to Newsletter <ArrowRight size={18} /></button>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
     </div>

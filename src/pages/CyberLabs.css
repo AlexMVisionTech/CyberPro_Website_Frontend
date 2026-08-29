@@ -1,6 +1,68 @@
 /* ============================================
-   CYBER LABS — TERMINAL STYLES
+   CYBER LABS — LAB CARDS & TERMINAL STYLES
    ============================================ */
+
+.lab-card {
+  text-align: center;
+  padding: 28px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.lab-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(254, 1, 28, 0.3);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.4), 0 0 15px rgba(254, 1, 28, 0.15);
+}
+
+.lab-card__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: rgba(254, 1, 28, 0.1);
+  border: 1px solid rgba(254, 1, 28, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  margin: 0 auto 16px;
+  transition: all 0.3s ease;
+}
+
+.lab-card:hover .lab-card__icon {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 8px 20px rgba(254, 1, 28, 0.25);
+}
+
+.lab-card__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.lab-card__desc {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.6;
+}
+
+/* Ambient Glow behind Terminal */
+.terminal-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(254, 1, 28, 0.06) 0%, rgba(7, 25, 51, 0.04) 40%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
 
 .terminal {
   background: linear-gradient(180deg, #0d1117 0%, #010409 100%);

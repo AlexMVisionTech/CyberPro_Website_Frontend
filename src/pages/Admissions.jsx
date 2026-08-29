@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, CheckCircle2, Clock, DollarSign, Users, FileText } from 'lucide-react';
-import './Programs.css';
+import { ChevronDown, CheckCircle2, DollarSign, FileText, ArrowRight } from 'lucide-react';
+import ScrollReveal from '../components/ScrollReveal';
+import './Admissions.css';
 
 const STEPS = [
   { num: '01', title: 'Choose Your Program', desc: 'Explore our 13 disciplines and select the track that aligns with your career goals.' },
@@ -23,91 +24,137 @@ export default function Admissions() {
 
   return (
     <div>
-      <section className="page-hero">
+      {/* Hero */}
+      <section className="admissions-hero">
         <div className="container">
-          <div className="breadcrumb"><Link to="/">Home</Link><span>/</span><span>Admissions</span></div>
-          <h1 className="page-hero__title">Admissions Portal</h1>
-          <p className="page-hero__desc">Your pathway to a world-class technology education starts here. Follow our streamlined application process.</p>
+          <div className="admissions-hero__content">
+            <div className="breadcrumb"><Link to="/">Home</Link><span>/</span><span>Admissions</span></div>
+            <h1 className="admissions-hero__title">Your Pathway to a World-Class Career</h1>
+            <p className="admissions-hero__desc">Join Africa's premier technology academy. Our streamlined enrollment process gets you from application to learning in days, not months.</p>
+          </div>
         </div>
       </section>
 
+      {/* Process Steps */}
       <section className="section">
         <div className="container">
-          <div style={{ textAlign: 'center' }}>
-            <span className="section-label">Application Process</span>
-            <h2 className="section-title">Four Steps to Enrollment</h2>
-            <p className="section-subtitle">Our admissions process is designed to be straightforward and supportive.</p>
-          </div>
-          <div className="process-steps">
-            {STEPS.map((step, i) => (
-              <div className="card step-card" key={i}>
-                <div className="step-number">{step.num}</div>
-                <h3 className="card-title" style={{ fontSize: '18px' }}>{step.title}</h3>
-                <p className="card-desc">{step.desc}</p>
-              </div>
-            ))}
-          </div>
+          <ScrollReveal>
+            <div style={{ textAlign: 'center' }}>
+              <span className="section-label">Application Process</span>
+              <h2 className="section-title">Four Steps to Enrollment</h2>
+              <p className="section-subtitle">Our admissions process is designed to be straightforward and supportive.</p>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal delay={0.15}>
+            <div className="process-steps">
+              {STEPS.map((step, i) => (
+                <div className="step-card" key={i}>
+                  <div className="step-number">{step.num}</div>
+                  <h3 className="card-title">{step.title}</h3>
+                  <p className="card-desc">{step.desc}</p>
+                </div>
+              ))}
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
+      {/* Tuition */}
       <section className="section section-alt">
         <div className="container">
-          <div style={{ textAlign: 'center' }}>
-            <span className="section-label">Investment</span>
-            <h2 className="section-title">Tuition & Fee Structure</h2>
-            <p className="section-subtitle">Transparent pricing with flexible payment options for every learner.</p>
-          </div>
-          <div className="fee-grid">
-            <div className="card fee-card">
-              <DollarSign size={28} style={{ color: 'var(--blue)', marginBottom: '16px' }} />
-              <h3 className="fee-amount">KES 45,000</h3>
-              <p className="fee-duration">3-Month Programs</p>
-              <p className="fee-note">Emerging Tech, Database Admin</p>
+          <ScrollReveal>
+            <div style={{ textAlign: 'center' }}>
+              <span className="section-label">Investment</span>
+              <h2 className="section-title">Tuition & Fee Structure</h2>
+              <p className="section-subtitle">Transparent pricing with flexible payment options for every learner.</p>
             </div>
-            <div className="card fee-card fee-card--featured">
-              <div className="badge badge-blue" style={{ margin: '0 auto 16px' }}>Most Popular</div>
-              <DollarSign size={28} style={{ color: 'var(--blue)', marginBottom: '16px' }} />
-              <h3 className="fee-amount">KES 75,000</h3>
-              <p className="fee-duration">4–5 Month Programs</p>
-              <p className="fee-note">Ethical Hacking, DevOps, Cloud</p>
+          </ScrollReveal>
+          <ScrollReveal delay={0.15}>
+            <div className="fee-grid">
+              {/* Tier 1 */}
+              <div className="fee-card">
+                <div className="fee-icon"><DollarSign size={24} /></div>
+                <h3 className="fee-amount">KES 45,000</h3>
+                <p className="fee-duration">3-Month Programs</p>
+                <p className="fee-note">Emerging Tech, Database Admin</p>
+                <ul className="fee-features">
+                  <li><CheckCircle2 size={16} /> Full lab access</li>
+                  <li><CheckCircle2 size={16} /> Certificate of completion</li>
+                  <li><CheckCircle2 size={16} /> Installment plan available</li>
+                </ul>
+              </div>
+
+              {/* Tier 2 — Featured */}
+              <div className="fee-card fee-card--featured">
+                <div className="badge badge-blue" style={{ margin: '0 auto 20px' }}>Most Popular</div>
+                <div className="fee-icon"><DollarSign size={24} /></div>
+                <h3 className="fee-amount">KES 75,000</h3>
+                <p className="fee-duration">4–5 Month Programs</p>
+                <p className="fee-note">Ethical Hacking, DevOps, Cloud</p>
+                <ul className="fee-features">
+                  <li><CheckCircle2 size={16} /> Full lab access</li>
+                  <li><CheckCircle2 size={16} /> Certification exam prep</li>
+                  <li><CheckCircle2 size={16} /> Career coaching included</li>
+                  <li><CheckCircle2 size={16} /> 15% upfront discount</li>
+                </ul>
+              </div>
+
+              {/* Tier 3 */}
+              <div className="fee-card">
+                <div className="fee-icon"><DollarSign size={24} /></div>
+                <h3 className="fee-amount">KES 95,000</h3>
+                <p className="fee-duration">6-Month Programs</p>
+                <p className="fee-note">Cybersecurity, AI/ML, Data Science</p>
+                <ul className="fee-features">
+                  <li><CheckCircle2 size={16} /> Full lab + CTF access</li>
+                  <li><CheckCircle2 size={16} /> Advanced certification prep</li>
+                  <li><CheckCircle2 size={16} /> Career coaching included</li>
+                  <li><CheckCircle2 size={16} /> Capstone project review</li>
+                </ul>
+              </div>
             </div>
-            <div className="card fee-card">
-              <DollarSign size={28} style={{ color: 'var(--blue)', marginBottom: '16px' }} />
-              <h3 className="fee-amount">KES 95,000</h3>
-              <p className="fee-duration">6-Month Programs</p>
-              <p className="fee-note">Cybersecurity, AI/ML, Data Science</p>
-            </div>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
+      {/* FAQ */}
       <section className="section">
         <div className="container" style={{ maxWidth: '800px' }}>
-          <div style={{ textAlign: 'center' }}>
-            <span className="section-label">FAQ</span>
-            <h2 className="section-title">Frequently Asked Questions</h2>
-          </div>
+          <ScrollReveal>
+            <div style={{ textAlign: 'center' }}>
+              <span className="section-label">FAQ</span>
+              <h2 className="section-title">Frequently Asked Questions</h2>
+            </div>
+          </ScrollReveal>
           <div className="faq-list">
             {FAQS.map((faq, i) => (
-              <div key={i} className="faq-item">
-                <div className="faq-question" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                  <h4>{faq.q}</h4>
-                  <ChevronDown size={18} style={{ flexShrink: 0, transform: openFaq === i ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.3s', color: 'var(--text-muted)' }} />
+              <ScrollReveal key={i} delay={i * 0.05}>
+                <div className="faq-item">
+                  <div className="faq-question" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                    <h4>{faq.q}</h4>
+                    <ChevronDown size={18} style={{ flexShrink: 0, transform: openFaq === i ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.3s', color: 'var(--text-muted)' }} />
+                  </div>
+                  {openFaq === i && (
+                    <div className="faq-answer">{faq.a}</div>
+                  )}
                 </div>
-                {openFaq === i && (
-                  <div className="faq-answer">{faq.a}</div>
-                )}
-              </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section section-alt" style={{ textAlign: 'center' }}>
+      {/* CTA */}
+      <section className="admissions-cta">
         <div className="container">
-          <h2 className="section-title">Ready to Begin?</h2>
-          <p className="section-subtitle">Start your application today and join the next cohort of technology leaders.</p>
-          <Link to="/contact" className="btn btn-primary btn-lg">Start Application <FileText size={18} /></Link>
+          <ScrollReveal>
+            <h2>Ready to Begin?</h2>
+            <p>Start your application today and join the next cohort of technology leaders shaping Africa's digital future.</p>
+            <div className="flex-center gap-4">
+              <Link to="/contact" className="btn btn-white btn-lg">Start Application <ArrowRight size={18} /></Link>
+              <Link to="/programs" className="btn btn-outline btn-lg">View Programs</Link>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
     </div>

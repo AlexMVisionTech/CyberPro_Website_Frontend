@@ -52,39 +52,47 @@ export default function CyberLabs() {
 
   return (
     <div>
-      <section className="page-hero">
-        <div className="container">
-          <div className="breadcrumb"><Link to="/">Home</Link><span>/</span><span>Cyber Labs</span></div>
-          <h1 className="page-hero__title">Virtual Cyber Labs</h1>
-          <p className="page-hero__desc">Hands-on sandbox environments for security operations, penetration testing, cloud infrastructure, and forensics.</p>
+      <section className="page-hero section-dark" style={{ position: 'relative', overflow: 'hidden' }}>
+        <div className="hero__bg"></div>
+        <div className="hero__grid-overlay" style={{ opacity: 0.3 }}></div>
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          <div className="breadcrumb">
+            <Link to="/" style={{ color: 'rgba(255,255,255,0.6)' }}>Home</Link>
+            <span style={{ color: 'rgba(255,255,255,0.3)' }}>/</span>
+            <span style={{ color: 'white' }}>Cyber Labs</span>
+          </div>
+          <h1 className="page-hero__title" style={{ color: 'white' }}>Virtual Cyber Labs</h1>
+          <p className="page-hero__desc" style={{ color: 'rgba(255,255,255,0.7)' }}>Hands-on sandbox environments for security operations, penetration testing, cloud infrastructure, and forensics.</p>
         </div>
       </section>
 
-      <section className="section">
-        <div className="container">
+      <section className="section section-dark" style={{ position: 'relative', overflow: 'hidden' }}>
+        <div className="hero__bg"></div>
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ textAlign: 'center' }}>
-            <span className="section-label">Lab Environments</span>
-            <h2 className="section-title">8 Immersive Training Sandboxes</h2>
-            <p className="section-subtitle">Each lab runs isolated virtual machines accessible directly from your browser.</p>
+            <span className="section-label" style={{ justifyContent: 'center' }}>Lab Environments</span>
+            <h2 className="section-title" style={{ color: 'white' }}>8 Immersive Training Sandboxes</h2>
+            <p className="section-subtitle" style={{ margin: '0 auto' }}>Each lab runs isolated virtual machines accessible directly from your browser.</p>
           </div>
-          <div className="grid grid-4" style={{ marginTop: '48px' }}>
+          <div className="grid grid-4" style={{ marginTop: '56px' }}>
             {LABS.map((lab, i) => (
-              <div className="card" key={i} style={{ textAlign: 'center' }}>
-                <div className="program-icon" style={{ margin: '0 auto 16px' }}><lab.icon size={22} /></div>
-                <h3 className="card-title" style={{ fontSize: '16px' }}>{lab.title}</h3>
-                <p className="card-desc" style={{ fontSize: '14px' }}>{lab.desc}</p>
+              <div className="lab-card" key={i}>
+                <div className="lab-card__icon"><lab.icon size={22} /></div>
+                <h3 className="lab-card__title">{lab.title}</h3>
+                <p className="lab-card__desc">{lab.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section section-alt">
-        <div className="container">
+      <section className="section" style={{ position: 'relative' }}>
+        <div className="terminal-glow"></div>
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <span className="section-label" style={{ color: 'var(--blue)' }}>Live Demo</span>
+            <span className="section-label" style={{ justifyContent: 'center' }}>Live Demo</span>
             <h2 className="section-title">Interactive Security Terminal</h2>
-            <p className="section-subtitle">Try our simulated CLI environment. Type commands to explore.</p>
+            <p className="section-subtitle" style={{ margin: '0 auto' }}>Try our simulated CLI environment. Type commands to explore.</p>
           </div>
 
           <div className="terminal">

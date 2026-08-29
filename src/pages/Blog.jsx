@@ -33,11 +33,17 @@ export default function Blog() {
 
   return (
     <div>
-      <section className="page-hero">
-        <div className="container">
-          <div className="breadcrumb"><Link to="/">Home</Link><span>/</span><span>Blog</span></div>
-          <h1 className="page-hero__title">CyberPro Insights</h1>
-          <p className="page-hero__desc">Security research, technical guides, student stories, and career advice from our training team.</p>
+      <section className="page-hero section-dark" style={{ position: 'relative', overflow: 'hidden' }}>
+        <div className="hero__bg"></div>
+        <div className="hero__grid-overlay" style={{ opacity: 0.3 }}></div>
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          <div className="breadcrumb">
+            <Link to="/" style={{ color: 'rgba(255,255,255,0.6)' }}>Home</Link>
+            <span style={{ color: 'rgba(255,255,255,0.3)' }}>/</span>
+            <span style={{ color: 'white' }}>Blog</span>
+          </div>
+          <h1 className="page-hero__title" style={{ color: 'white' }}>CyberPro Insights</h1>
+          <p className="page-hero__desc" style={{ color: 'rgba(255,255,255,0.7)' }}>Security research, technical guides, student stories, and career advice from our training team.</p>
         </div>
       </section>
 
@@ -49,7 +55,7 @@ export default function Blog() {
                 <img src={featured.img} alt={featured.title} />
               </div>
               <div className="blog-featured__body">
-                <span className="badge badge-blue" style={{ marginBottom: '16px', width: 'fit-content' }}>Featured Article</span>
+                <span className="badge badge-crimson" style={{ marginBottom: '16px', width: 'fit-content' }}>Featured Article</span>
                 <h2 className="blog-featured__title">{featured.title}</h2>
                 <p className="blog-featured__excerpt">{featured.excerpt}</p>
                 <div className="blog-featured__meta">
@@ -81,7 +87,7 @@ export default function Blog() {
                   <img src={article.img} alt={article.title} />
                 </div>
                 <div className="blog-card__body">
-                  <span className="badge badge-blue" style={{ fontSize: '11px', marginBottom: '12px', width: 'fit-content' }}>{article.catLabel}</span>
+                  <span className="badge badge-navy" style={{ fontSize: '11px', marginBottom: '12px', width: 'fit-content' }}>{article.catLabel}</span>
                   <h3 className="blog-card__title">{article.title}</h3>
                   <p className="blog-card__excerpt">{article.excerpt}</p>
                   <div className="blog-card__meta">
