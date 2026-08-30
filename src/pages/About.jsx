@@ -28,10 +28,20 @@ const VALUES = [
 ];
 
 const FACULTY = [
-  { initials: 'PM', name: 'Dr. Philip Mulwa', role: 'Director of Academy & Research', creds: 'PhD CompSci • CISSP • CEH', linkedin: '#' },
-  { initials: 'JO', name: 'Prof. Janet Okoth', role: 'Lead Faculty: AI Systems', creds: 'MSc Data Analytics • AWS ML', linkedin: '#' },
-  { initials: 'EG', name: 'Dr. Eric Gitonga', role: 'Principal Instructor: Cloud', creds: 'CCIE Security • AWS SA Pro', linkedin: '#' },
-  { initials: 'AM', name: 'Amina M.', role: 'Adjunct Researcher & Advisor', creds: 'BSc Computer Science • OSCP', linkedin: '#' },
+  { initials: 'JM', name: 'John Mutunga', role: 'CEO & Founder, CyberPro Global', creds: '', linkedin: 'https://www.linkedin.com/in/john-mutunga-242a7216/', img: '/images/faculty/Joe.png' },
+  { initials: 'PO', name: 'Preston Odera', role: 'Executive Chairman', creds: '', linkedin: 'https://www.linkedin.com/in/preston-odera-06b72516/', img: '/images/faculty/odera.png' },
+  { initials: 'OP', name: 'Orifah W. WYDLER Peter', role: 'Director, CyberPro', creds: 'MSc ITM, ITIL, PRINCE2, CEH, CISM, CHFI, CISA', linkedin: 'https://www.linkedin.com/in/orifah-w-wydler-peter-msc-itm-itil-prince2-ceh-cism-chfi-cisa-01a90117/', img: '/images/faculty/orife.png' },
+  { initials: 'MO', name: 'Martine Osike', role: 'Chief Technology Officer (CTO)', creds: '', linkedin: 'https://www.linkedin.com/in/martine-osike-636625b9/', img: '/images/faculty/martine.png' },
+  { initials: 'MM', name: 'Mathew Mwakoma', role: 'Chief Marketing Officer', creds: '', linkedin: 'https://www.linkedin.com/in/mathew-mwakoma-b167b9290', img: '/images/faculty/mathew.png' },
+  { initials: 'SM', name: 'Sandra Brenda (Muriuki) Mukami Huma', role: 'Head of Human Resource', creds: '', linkedin: 'https://www.linkedin.com/in/sandra-brenda-mukami-612735307/', img: '/images/faculty/Sandra.png' },
+  { initials: 'JMu', name: 'Jeniffer Mutave', role: 'Marketing Manager', creds: '', linkedin: 'https://www.linkedin.com/in/jeniffer-mutave/', img: '/images/faculty/Jani.png' },
+  { initials: 'CM', name: 'Christian Munene', role: 'Business Manager', creds: '', linkedin: 'https://www.linkedin.com/in/christian-munene-54623a2b7/', img: '/images/faculty/munene.png' },
+  { initials: 'NK', name: 'Nathan Kibet', role: 'Digital Forensics Analyst', creds: '', linkedin: 'https://www.linkedin.com/in/nathankib3t/', img: '/images/faculty/nathan.png' },
+  { initials: 'AM', name: 'Alex M. Musira', role: 'AI & Data Engineer', creds: '', linkedin: 'https://www.linkedin.com/in/alex-mwera-222256y/', img: '/images/faculty/alex.png' },
+  { initials: 'BK', name: 'Benta Kamau', role: 'Director, AI Strategy, Governance & Digital Risk', creds: 'LLB, PgDL', linkedin: 'https://www.linkedin.com/in/benta-kamau/', img: '/images/faculty/benta.png' },
+  { initials: 'ES', name: 'Emma Sybl', role: 'UON Branch Manager', creds: '', linkedin: 'https://www.linkedin.com/in/emma-sybl-4004b5283' },
+  { initials: 'EK', name: 'Esther (Wambui) Kiguru', role: 'Statistician & Researcher', creds: '', linkedin: 'https://www.linkedin.com/in/esther-kiguru-wambui/', img: '/images/faculty/esther.png' },
+  { initials: 'KE', name: 'Emmanuel Kiptum', role: 'Software Engineer', creds: '', linkedin: '#', img: '' },
 ];
 
 export default function About() {
@@ -125,10 +135,12 @@ export default function About() {
               {/* Double array for infinite scroll */}
               {[...FACULTY, ...FACULTY].map((f, i) => (
                 <div className="faculty-card" key={i}>
-                  <div className="faculty-avatar">{f.initials}</div>
+                  <div className="faculty-avatar">
+                    {f.img ? <img src={f.img} alt={f.name} loading="lazy" /> : <span>{f.initials}</span>}
+                  </div>
                   <h3>{f.name}</h3>
                   <p className="faculty-role">{f.role}</p>
-                  <p className="faculty-creds">{f.creds}</p>
+                  {f.creds && <p className="faculty-creds">{f.creds}</p>}
                   <a href={f.linkedin} target="_blank" rel="noopener noreferrer" className="faculty-linkedin" aria-label={`LinkedIn for ${f.name}`}>
                     <LinkedinIcon size={18} />
                   </a>

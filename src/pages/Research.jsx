@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { BookOpen, FlaskConical, Globe, Users, FileText, ExternalLink } from 'lucide-react';
-import './Programs.css';
+import './Research.css';
 
 const CLUSTERS = [
   { icon: FlaskConical, title: 'Adversarial Machine Learning', desc: 'Researching defense mechanisms against model poisoning, evasion attacks, and data backdoors in production AI systems.', lead: 'Dr. Philip Mulwa' },
@@ -18,8 +18,7 @@ const PUBLICATIONS = [
 export default function Research() {
   return (
     <div>
-      <section className="page-hero section-dark" style={{ position: 'relative', overflow: 'hidden' }}>
-        <div className="hero__bg"></div>
+      <section className="cyber-hero-premium">
         <div className="hero__grid-overlay" style={{ opacity: 0.3 }}></div>
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div className="breadcrumb">
@@ -32,13 +31,11 @@ export default function Research() {
         </div>
       </section>
 
-      <section className="section section-dark" style={{ position: 'relative', overflow: 'hidden' }}>
-        <div className="hero__bg"></div>
-        <div className="research-ambient-glow"></div>
-        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+      <section className="section research-clusters-section">
+        <div className="container">
           <div style={{ textAlign: 'center' }}>
             <span className="section-label" style={{ justifyContent: 'center' }}>Research Clusters</span>
-            <h2 className="section-title" style={{ color: 'white' }}>Active Research Initiatives</h2>
+            <h2 className="section-title">Active Research Initiatives</h2>
             <p className="section-subtitle" style={{ margin: '0 auto' }}>Interdisciplinary teams working on problems that matter to Africa and the world.</p>
           </div>
           <div className="grid grid-3" style={{ marginTop: '56px' }}>
@@ -51,7 +48,7 @@ export default function Research() {
                 <h3 className="research-card__title">{c.title}</h3>
                 <p className="research-card__desc">{c.desc}</p>
                 <div className="research-card__lead">
-                  &gt; _LEAD: {c.lead}
+                  &gt; _LEAD: <span>{c.lead}</span>
                 </div>
               </div>
             ))}
@@ -59,7 +56,7 @@ export default function Research() {
         </div>
       </section>
 
-      <section className="section">
+      <section className="section publications-section">
         <div className="container" style={{ maxWidth: '900px' }}>
           <div style={{ textAlign: 'center' }}>
             <span className="section-label" style={{ justifyContent: 'center' }}>Publications</span>
@@ -83,14 +80,13 @@ export default function Research() {
         </div>
       </section>
 
-      <section className="section section-dark" style={{ position: 'relative', overflow: 'hidden' }}>
-        <div className="hero__bg"></div>
-        <div className="container" style={{ position: 'relative', zIndex: 1, textAlign: 'center', maxWidth: '700px' }}>
-          <h2 className="section-title" style={{ color: 'white' }}>Collaborate With Our Research Labs</h2>
+      <section className="section research-cta">
+        <div className="container" style={{ textAlign: 'center', maxWidth: '700px' }}>
+          <h2 className="section-title">Collaborate With Our Research Labs</h2>
           <p className="section-subtitle" style={{ margin: '0 auto 32px' }}>We welcome partnerships with industry, academia, and government institutions for joint research programs.</p>
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link to="/contact" className="btn btn-primary btn-lg">Get in Touch</Link>
-            <Link to="/corporate" className="btn btn-outline btn-lg" style={{ borderColor: 'rgba(255,255,255,0.2)', color: 'white' }}>Corporate Partnerships</Link>
+            <Link to="/corporate" className="btn btn-outline btn-lg">Corporate Partnerships</Link>
           </div>
         </div>
       </section>

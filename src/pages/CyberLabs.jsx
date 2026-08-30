@@ -52,8 +52,7 @@ export default function CyberLabs() {
 
   return (
     <div>
-      <section className="page-hero section-dark" style={{ position: 'relative', overflow: 'hidden' }}>
-        <div className="hero__bg"></div>
+      <section className="cyber-hero-premium">
         <div className="hero__grid-overlay" style={{ opacity: 0.3 }}></div>
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div className="breadcrumb">
@@ -66,13 +65,12 @@ export default function CyberLabs() {
         </div>
       </section>
 
-      <section className="section section-dark" style={{ position: 'relative', overflow: 'hidden' }}>
-        <div className="hero__bg"></div>
+      <section className="section cyber-labs-grid-section">
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ textAlign: 'center' }}>
-            <span className="section-label" style={{ justifyContent: 'center' }}>Lab Environments</span>
-            <h2 className="section-title" style={{ color: 'white' }}>8 Immersive Training Sandboxes</h2>
-            <p className="section-subtitle" style={{ margin: '0 auto' }}>Each lab runs isolated virtual machines accessible directly from your browser.</p>
+            <span className="section-label" style={{ justifyContent: 'center', color: 'var(--text-muted)' }}>Lab Environments</span>
+            <h2 className="section-title" style={{ color: 'var(--text-primary)' }}>8 Immersive Training Sandboxes</h2>
+            <p className="section-subtitle" style={{ margin: '0 auto', color: 'var(--text-secondary)' }}>Each lab runs isolated virtual machines accessible directly from your browser.</p>
           </div>
           <div className="grid grid-4" style={{ marginTop: '56px' }}>
             {LABS.map((lab, i) => (
@@ -86,7 +84,7 @@ export default function CyberLabs() {
         </div>
       </section>
 
-      <section className="section" style={{ position: 'relative' }}>
+      <section className="section" style={{ position: 'relative', background: 'var(--bg-primary)' }}>
         <div className="terminal-glow"></div>
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>

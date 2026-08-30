@@ -115,7 +115,7 @@
 
 .event-card {
   background: white;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
@@ -192,34 +192,148 @@
   margin-bottom: 20px;
 }
 
-/* Gallery Grid */
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  margin-top: 36px;
-}
-
-.gallery-item {
+/* Interactive Command Center Gallery */
+.fame-section {
+  padding: 100px 0;
   position: relative;
-  border-radius: var(--radius-lg);
   overflow: hidden;
-  aspect-ratio: 16/9;
-  background: var(--bg-secondary);
 }
 
-.gallery-item img {
+.fame-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.fame-command-center {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  background: rgba(7, 25, 51, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.fame-featured {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  height: 500px;
+  background: var(--navy-dark);
+  box-shadow: 0 0 0 1px rgba(254, 1, 28, 0.2), 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.fame-featured-bg, .fame-thumb-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  filter: blur(24px) brightness(0.6) saturate(1.5);
+  transform: scale(1.15); /* Scale up to hide blur edges */
+  z-index: 0;
 }
 
-.gallery-item:hover img {
+.fame-featured-fg {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 1;
+}
+
+.fame-featured .fame-featured-fg, .fame-featured .fame-featured-bg {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+
+
+.fame-featured-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(7, 25, 51, 0.95) 0%, transparent 60%);
+  display: flex;
+  align-items: flex-end;
+  padding: 32px;
+  z-index: 3;
+}
+
+.fame-featured-overlay h3 {
+  color: white;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes slideUp {
+  0% { opacity: 0; transform: translateY(15px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.fame-featured-overlay h3::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 24px;
+  background: var(--primary);
+  border-radius: 4px;
+  box-shadow: 0 0 12px var(--primary-glow);
+}
+
+.fame-thumbnails {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  align-content: start;
+}
+
+.fame-thumb {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: crosshair;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  background: var(--navy-light);
+}
+
+.fame-thumb-fg {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 1;
+  transition: transform 0.4s ease;
+}
+
+.fame-thumb:hover {
   transform: scale(1.05);
+  z-index: 10;
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* CTA Bottom */
+.fame-thumb.active {
+  border-color: var(--primary);
+  box-shadow: 0 0 16px rgba(254, 1, 28, 0.4);
+  transform: scale(1.05);
+  z-index: 10;
+}
+
 .events-cta {
   background: var(--navy);
   padding: 80px 0;
@@ -280,10 +394,19 @@
 
 @media (max-width: 1024px) {
   .events-grid { grid-template-columns: repeat(2, 1fr); }
+  .fame-command-center { grid-template-columns: 1fr; padding: 24px; }
+  .fame-featured { height: 400px; }
 }
 
 @media (max-width: 768px) {
   .events-hero { padding: 100px 0 48px; }
   .events-grid { grid-template-columns: 1fr; }
-  .gallery-grid { grid-template-columns: 1fr; }
+  .fame-thumbnails { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 480px) {
+  .fame-thumbnails { grid-template-columns: repeat(3, 1fr); }
+  .fame-featured { height: 300px; }
+  .fame-command-center { padding: 16px; gap: 20px; }
+  .fame-featured-overlay h3 { font-size: 20px; }
 }

@@ -15,6 +15,7 @@ import Blog from './pages/Blog.jsx';
 import About from './pages/About.jsx';
 import Contact from './pages/Contact.jsx';
 import { ModalProvider } from './hooks/useModal.jsx';
+import FloatingChat from './components/layout/FloatingChat.jsx';
 
 export default function App() {
   return (
@@ -38,6 +39,7 @@ export default function App() {
           </Routes>
         </main>
         <Footer />
+        <FloatingChat />
       </ModalProvider>
     </BrowserRouter>
   );

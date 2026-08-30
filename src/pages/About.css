@@ -164,18 +164,29 @@
   width: 160px;
   height: 160px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-  color: var(--navy);
+  overflow: hidden;
+  margin: 0 auto 18px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
+  border: 4px solid white;
+  background: #f1f5f9;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.faculty-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.faculty-avatar span {
   font-family: var(--font-heading);
   font-size: 48px;
   font-weight: 700;
-  margin: 0 auto 18px;
+  color: var(--navy);
   letter-spacing: 0.02em;
-  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.5), 0 12px 24px rgba(0, 0, 0, 0.06);
-  border: 4px solid white;
 }
 
 .faculty-linkedin {

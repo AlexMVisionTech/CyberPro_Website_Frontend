@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import {
   Shield, Brain, Cloud, Server,
   Users, Award, CheckCircle2, Zap, ArrowRight,
-  Terminal, ChevronRight, Star, Clock, Calendar, Database
+  Terminal, ChevronRight, Star, Clock, Calendar, Database,
+  MonitorPlay, ShieldCheck, Flag, Rocket
 } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import Partners from '../components/sections/Partners';
@@ -264,10 +265,10 @@ export default function Home() {
           </ScrollReveal>
           <div className="grid grid-2">
             {[
-              { icon: Terminal, title: 'Virtual Labs Environment', desc: 'Access real sandbox servers, virtual networks, and live attack simulations directly inside your browser. No local configuration required.' },
-              { icon: Award, title: 'Global Certifications', desc: 'Our curriculum strictly aligns with leading industry standards, preparing you for Cisco, CompTIA, AWS, EC-Council, and Microsoft exams.' },
-              { icon: Zap, title: 'CTF Competitions', desc: 'Participate in regular Capture The Flag events and hackathons. Compete with peers globally to sharpen your practical defensive skills.' },
-              { icon: Users, title: 'Career Acceleration', desc: 'Benefit from dedicated mock interviews, CV optimization, and direct profile targeting for our network of global enterprise recruiters.' },
+              { icon: MonitorPlay, title: 'Virtual Labs Environment', desc: 'Access real sandbox servers, virtual networks, and live attack simulations directly inside your browser. No local configuration required.' },
+              { icon: ShieldCheck, title: 'Global Certifications', desc: 'Our curriculum strictly aligns with leading industry standards, preparing you for Cisco, CompTIA, AWS, EC-Council, and Microsoft exams.' },
+              { icon: Flag, title: 'CTF Competitions', desc: 'Participate in regular Capture The Flag events and hackathons. Compete with peers globally to sharpen your practical defensive skills.' },
+              { icon: Rocket, title: 'Career Acceleration', desc: 'Benefit from dedicated mock interviews, CV optimization, and direct profile targeting for our network of global enterprise recruiters.' },
             ].map((f, i) => (
               <ScrollReveal key={i} delay={i * 0.08}>
                 <div className="feature-card">

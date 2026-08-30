@@ -67,7 +67,7 @@
   padding: 8px 14px;
   font-size: 14px;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.85);
   border-radius: var(--radius-sm);
   text-decoration: none;
   transition: var(--transition-fast);
@@ -76,14 +76,14 @@
 }
 
 .navbar__link:hover {
-  color: var(--text-primary);
-  background: rgba(7, 25, 51, 0.06);
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .navbar__link--active {
   color: var(--primary);
   font-weight: 700;
-  background: rgba(254, 1, 28, 0.08);
+  background: rgba(254, 1, 28, 0.15);
 }
 
 .navbar__actions {
@@ -98,14 +98,14 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--text-primary);
+  color: white;
   padding: 10px;
   border-radius: var(--radius-sm);
   transition: var(--transition-fast);
 }
 
 .navbar__toggle:hover {
-  background: var(--bg-secondary);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 /* Mobile Drawer */
@@ -144,61 +144,25 @@
   transition: var(--transition-fast);
 }
 
-.navbar--home .navbar__brand-text {
-  color: white;
-}
-
-.navbar--home .navbar__link {
-  color: rgba(255, 255, 255, 0.85);
-}
-
-.navbar--home .navbar__link:hover {
-  color: white;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.navbar--home .navbar__link--active {
-  color: var(--primary);
-  background: rgba(254, 1, 28, 0.15);
-}
-
-.navbar--home .navbar__toggle {
-  color: white;
-}
-
-.navbar--home .navbar__toggle:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.navbar--scrolled.navbar--home .navbar__brand-text,
-.navbar--scrolled.navbar--home .navbar__link,
-.navbar--scrolled.navbar--home .navbar__toggle {
+/* When scrolled: revert to dark text on all pages */
+.navbar--scrolled .navbar__brand-text,
+.navbar--scrolled .navbar__link,
+.navbar--scrolled .navbar__toggle {
   color: var(--text-primary);
 }
 
-.navbar--scrolled.navbar--home .navbar__link:hover {
+.navbar--scrolled .navbar__link:hover {
   color: var(--text-primary);
   background: rgba(7, 25, 51, 0.06);
 }
 
-.navbar--scrolled.navbar--home .navbar__link--active {
+.navbar--scrolled .navbar__link--active {
   color: var(--primary);
   background: rgba(254, 1, 28, 0.08);
 }
 
-.navbar--scrolled.navbar--home .navbar__toggle:hover {
+.navbar--scrolled .navbar__toggle:hover {
   background: var(--bg-secondary);
-}
-
-.navbar--home .navbar__mobile-link {
-  color: rgba(255, 255, 255, 0.85);
-}
-
-.navbar--home .navbar__mobile-link:hover,
-.navbar--home .navbar__mobile-link--active {
-  color: white;
-  background: rgba(255, 255, 255, 0.12);
-  font-weight: 600;
 }
 
 .navbar__mobile-link:hover,

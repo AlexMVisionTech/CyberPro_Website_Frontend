@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, ArrowRight, ChevronRight } from 'lucide-react';
+import { Search, ArrowRight, ChevronRight, Clock, Target, Layers, ArrowUpRight } from 'lucide-react';
+import ScrollReveal from '../components/ScrollReveal';
 import './Programs.css';
 
 const PROGRAMS = [
@@ -51,58 +52,102 @@ export default function Programs() {
   });
 
   return (
-    <div>
-      {/* Hero */}
-      <section className="page-hero">
-        <div className="container">
-          <div className="breadcrumb"><Link to="/">Home</Link><span>/</span><span>Programs</span></div>
-          <h1 className="page-hero__title">Academy Programs</h1>
-          <p className="page-hero__desc">13 expert-designed training tracks mapped to globally recognized certifications and real-world career pipelines.</p>
+    <div style={{ background: 'var(--bg-primary)' }}>
+      {/* Immersive Hero */}
+      <section className="programs-hero-premium">
+        <div className="programs-hero-grid"></div>
+        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+          <ScrollReveal>
+            <div className="breadcrumb">
+              <Link to="/" style={{ color: 'rgba(255,255,255,0.6)' }}>Home</Link>
+              <span style={{ color: 'rgba(255,255,255,0.3)' }}>/</span>
+              <span style={{ color: 'white' }}>Programs</span>
+            </div>
+            <h1 className="page-hero__title" style={{ color: 'white' }}>Academy Programs</h1>
+            <p className="page-hero__desc" style={{ color: 'rgba(255,255,255,0.7)' }}>13 expert-designed training tracks mapped to globally recognized certifications and real-world career pipelines.</p>
+          </ScrollReveal>
+
+
         </div>
       </section>
 
-      {/* Programs Grid */}
-      <section className="section">
+      {/* Programs Display */}
+      <section className="section" style={{ paddingTop: '40px' }}>
         <div className="container">
-          <div className="programs-filter-bar">
-            <div className="tabs">
-              {TABS.map(tab => (
-                <button key={tab.key} className={`tab-btn ${activeTab === tab.key ? 'active' : ''}`} onClick={() => setActiveTab(tab.key)}>
-                  {tab.label}
-                </button>
-              ))}
+          
+          <ScrollReveal>
+            <div className="programs-control-panel">
+              <div className="tabs">
+                {TABS.map(tab => (
+                  <button 
+                    key={tab.key} 
+                    className={`tab-btn ${activeTab === tab.key ? 'active' : ''}`} 
+                    onClick={() => setActiveTab(tab.key)}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+              <div className="programs-search">
+                <Search size={16} />
+                <input 
+                  type="text" 
+                  placeholder="Search programs..." 
+                  value={search} 
+                  onChange={e => setSearch(e.target.value)} 
+                />
+              </div>
             </div>
-            <div className="programs-search">
-              <Search size={16} />
-              <input type="text" placeholder="Search programs..." value={search} onChange={e => setSearch(e.target.value)} />
-            </div>
-          </div>
+          </ScrollReveal>
 
           <div className="grid grid-3" style={{ marginTop: '40px' }}>
             {filtered.map((prog, i) => (
-              <Link to={`/programs/${slugify(prog.title)}`} key={i} className="program-card program-card--link">
-                <div className="program-card__image">
-                  <img src={prog.img} alt={prog.title} loading="lazy" />
-                  <span className="program-card__category">{CAT_LABELS[prog.cat]}</span>
-                </div>
-                <div className="program-card__body">
-                  <h3 className="program-card__title">{prog.title}</h3>
-                  <p className="program-card__desc">{prog.desc}</p>
-                  <div className="program-card__certs">{prog.certs}</div>
-                  <div className="program-card__meta">
-                    <span className="badge badge-navy">{prog.dur}</span>
-                    <span className="badge badge-blue">{prog.mode}</span>
-                    <span className="badge badge-green">{prog.lvl}</span>
+              <ScrollReveal key={i} delay={i * 0.05}>
+                <Link to={`/programs/${slugify(prog.title)}`} className="cyber-program-card">
+                  <div className="cyber-program-card__image">
+                    <img src={prog.img} alt={prog.title} loading="lazy" />
+                    <div className="image-overlay"></div>
+                    <span className="cyber-program-card__category">{CAT_LABELS[prog.cat]}</span>
                   </div>
-                </div>
-              </Link>
+                  <div className="cyber-program-card__body">
+                    <h3 className="cyber-program-card__title">{prog.title}</h3>
+                    <p className="cyber-program-card__desc">{prog.desc}</p>
+                    
+                    <div className="cyber-program-card__meta">
+                      <div className="meta-item">
+                        <Clock size={14} /> <span>{prog.dur}</span>
+                      </div>
+                      <div className="meta-item">
+                        <Target size={14} /> <span>{prog.mode}</span>
+                      </div>
+                      <div className="meta-item">
+                        <Layers size={14} /> <span>{prog.lvl}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="cyber-program-card__footer">
+                      <div className="certs-label">Certs: {prog.certs}</div>
+                      <div className="view-btn">
+                        Explore <ArrowUpRight size={16} />
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </ScrollReveal>
             ))}
           </div>
 
           {filtered.length === 0 && (
-            <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--text-muted)' }}>
-              No programs match your search criteria.
-            </div>
+            <ScrollReveal>
+              <div className="programs-empty-state">
+                <Search size={48} className="empty-icon" />
+                <h3>No Protocols Found</h3>
+                <p>No programs match your current search parameters. Try adjusting your filters.</p>
+                <button className="btn btn-outline" onClick={() => { setSearch(''); setActiveTab('all'); }}>
+                  Clear Filters
+                </button>
+              </div>
+            </ScrollReveal>
           )}
         </div>
       </section>
