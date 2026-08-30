@@ -29,13 +29,13 @@ export default function Contact() {
         <div className="container">
           <div className="contact-layout">
             <div>
-              <h2 style={{ fontSize: '28px', fontWeight: 800, marginBottom: '36px' }}>Nairobi Campus & Registry</h2>
+              <h2 style={{ fontSize: '28px', fontWeight: 800, marginBottom: '36px' }}>Main Office Campus Address</h2>
               <div className="contact-info-list">
                 <div className="contact-info-item">
                   <div className="contact-info-icon"><MapPin size={20} /></div>
                   <div>
-                    <h3>Campus Address</h3>
-                    <p>7th Floor, Landmark Plaza, Westlands Road,<br />Westlands, Nairobi, Kenya</p>
+                     <h3>Main office</h3>
+                      <a href="https://maps.app.goo.gl/V3BhMaRFrdq4aHc67" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>APA Arcade, 1st Floor Argwings Kodhek Rd,<br />Nairobi, Kenya</a>
                   </div>
                 </div>
                 <div className="contact-info-item">

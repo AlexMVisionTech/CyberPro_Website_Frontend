@@ -3,19 +3,19 @@ import { X, ArrowRight, ArrowLeft, User, BookOpen, Settings2, CheckCircle2 } fro
 import './ApplicationModal.css';
 
 const PROGRAMS = [
-  'Cybersecurity Specialist',
-  'Ethical Hacking & Penetration Testing',
-  'Artificial Intelligence & Machine Learning',
-  'Cloud Computing & Architecture',
-  'Data Science & Analytics',
-  'DevOps & Automation',
-  'Digital Forensics & Incident Response',
-  'Network Engineering',
-  'Full-Stack Software Development',
-  'Database Administration',
-  'IoT & Embedded Systems Security',
-  'Blockchain & Web3 Security',
-  'Emerging Technologies',
+  { name: 'Cybersecurity Specialist', img: '/images/programs/cybersecurity.png' },
+  { name: 'Ethical Hacking & Penetration Testing', img: '/images/programs/ethical_hacking.png' },
+  { name: 'Artificial Intelligence & Machine Learning', img: '/images/programs/ai_ml.png' },
+  { name: 'Cloud Computing & Architecture', img: '/images/programs/cloud_computing.png' },
+  { name: 'Data Science & Analytics', img: '/images/programs/data_science.png' },
+  { name: 'DevOps & Automation', img: '/images/programs/devops.png' },
+  { name: 'Digital Forensics & Incident Response', img: '/images/programs/digital_forensics.png' },
+  { name: 'Network Engineering', img: '/images/programs/network_engineering.jpg' },
+  { name: 'Full-Stack Software Development', img: '/images/programs/fullstack_dev.jpg' },
+  { name: 'Database Administration', img: '/images/programs/database_admin.jpg' },
+  { name: 'IoT & Embedded Systems Security', img: '/images/programs/iot_security.jpg' },
+  { name: 'Blockchain & Web3 Security', img: '/images/programs/blockchain.jpg' },
+  { name: 'Emerging Technologies', img: '/images/programs/emerging_tech.jpg' },
 ];
 
 const STEPS = [
@@ -42,7 +42,7 @@ export default function ApplicationModal({ isOpen, onClose, selectedProgram = ''
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert('Application submitted successfully! Our admissions team will contact you within 24 hours.');
+    alert(`Application submitted successfully for ${form.fullName}!\n\nProgram: ${form.program}\nMode: ${form.studyMode}\nPayment Plan: ${form.paymentPlan}\nStart Date: ${form.startDate || 'Not specified'}\n\nOur admissions team will contact you within 24 hours.`);
     onClose();
     setStep(0);
     setForm({ fullName: '', email: '', phone: '', program: '', studyMode: '', paymentPlan: '', startDate: '', notes: '' });
@@ -113,16 +113,16 @@ export default function ApplicationModal({ isOpen, onClose, selectedProgram = ''
             <div className="step-content">
               <label className="form-label" style={{ marginBottom: '16px', display: 'block' }}>Select Your Program *</label>
               <div className="program-picker">
-                {PROGRAMS.map((p, i) => (
-                  <button
-                    type="button"
-                    key={i}
-                    className={`program-picker__item ${form.program === p ? 'program-picker__item--active' : ''}`}
-                    onClick={() => update('program', p)}
-                  >
-                    {p}
-                  </button>
-                ))}
+                 {PROGRAMS.map((p, i) => (
+                   <button
+                     type="button"
+                     key={i}
+                     className={`program-picker__item ${form.program === p.name ? 'program-picker__item--active' : ''}`}
+                     onClick={() => update('program', p.name)}
+                   >
+                     {p.name}
+                   </button>
+                 ))}
               </div>
             </div>
           )}
@@ -141,7 +141,7 @@ export default function ApplicationModal({ isOpen, onClose, selectedProgram = ''
                       <span className="option-card__radio"></span>
                       <span className="option-card__label">{mode}</span>
                       <span className="option-card__desc">
-                        {mode === 'Physical' && 'In-person at our Westlands campus'}
+                        {mode === 'Physical' && 'In-person at our Argwings Kodhek campus'}
                         {mode === 'Hybrid' && 'Mix of on-campus and online sessions'}
                         {mode === 'Remote' && 'Fully online, self-paced + live sessions'}
                       </span>
@@ -212,6 +212,15 @@ export default function ApplicationModal({ isOpen, onClose, selectedProgram = ''
                     <span className="review-item__label">Selected Program</span>
                     <span className="review-item__value review-item__value--highlight">{form.program || '—'}</span>
                   </div>
+                  {form.program && (() => {
+                    const prog = PROGRAMS.find(p => p.name === form.program);
+                    return prog ? (
+                      <div className="review-item review-item--full">
+                        <span className="review-item__label">Program Image</span>
+                        <img src={prog.img} alt={form.program} style={{ width: '120px', height: 'auto', borderRadius: '8px', marginTop: '8px', border: '1px solid rgba(255,255,255,0.1)' }} />
+                      </div>
+                    ) : null;
+                  })()}
                 </div>
               </div>
 
@@ -234,6 +243,12 @@ export default function ApplicationModal({ isOpen, onClose, selectedProgram = ''
                     <div className="review-item review-item--full">
                       <span className="review-item__label">Additional Notes</span>
                       <span className="review-item__value">{form.notes}</span>
+                    </div>
+                  )}
+                  {!form.notes && (
+                    <div className="review-item review-item--full">
+                      <span className="review-item__label">Additional Notes</span>
+                      <span className="review-item__value">Not specified</span>
                     </div>
                   )}
                 </div>

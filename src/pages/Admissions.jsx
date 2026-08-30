@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, CheckCircle2, DollarSign, FileText, ArrowRight } from 'lucide-react';
+import { ChevronDown, CheckCircle2, Banknote, FileText, ArrowRight } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import './Admissions.css';
 
@@ -15,7 +15,7 @@ const FAQS = [
   { q: 'What are the entry requirements?', a: 'We accept candidates with a high school diploma or equivalent. For advanced programs (Ethical Hacking, AI), we recommend basic programming knowledge or prior IT experience.' },
   { q: 'Are classes conducted online or in-person?', a: 'We offer hybrid and fully remote options. Most programs include live virtual sessions, self-paced labs, and optional on-campus workshops at our Nairobi campus.' },
   { q: 'What payment plans are available?', a: 'We offer monthly installment plans, upfront discounts (15% off), and scholarship opportunities for qualifying students. Corporate-sponsored enrollments also receive volume discounts.' },
-  { q: 'How long are the programs?', a: 'Programs range from 3 to 6 months depending on the discipline. Each includes a capstone project and certification exam preparation.' },
+  { q: 'How long are the programs?', a: 'All programs are 3 months long. Each includes a capstone project and certification exam preparation.' },
   { q: 'Do you offer job placement support?', a: 'Yes. All graduates receive career coaching, CV reviews, mock interviews, and direct introductions to our 45+ hiring partners across East Africa and globally.' },
 ];
 
@@ -73,8 +73,8 @@ export default function Admissions() {
             <div className="fee-grid">
               {/* Tier 1 */}
               <div className="fee-card">
-                <div className="fee-icon"><DollarSign size={24} /></div>
-                <h3 className="fee-amount">KES 45,000</h3>
+                <div className="fee-icon"><Banknote size={24} /></div>
+                <h3 className="fee-amount">KES 25,000</h3>
                 <p className="fee-duration">3-Month Programs</p>
                 <p className="fee-note">Emerging Tech, Database Admin</p>
                 <ul className="fee-features">
@@ -87,9 +87,9 @@ export default function Admissions() {
               {/* Tier 2 — Featured */}
               <div className="fee-card fee-card--featured">
                 <div className="badge badge-blue" style={{ margin: '0 auto 20px' }}>Most Popular</div>
-                <div className="fee-icon"><DollarSign size={24} /></div>
-                <h3 className="fee-amount">KES 75,000</h3>
-                <p className="fee-duration">4–5 Month Programs</p>
+                <div className="fee-icon"><Banknote size={24} /></div>
+                <h3 className="fee-amount">KES 25,000</h3>
+                <p className="fee-duration">3-Month Programs</p>
                 <p className="fee-note">Ethical Hacking, DevOps, Cloud</p>
                 <ul className="fee-features">
                   <li><CheckCircle2 size={16} /> Full lab access</li>
@@ -101,9 +101,9 @@ export default function Admissions() {
 
               {/* Tier 3 */}
               <div className="fee-card">
-                <div className="fee-icon"><DollarSign size={24} /></div>
-                <h3 className="fee-amount">KES 95,000</h3>
-                <p className="fee-duration">6-Month Programs</p>
+                <div className="fee-icon"><Banknote size={24} /></div>
+                <h3 className="fee-amount">KES 25,000</h3>
+                <p className="fee-duration">3-Month Programs</p>
                 <p className="fee-note">Cybersecurity, AI/ML, Data Science</p>
                 <ul className="fee-features">
                   <li><CheckCircle2 size={16} /> Full lab + CTF access</li>
