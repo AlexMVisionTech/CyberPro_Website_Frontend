@@ -9,6 +9,8 @@ const EVENTS = [
   { title: 'Generative AI Security Pipelines', date: 'Sep 02, 2026', type: 'Webinar', cat: 'webinar', desc: 'Learn safe prompt parsing and hardening pipelines against model poisoning with guest speakers.', color: 'badge-orange', img: '/images/events/ai-security-webinar.svg' },
   { title: 'AWS Enterprise Cloud Foundations', date: 'Sep 20, 2026', type: 'Bootcamp', cat: 'bootcamp', desc: 'Intensive hands-on lab walkthrough of AWS container configuration, IAM, and bucket policies.', color: 'badge-green', img: '/images/events/aws-bootcamp.svg' },
   { title: 'SOC Operations Deep Dive', date: 'Oct 05, 2026', type: 'Webinar', cat: 'webinar', desc: 'Understand SIEM configuration, log correlation, and real-time alert triage in enterprise SOC environments.', color: 'badge-orange', img: '/images/events/soc-webinar.svg' },
+  { title: 'Cyberweek Africa 2026', date: 'Oct 27-31, 2026', type: 'Conference', cat: 'conference', desc: 'Africa\'s premier cybersecurity summit on Cyber Threat Intelligence. 4800+ attendees, keynotes, workshops & panels at KICC Nairobi.', color: 'badge-orange', img: '/images/events/image.png', link: 'https://www.cyberweekafrica.com/register/' },
+  { title: 'Cyberweek Africa Hackathon', date: 'Oct 27-30, 2026', type: 'Hackathon', cat: 'ctf', desc: 'Africa\'s premier cybersecurity innovation challenge. Build practical solutions for real-world cyber threats. Teams of 5. Students & professionals welcome.', color: 'badge-blue', img: '/images/events/image.png', link: 'https://www.cyberweekafrica.com/hackathon/' },
   { title: 'Network Forensics Challenge', date: 'Oct 18, 2026', type: 'CTF', cat: 'ctf', desc: 'Analyze packet captures, trace attack vectors, and reconstruct incident timelines.', color: 'badge-blue', img: '/images/events/network-forensics.svg' },
   { title: 'Python for Security Automation', date: 'Nov 01, 2026', type: 'Bootcamp', cat: 'bootcamp', desc: 'Build security automation scripts, API integrations, and threat intelligence collectors.', color: 'badge-green', img: '/images/events/python-bootcamp.svg' },
 ];
@@ -18,6 +20,7 @@ const TABS = [
   { key: 'ctf', label: 'Hackathons & CTFs' },
   { key: 'bootcamp', label: 'Bootcamps' },
   { key: 'webinar', label: 'Webinars' },
+  { key: 'conference', label: 'Conferences' },
 ];
 
 const FAME_ITEMS = [
@@ -102,9 +105,15 @@ export default function Events() {
                   </div>
                   <h3 className="event-card__title">{event.title}</h3>
                   <p className="event-card__desc">{event.desc}</p>
-                  <button className="btn btn-primary btn-sm" style={{ marginTop: 'auto', alignSelf: 'flex-start' }}>
-                    Register Now
-                  </button>
+                  {event.link ? (
+                    <a href={event.link} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-sm" style={{ marginTop: 'auto', alignSelf: 'flex-start' }}>
+                      Register Now
+                    </a>
+                  ) : (
+                    <button className="btn btn-primary btn-sm" style={{ marginTop: 'auto', alignSelf: 'flex-start' }}>
+                      Register Now
+                    </button>
+                  )}
                   </div>
                 </div>
               </ScrollReveal>
