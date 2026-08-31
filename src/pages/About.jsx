@@ -36,11 +36,11 @@ const FACULTY = [
   { initials: 'SM', name: 'Sandra Brenda (Muriuki) Mukami Huma', role: 'Head of Human Resource', creds: '', linkedin: 'https://www.linkedin.com/in/sandra-brenda-mukami-612735307/', img: '/images/faculty/Sandra.png' },
   { initials: 'JMu', name: 'Jeniffer Mutave', role: 'Marketing Manager', creds: '', linkedin: 'https://www.linkedin.com/in/jeniffer-mutave/', img: '/images/faculty/Jani.png' },
   { initials: 'CM', name: 'Christian Munene', role: 'Business Manager', creds: '', linkedin: 'https://www.linkedin.com/in/christian-munene-54623a2b7/', img: '/images/faculty/munene.png' },
-  { initials: 'NK', name: 'Nathan Kibet', role: 'Digital Forensics Analyst', creds: '', linkedin: 'https://www.linkedin.com/in/nathankib3t/', img: '/images/faculty/nathan.png' },
-  { initials: 'AM', name: 'Alex M. Musira', role: 'AI & Data Engineer', creds: '', linkedin: 'https://www.linkedin.com/in/alex-mwera-222256y/', img: '/images/faculty/alex.png' },
+ // { initials: 'NK', name: 'Nathan Kibet', role: 'Digital Forensics Analyst', creds: '', linkedin: 'https://www.linkedin.com/in/nathankib3t/', img: '/images/faculty/nathan.png' },
+ // { initials: 'AM', name: 'Alex M. Musira', role: 'AI & Data Engineer', creds: '', linkedin: 'https://www.linkedin.com/in/alex-mwera-222256y/', img: '/images/faculty/alex.png' },
   { initials: 'BK', name: 'Benta Kamau', role: 'Director, AI Strategy, Governance & Digital Risk', creds: 'LLB, PgDL', linkedin: 'https://www.linkedin.com/in/benta-kamau/', img: '/images/faculty/benta.png' },
   { initials: 'ES', name: 'Emma Sybl', role: 'UON Branch Manager', creds: '', linkedin: 'https://www.linkedin.com/in/emma-sybl-4004b5283' },
-  { initials: 'EK', name: 'Esther (Wambui) Kiguru', role: 'Statistician & Researcher', creds: '', linkedin: 'https://www.linkedin.com/in/esther-kiguru-wambui/', img: '/images/faculty/esther.png' },
+ // { initials: 'EK', name: 'Esther (Wambui) Kiguru', role: 'Statistician & Researcher', creds: '', linkedin: 'https://www.linkedin.com/in/esther-kiguru-wambui/', img: '/images/faculty/esther.png' },
   { initials: 'KE', name: 'Emmanuel Kiptum', role: 'Software Engineer', creds: '', linkedin: '#', img: '' },
 ];
 
