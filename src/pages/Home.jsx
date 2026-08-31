@@ -255,71 +255,6 @@ function FeaturedEventCard() {
   );
 }
 
-function RedTeamBlueTeam() {
-  return (
-    <div className="hackers">
-      <div className="hackers__scene">
-        {/* Red Team Terminal */}
-        <div className="hackers__terminal hackers__terminal--red">
-          <div className="hackers__glow hackers__glow--red" />
-          <div className="hackers__terminal-body">
-            <div className="hackers__terminal-header">
-              <div className="hackers__dots">
-                <span /><span /><span />
-              </div>
-              <span className="hackers__terminal-title">red-team@attack:~$</span>
-            </div>
-            <div className="hackers__code">
-              <span className="hack__line hack__line--1">$ exploit --target enterprise-net</span>
-              <span className="hack__line hack__line--2">&gt; Scanning ports...</span>
-              <span className="hack__line hack__line--3">&gt; Injecting payload...</span>
-              <span className="hack__line hack__line--4">&gt; Access granted_</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Center - Attack Lines */}
-        <div className="hackers__connection">
-          <svg viewBox="0 0 200 80" className="hackers__svg--connection">
-            <path d="M20 40 Q60 10 100 40 Q140 70 180 40" stroke="#ff4444" strokeWidth="2" fill="none" strokeDasharray="6 6">
-              <animate attributeName="stroke-dashoffset" values="0;-24" dur="1s" repeatCount="indefinite"/>
-            </path>
-            <path d="M20 50 Q60 80 100 50 Q140 20 180 50" stroke="#3b82f6" strokeWidth="1.5" fill="none" strokeDasharray="4 6" opacity="0.6">
-              <animate attributeName="stroke-dashoffset" values="0;18" dur="0.8s" repeatCount="indefinite"/>
-            </path>
-            <circle r="4" fill="#ff4444">
-              <animateMotion dur="2s" repeatCount="indefinite" path="M20 40 Q60 10 100 40 Q140 70 180 40"/>
-            </circle>
-            <circle r="3" fill="#3b82f6">
-              <animateMotion dur="1.5s" repeatCount="indefinite" path="M180 50 Q140 80 100 50 Q60 20 20 50"/>
-            </circle>
-          </svg>
-          <span className="hackers__vs">VS</span>
-        </div>
-
-        {/* Blue Team Terminal */}
-        <div className="hackers__terminal hackers__terminal--blue">
-          <div className="hackers__glow hackers__glow--blue" />
-          <div className="hackers__terminal-body">
-            <div className="hackers__terminal-header">
-              <div className="hackers__dots">
-                <span /><span /><span />
-              </div>
-              <span className="hackers__terminal-title">blue-team@defend:~$</span>
-            </div>
-            <div className="hackers__code">
-              <span className="hack__line hack__line--1">$ monitor --network</span>
-              <span className="hack__line hack__line--2">&gt; Analyzing traffic...</span>
-              <span className="hack__line hack__line--3">&gt; Threat detected!</span>
-              <span className="hack__line hack__line--4">&gt; Firewall updated_</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function Home() {
   const [activeTab, setActiveTab] = useState('all');
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -395,7 +330,6 @@ export default function Home() {
             <FeaturedEventCard />
           </div>
         </div>
-        <RedTeamBlueTeam />
       </section>
 
       <Partners />
