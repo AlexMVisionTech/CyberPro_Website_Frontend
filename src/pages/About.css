@@ -12,16 +12,7 @@
 }
 
 .about-hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse at 30% 60%, black 20%, transparent 70%);
-  -webkit-mask-image: radial-gradient(ellipse at 30% 60%, black 20%, transparent 70%);
-  pointer-events: none;
+  display: none;
 }
 
 .about-hero::after {

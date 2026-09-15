@@ -74,10 +74,8 @@
   margin-top: 24px;
   position: relative;
   background-image: 
-    radial-gradient(circle at center, rgba(254, 1, 28, 0.1) 0%, transparent 60%),
-    linear-gradient(rgba(7, 25, 51, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(7, 25, 51, 0.05) 1px, transparent 1px);
-  background-size: 100% 100%, 20px 20px, 20px 20px;
+    radial-gradient(circle at center, rgba(254, 1, 28, 0.1) 0%, transparent 60%);
+  background-size: 100% 100%;
   background-color: var(--bg-card);
   display: flex;
   flex-direction: column;
@@ -87,10 +85,7 @@
   color: var(--text-muted);
 }
 .contact-map::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  backdrop-filter: blur(2px);
+  display: none;
 }
 .contact-map > * {
   position: relative;

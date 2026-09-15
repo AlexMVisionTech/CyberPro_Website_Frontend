@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberPro Terminal - Demo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0a0e17;
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      padding: 40px;
+    }
+
+    .terminal {
+      width: 100%;
+      max-width: 600px;
+      background: rgba(13, 17, 23, 0.95);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .terminal__scanline {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #fe011c, transparent);
+      animation: scanline 3s linear infinite;
+      opacity: 0.5;
+      z-index: 10;
+    }
+
+    @keyframes scanline {
+      0% { top: 0; }
+      100% { top: 100%; }
+    }
+
+    .terminal__header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+    }
+
+    .terminal__dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .terminal__dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .terminal__dots span:nth-child(1) { background: #ff5f56; }
+    .terminal__dots span:nth-child(2) { background: #ffbd2e; }
+    .terminal__dots span:nth-child(3) { background: #27c93f; }
+
+    .terminal__title {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.4);
+      flex: 1;
+    }
+
+    .terminal__status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: #27c93f;
+    }
+
+    .terminal__status-dot {
+      width: 6px;
+      height: 6px;
+      background: #27c93f;
+      border-radius: 50%;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .terminal__body {
+      padding: 20px;
+      min-height: 280px;
+      font-size: 13px;
+      line-height: 2;
+      position: relative;
+    }
+
+    .terminal__line {
+      display: block;
+      animation: typeIn 0.3s ease forwards;
+    }
+
+    @keyframes typeIn {
+      from { opacity: 0; transform: translateX(-4px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .terminal__line--ok { color: #27c93f; }
+    .terminal__line--alert { color: #ff5f56; }
+    .terminal__line--defend { color: #5ec1ff; }
+
+    .terminal__cursor {
+      display: inline-block;
+      animation: cursor 0.8s step-end infinite;
+      color: #fe011c;
+      font-weight: bold;
+    }
+
+    @keyframes cursor {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .terminal__info {
+      padding: 18px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      background: rgba(255, 255, 255, 0.01);
+    }
+
+    .terminal__title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .terminal__event-badge {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: #fe011c;
+    }
+
+    .terminal__date {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.35);
+      font-weight: 500;
+    }
+
+    .terminal__name {
+      font-size: 22px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .terminal__venue {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 18px;
+    }
+
+    .terminal__countdown {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding: 14px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .terminal__countdown-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 44px;
+    }
+
+    .terminal__countdown-value {
+      font-size: 24px;
+      font-weight: 800;
+      color: white;
+      line-height: 1;
+    }
+
+    .terminal__countdown-label {
+      font-size: 8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255, 255, 255, 0.3);
+      margin-top: 4px;
+    }
+
+    .terminal__countdown-sep {
+      font-size: 18px;
+      font-weight: 700;
+      color: rgba(254, 1, 28, 0.5);
+      margin-top: -12px;
+    }
+
+    .terminal__cta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: rgba(254, 1, 28, 0.1);
+      border: 1px solid rgba(254, 1, 28, 0.2);
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fe011c;
+    }
+
+    .terminal__cta svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Background effects */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(254, 1, 28, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(254, 1, 28, 0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .bg-glow {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(254, 1, 28, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: -1;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+  
+  <div class="terminal">
+    <div class="terminal__scanline"></div>
+    <div class="terminal__header">
+      <div class="terminal__dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <span class="terminal__title">cyberweek-africa.exe</span>
+      <div class="terminal__status">
+        <span class="terminal__status-dot"></span>
+        LIVE
+      </div>
+    </div>
+    <div class="terminal__body" id="terminalBody">
+      <!-- Lines will be added by JavaScript -->
+    </div>
+    <div class="terminal__info">
+      <div class="terminal__title-row">
+        <span class="terminal__event-badge">FEATURED EVENT</span>
+        <span class="terminal__date">Oct 27-31, 2026</span>
+      </div>
+      <h3 class="terminal__name">Cyberweek Africa</h3>
+      <p class="terminal__venue">KICC, Nairobi • Cyber Threat Intelligence</p>
+      <div class="terminal__countdown">
+        <div class="terminal__countdown-item">
+          <span class="terminal__countdown-value" id="days">00</span>
+          <span class="terminal__countdown-label">Days</span>
+        </div>
+        <span class="terminal__countdown-sep">:</span>
+        <div class="terminal__countdown-item">
+          <span class="terminal__countdown-value" id="hours">00</span>
+          <span class="terminal__countdown-label">Hrs</span>
+        </div>
+        <span class="terminal__countdown-sep">:</span>
+        <div class="terminal__countdown-item">
+          <span class="terminal__countdown-value" id="mins">00</span>
+          <span class="terminal__countdown-label">Min</span>
+        </div>
+        <span class="terminal__countdown-sep">:</span>
+        <div class="terminal__countdown-item">
+          <span class="terminal__countdown-value" id="secs">00</span>
+          <span class="terminal__countdown-label">Sec</span>
+        </div>
+      </div>
+      <div class="terminal__cta">
+        <span>Join 4800+ Delegates</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const codeLines = [
+      { text: '$ boot --event=cyberweek-africa --year=2026', color: 'terminal__line--ok' },
+      { text: '>> Initializing CyberPro defensive suite...', color: 'terminal__line--defend' },
+      { text: '>> Establishing secure link to KICC-Nairobi ▓▓▓▓▓', color: 'terminal__line--alert' },
+      { text: '>> 120 speakers · 4800 delegates · 5 days locked in', color: 'terminal__line--defend' },
+      { text: '>> Threat intel, AI security & ethics modules armed', color: 'terminal__line--ok' },
+      { text: '>> 24/7 Hackathon arena deployed — $50K prize pool', color: 'terminal__line--defend' },
+      { text: '>> Capture-the-flag rooms: 12 active · 0 breaches', color: 'terminal__line--ok' },
+      { text: '[ALERT] Early-bird passes: 312 seats remaining', color: 'terminal__line--alert' },
+      { text: '$ register --delegate --tier=early-bird --secure', color: 'terminal__line--defend' },
+      { text: '>> Handshake verified · redirecting to cyberweekafrica.com', color: 'terminal__line--ok' },
+    ];
+
+    const terminalBody = document.getElementById('terminalBody');
+    let currentLine = 0;
+    let charIndex = 0;
+    let displayedLines = [];
+
+    function typeLine() {
+      if (currentLine >= codeLines.length) {
+        setTimeout(() => {
+          displayedLines = [];
+          terminalBody.innerHTML = '';
+          currentLine = 0;
+          charIndex = 0;
+          typeLine();
+        }, 4500);
+        return;
+      }
+
+      const line = codeLines[currentLine];
+      if (charIndex < line.text.length) {
+        charIndex++;
+        renderLines();
+        setTimeout(typeLine, 30 + Math.random() * 40);
+      } else {
+        displayedLines.push(line);
+        currentLine++;
+        charIndex = 0;
+        setTimeout(typeLine, 320);
+      }
+    }
+
+    function renderLines() {
+      let html = '';
+      displayedLines.forEach(line => {
+        html += `<span class="terminal__line ${line.color}">${line.text}</span>`;
+      });
+      if (currentLine < codeLines.length) {
+        const line = codeLines[currentLine];
+        html += `<span class="terminal__line ${line.color}">${line.text.slice(0, charIndex)}<span class="terminal__cursor">_</span></span>`;
+      }
+      terminalBody.innerHTML = html;
+    }
+
+    // Countdown timer
+    const eventDate = new Date('2026-10-27T08:00:00');
+    
+    function updateCountdown() {
+      const now = new Date();
+      const diff = eventDate - now;
+      if (diff <= 0) return;
+      
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const mins = Math.floor((diff / (1000 * 60)) % 60);
+      const secs = Math.floor((diff / 1000) % 60);
+      
+      document.getElementById('days').textContent = String(days).padStart(2, '0');
+      document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('mins').textContent = String(mins).padStart(2, '0');
+      document.getElementById('secs').textContent = String(secs).padStart(2, '0');
+    }
+
+    typeLine();
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>

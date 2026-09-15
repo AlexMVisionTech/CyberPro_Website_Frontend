@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import Partners from '../components/sections/Partners';
+import { useModal } from '../hooks/useModal.jsx';
 import './Home.css';
 
 const CAT_LABELS = {
@@ -258,6 +259,7 @@ function FeaturedEventCard() {
 export default function Home() {
   const [activeTab, setActiveTab] = useState('all');
   const [currentSlide, setCurrentSlide] = useState(0);
+  const { openModal } = useModal();
   const filtered = activeTab === 'all' ? PROGRAMS : PROGRAMS.filter(p => p.cat === activeTab);
 
   useEffect(() => {
@@ -299,29 +301,13 @@ export default function Home() {
               <Link to="/programs" className="btn btn-primary btn-lg">Explore Programs</Link>
               <Link to="/contact" className="btn btn-outline btn-lg">Talk to Admissions</Link>
             </div>
-            
-            <div className="hero__stats">
-              <div className="hero__stat">
-                <span className="hero__stat-number">1500+</span>
-                <span className="hero__stat-label">Students</span>
-              </div>
-              <div className="hero__stat">
-                <span className="hero__stat-number">13</span>
-                <span className="hero__stat-label">Programs</span>
-              </div>
-              <div className="hero__stat">
-                <span className="hero__stat-number">94%</span>
-                <span className="hero__stat-label">Placement</span>
-              </div>
-            </div>
-
             <div className="hero__trusted">
-              <span className="hero__trusted-label">Alumni at</span>
+              <span className="hero__trusted-label">Learning Options</span>
               <div className="hero__trusted-logos">
-                <span className="hero__trusted-name">Kenya School of Government</span>
-                <span className="hero__trusted-name">Ministry of ICT</span>
-                <span className="hero__trusted-name">Safaricom</span>
-                <span className="hero__trusted-name">KCB Bank</span>
+                <span className="hero__option">Full-time Classes</span>
+                <span className="hero__option">Part-time Classes</span>
+                <span className="hero__option">Remote Learning</span>
+                <span className="hero__option">In-person Learning</span>
               </div>
             </div>
           </div>
@@ -393,16 +379,16 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section section-alt">
+      <section className="section section-alt advantages-section">
         <div className="container">
           <ScrollReveal>
-            <div style={{ textAlign: 'center' }}>
+            <div className="advantages-header">
               <span className="section-label">Academy Advantages</span>
               <h2 className="section-title">Designed for Careers, Guided by Experts</h2>
               <p className="section-subtitle">What sets CyberPro Global apart in producing high-caliber technology professionals.</p>
             </div>
           </ScrollReveal>
-          <div className="grid grid-2">
+          <div className="advantages-grid">
             {[
               { icon: MonitorPlay, title: 'Virtual Labs Environment', desc: 'Access real sandbox servers, virtual networks, and live attack simulations directly inside your browser. No local configuration required.' },
               { icon: ShieldCheck, title: 'Global Certifications', desc: 'Our curriculum strictly aligns with leading industry standards, preparing you for Cisco, CompTIA, AWS, EC-Council, and Microsoft exams.' },
@@ -437,10 +423,10 @@ export default function Home() {
           </ScrollReveal>
           <div className="grid grid-4">
             {[
-              { title: 'SOC Dashboard', desc: 'Simulated security operations center for real-time log audits, alert triage, and incident response.', tag: 'Security Ops' },
-              { title: 'Network Simulator', desc: 'Configure RIP, OSPF routers, VLANs, and packet filters in a live virtual topology.', tag: 'Networking' },
-              { title: 'Linux Security Lab', desc: 'Server hardening, iptables firewall setups, SSH key management, and privilege audits.', tag: 'System Admin' },
-              { title: 'AI Security Sandbox', desc: 'Test machine learning models against adversarial inputs and data poisoning attacks.', tag: 'AI / ML' },
+              { title: 'SOC Dashboard', desc: 'Simulated security operations center for real-time log audits, alert triage, and incident response.', tag: 'SOC Operations' },
+              { title: 'Network Simulator', desc: 'Configure RIP, OSPF routers, VLANs, and packet filters in a live virtual topology.', tag: 'Network Defense' },
+              { title: 'Linux Security Lab', desc: 'Server hardening, iptables firewall setups, SSH key management, and privilege audits.', tag: 'Linux Hardening' },
+              { title: 'AI Security Sandbox', desc: 'Test machine learning models against adversarial inputs and data poisoning attacks.', tag: 'AI Threat Testing' },
             ].map((lab, i) => (
               <ScrollReveal key={i} delay={i * 0.08}>
                 <div className="lab-card">
@@ -475,7 +461,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section section-alt">
+      <section className="section section-alt success-section">
         <div className="container">
           <ScrollReveal>
             <div style={{ textAlign: 'center' }}>
@@ -496,7 +482,7 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="testimonial-stars">
-                    {[...Array(5)].map((_, j) => <Star key={j} size={16} fill="#f59e0b" color="#f59e0b" />)}
+                    {[...Array(5)].map((_, j) => <Star key={j} size={16} fill="#FE011C" color="#FE011C" />)}
                   </div>
                   <p className="testimonial-quote">"{t.quote}"</p>
                 </div>
@@ -518,11 +504,16 @@ export default function Home() {
       </section>
 
       <section className="cta-section">
-        <div className="container" style={{ textAlign: 'center' }}>
-          <h2 className="cta-title">Start Your Journey Toward Becoming a World-Class Technology Professional.</h2>
+        <div className="container cta-inner">
+          <span className="cta-kicker">Admissions Open</span>
+          <h2 className="cta-title">
+            <span>Start Your Journey Toward</span>
+            <span>Becoming a World-Class</span>
+            <span>Technology Professional.</span>
+          </h2>
           <p className="cta-desc">Join hundreds of active students shaping the digital future at CyberPro Global.</p>
           <div className="flex-center gap-4">
-            <Link to="/admissions" className="btn btn-white btn-lg">Apply Now</Link>
+            <button type="button" onClick={() => openModal()} className="btn btn-white btn-lg">Apply Now</button>
             <Link to="/contact" className="btn btn-outline btn-lg">Talk to an Advisor</Link>
           </div>
         </div>
