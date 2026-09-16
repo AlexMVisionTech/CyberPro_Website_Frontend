@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { useState } from 'react';
-import { ArrowLeft, CheckCircle2, Clock, Globe2, Signal, BarChart3 } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Clock, Globe2, Signal, BarChart3, Banknote } from 'lucide-react';
 import { PROGRAMS, CAT_LABELS } from './Programs';
 import { useModal } from '../hooks/useModal.jsx';
 import './ProgramDetail.css';
@@ -82,9 +82,22 @@ export default function ProgramDetail() {
             </div>
 
             <div className="program-detail__sidebar">
+              <div className="program-detail__price-card">
+                <span className="program-detail__price-label">Course Amount</span>
+                <strong>{program.fee}</strong>
+                <p>Flexible payment options are available through admissions.</p>
+              </div>
+
               <div className="program-detail__card">
                 <h3 className="program-detail__card-title">Program Details</h3>
                 <div className="program-detail__meta">
+                  <div className="program-detail__meta-item">
+                    <Banknote size={20} />
+                    <div>
+                      <span className="program-detail__meta-label">Tuition Fee</span>
+                      <span className="program-detail__meta-value">{program.fee}</span>
+                    </div>
+                  </div>
                   <div className="program-detail__meta-item">
                     <Clock size={20} />
                     <div>

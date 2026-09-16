@@ -1,23 +1,23 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, ArrowRight, ChevronRight, Clock, Target, Layers, ArrowUpRight } from 'lucide-react';
+import { Search, Clock, Target, Layers, ArrowUpRight, BookOpen } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import './Programs.css';
 
 const PROGRAMS = [
-  { title: 'Cybersecurity Specialist', desc: 'Master core principles of defensive security, security operations, traffic analysis, and risk management architecture.', cat: 'security', dur: '3 Months', mode: 'Hybrid/Remote', lvl: 'Intermediate', certs: 'CompTIA Security+, CISSP', img: '/images/programs/cybersecurity.png' },
-  { title: 'Ethical Hacking & Penetration Testing', desc: 'Learn offensive methodologies, scanning systems, WebApp security, and wireless vulnerability assessment.', cat: 'security', dur: '3 Months', mode: 'Remote', lvl: 'Advanced', certs: 'CEH, OSCP', img: '/images/programs/ethical_hacking.png' },
-  { title: 'Artificial Intelligence & Machine Learning', desc: 'Implement computer vision, neural networks, NLP, generative AI architectures, and predictive analytics.', cat: 'ai-data', dur: '3 Months', mode: 'Hybrid', lvl: 'Advanced', certs: 'AWS ML Specialty, TensorFlow', img: '/images/programs/ai_ml.png' },
-  { title: 'Cloud Computing & Architecture', desc: 'Architect scalable enterprise deployments in AWS, GCP and Azure with advanced container governance.', cat: 'infra', dur: '3 Months', mode: 'Hybrid/Remote', lvl: 'Intermediate', certs: 'AWS SAA, Azure Admin', img: '/images/programs/cloud_computing.png' },
-  { title: 'Data Science & Analytics', desc: 'Extract business insights using Python, NumPy, Pandas, Tableau, and statistical modeling.', cat: 'ai-data', dur: '3 Months', mode: 'Remote', lvl: 'Beginner', certs: 'IBM Data Science, Google DA', img: '/images/programs/data_science.png' },
-  { title: 'DevOps & Automation', desc: 'Implement CI/CD pipelines, Docker, Kubernetes orchestration, and infrastructure as code.', cat: 'devops', dur: '3 Months', mode: 'Hybrid', lvl: 'Intermediate', certs: 'Docker DCA, AWS DevOps', img: '/images/programs/devops.png' },
-  { title: 'Digital Forensics & Incident Response', desc: 'Conduct forensic investigations, malware analysis, evidence collection, and chain of custody management.', cat: 'security', dur: '3 Months', mode: 'Hybrid', lvl: 'Advanced', certs: 'CHFI, EnCE', img: '/images/programs/digital_forensics.png' },
-  { title: 'Network Engineering', desc: 'Design, implement and manage enterprise LAN/WAN networks, routing protocols, and switching fabrics.', cat: 'infra', dur: '3 Months', mode: 'Hybrid/Remote', lvl: 'Intermediate', certs: 'CCNA, CCNP', img: '/images/programs/network_engineering.jpg' },
-  { title: 'Full-Stack Software Development', desc: 'Build production-grade web applications using React, Node.js, databases, and modern deployment pipelines.', cat: 'devops', dur: '3 Months', mode: 'Remote', lvl: 'Beginner', certs: 'Meta Front-End, AWS Developer', img: '/images/programs/fullstack_dev.jpg' },
-  { title: 'Database Administration', desc: 'Manage relational and NoSQL databases, query optimization, replication, and backup strategies.', cat: 'infra', dur: '3 Months', mode: 'Remote', lvl: 'Intermediate', certs: 'Oracle DBA, MongoDB', img: '/images/programs/database_admin.jpg' },
-  { title: 'IoT & Embedded Systems Security', desc: 'Secure IoT ecosystems, firmware analysis, SCADA systems, and industrial control security.', cat: 'security', dur: '3 Months', mode: 'Hybrid', lvl: 'Advanced', certs: 'GICSP, ICS-CERT', img: '/images/programs/iot_security.jpg' },
-  { title: 'Blockchain & Web3 Security', desc: 'Smart contract auditing, DeFi security, cryptographic protocols, and distributed ledger technology.', cat: 'ai-data', dur: '3 Months', mode: 'Remote', lvl: 'Advanced', certs: 'CBSP, Ethereum Dev', img: '/images/programs/blockchain.jpg' },
-  { title: 'Emerging Technologies', desc: 'Explore quantum computing fundamentals, edge computing, AR/VR, and 5G network security.', cat: 'ai-data', dur: '3 Months', mode: 'Remote', lvl: 'Intermediate', certs: 'Industry Certificates', img: '/images/programs/emerging_tech.jpg' },
+  { title: 'Cybersecurity Specialist', desc: 'Master core principles of defensive security, security operations, traffic analysis, and risk management architecture.', cat: 'security', dur: '3 Months', mode: 'Hybrid/Remote', lvl: 'Intermediate', fee: 'KES 25,000', certs: 'CompTIA Security+, CISSP', img: '/images/programs/cybersecurity.png' },
+  { title: 'Ethical Hacking & Penetration Testing', desc: 'Learn offensive methodologies, scanning systems, WebApp security, and wireless vulnerability assessment.', cat: 'security', dur: '3 Months', mode: 'Remote', lvl: 'Advanced', fee: 'KES 25,000', certs: 'CEH, OSCP', img: '/images/programs/ethical_hacking.png' },
+  { title: 'Artificial Intelligence & Machine Learning', desc: 'Implement computer vision, neural networks, NLP, generative AI architectures, and predictive analytics.', cat: 'ai-data', dur: '3 Months', mode: 'Hybrid', lvl: 'Advanced', fee: 'KES 25,000', certs: 'AWS ML Specialty, TensorFlow', img: '/images/programs/ai_ml.png' },
+  { title: 'Cloud Computing & Architecture', desc: 'Architect scalable enterprise deployments in AWS, GCP and Azure with advanced container governance.', cat: 'infra', dur: '3 Months', mode: 'Hybrid/Remote', lvl: 'Intermediate', fee: 'KES 25,000', certs: 'AWS SAA, Azure Admin', img: '/images/programs/cloud_computing.png' },
+  { title: 'Data Science & Analytics', desc: 'Extract business insights using Python, NumPy, Pandas, Tableau, and statistical modeling.', cat: 'ai-data', dur: '3 Months', mode: 'Remote', lvl: 'Beginner', fee: 'KES 25,000', certs: 'IBM Data Science, Google DA', img: '/images/programs/data_science.png' },
+  { title: 'DevOps & Automation', desc: 'Implement CI/CD pipelines, Docker, Kubernetes orchestration, and infrastructure as code.', cat: 'devops', dur: '3 Months', mode: 'Hybrid', lvl: 'Intermediate', fee: 'KES 25,000', certs: 'Docker DCA, AWS DevOps', img: '/images/programs/devops.png' },
+  { title: 'Digital Forensics & Incident Response', desc: 'Conduct forensic investigations, malware analysis, evidence collection, and chain of custody management.', cat: 'security', dur: '3 Months', mode: 'Hybrid', lvl: 'Advanced', fee: 'KES 25,000', certs: 'CHFI, EnCE', img: '/images/programs/digital_forensics.png' },
+  { title: 'Network Engineering', desc: 'Design, implement and manage enterprise LAN/WAN networks, routing protocols, and switching fabrics.', cat: 'infra', dur: '3 Months', mode: 'Hybrid/Remote', lvl: 'Intermediate', fee: 'KES 25,000', certs: 'CCNA, CCNP', img: '/images/programs/network_engineering.jpg' },
+  { title: 'Full-Stack Software Development', desc: 'Build production-grade web applications using React, Node.js, databases, and modern deployment pipelines.', cat: 'devops', dur: '3 Months', mode: 'Remote', lvl: 'Beginner', fee: 'KES 25,000', certs: 'Meta Front-End, AWS Developer', img: '/images/programs/fullstack_dev.jpg' },
+  { title: 'Database Administration', desc: 'Manage relational and NoSQL databases, query optimization, replication, and backup strategies.', cat: 'infra', dur: '3 Months', mode: 'Remote', lvl: 'Intermediate', fee: 'KES 25,000', certs: 'Oracle DBA, MongoDB', img: '/images/programs/database_admin.jpg' },
+  { title: 'IoT & Embedded Systems Security', desc: 'Secure IoT ecosystems, firmware analysis, SCADA systems, and industrial control security.', cat: 'security', dur: '3 Months', mode: 'Hybrid', lvl: 'Advanced', fee: 'KES 25,000', certs: 'GICSP, ICS-CERT', img: '/images/programs/iot_security.jpg' },
+  { title: 'Blockchain & Web3 Security', desc: 'Smart contract auditing, DeFi security, cryptographic protocols, and distributed ledger technology.', cat: 'ai-data', dur: '3 Months', mode: 'Remote', lvl: 'Advanced', fee: 'KES 25,000', certs: 'CBSP, Ethereum Dev', img: '/images/programs/blockchain.jpg' },
+  { title: 'Emerging Technologies', desc: 'Explore quantum computing fundamentals, edge computing, AR/VR, and 5G network security.', cat: 'ai-data', dur: '3 Months', mode: 'Remote', lvl: 'Intermediate', fee: 'KES 25,000', certs: 'Industry Certificates', img: '/images/programs/emerging_tech.jpg' },
 ];
 
 const TABS = [
@@ -56,18 +56,18 @@ export default function Programs() {
       {/* Immersive Hero */}
       <section className="programs-hero-premium">
         <div className="programs-hero-grid"></div>
-        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+        <div className="container programs-hero-inner">
           <ScrollReveal>
-            <div className="breadcrumb">
-              <Link to="/" style={{ color: 'rgba(255,255,255,0.6)' }}>Home</Link>
-              <span style={{ color: 'rgba(255,255,255,0.3)' }}>/</span>
-              <span style={{ color: 'white' }}>Programs</span>
+            <div className="programs-hero-copy">
+              <div className="breadcrumb">
+                <Link to="/">Home</Link>
+                <span>/</span>
+                <span>Programs</span>
+              </div>
+              <h1 className="page-hero__title">Academy Programs</h1>
+              <p className="page-hero__desc">Choose from 13 intensive technology tracks built around hands-on labs, certification readiness, and portfolio-grade projects.</p>
             </div>
-            <h1 className="page-hero__title" style={{ color: 'white' }}>Academy Programs</h1>
-            <p className="page-hero__desc" style={{ color: 'rgba(255,255,255,0.7)' }}>13 expert-designed training tracks mapped to globally recognized certifications and real-world career pipelines.</p>
           </ScrollReveal>
-
-
         </div>
       </section>
 
@@ -76,6 +76,13 @@ export default function Programs() {
         <div className="container">
           
           <ScrollReveal>
+            <div className="programs-section-heading">
+              <div>
+                <span className="section-label">Explore Tracks</span>
+                <h2>Training built for real technology careers</h2>
+              </div>
+              <p>{filtered.length} program{filtered.length === 1 ? '' : 's'} available</p>
+            </div>
             <div className="programs-control-panel">
               <div className="tabs">
                 {TABS.map(tab => (
@@ -110,6 +117,10 @@ export default function Programs() {
                     <span className="cyber-program-card__category">{CAT_LABELS[prog.cat]}</span>
                   </div>
                   <div className="cyber-program-card__body">
+                    <div className="cyber-program-card__eyebrow">
+                      <BookOpen size={14} />
+                      Certification pathway
+                    </div>
                     <h3 className="cyber-program-card__title">{prog.title}</h3>
                     <p className="cyber-program-card__desc">{prog.desc}</p>
                     
