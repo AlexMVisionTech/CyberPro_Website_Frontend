@@ -4,7 +4,7 @@ import {
   Shield, Brain, Cloud, Server,
   Users, Award, CheckCircle2, Zap, ArrowRight,
   Terminal, ChevronRight, Star, Clock, Calendar, Database,
-  MonitorPlay, ShieldCheck, Flag, Rocket, Timer, MapPin, UsersRound
+  Timer, MapPin, UsersRound
 } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import Partners from '../components/sections/Partners';
@@ -259,6 +259,7 @@ function FeaturedEventCard() {
 export default function Home() {
   const [activeTab, setActiveTab] = useState('all');
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [activeAdvantage, setActiveAdvantage] = useState(1);
   const { openModal } = useModal();
   const filtered = activeTab === 'all' ? PROGRAMS : PROGRAMS.filter(p => p.cat === activeTab);
 
@@ -383,28 +384,61 @@ export default function Home() {
         <div className="container">
           <ScrollReveal>
             <div className="advantages-header">
-              <span className="section-label">Academy Advantages</span>
-              <h2 className="section-title">Designed for Careers, Guided by Experts</h2>
-              <p className="section-subtitle">What sets CyberPro Global apart in producing high-caliber technology professionals.</p>
+              <div>
+                <span className="section-label">Academy Advantages</span>
+                <h2 className="section-title">Designed for Careers, Guided by Experts</h2>
+              </div>
+              <p className="section-subtitle">A practical learning environment built around real labs, certification readiness, competitive practice, and career support.</p>
             </div>
           </ScrollReveal>
-          <div className="advantages-grid">
-            {[
-              { icon: MonitorPlay, title: 'Virtual Labs Environment', desc: 'Access real sandbox servers, virtual networks, and live attack simulations directly inside your browser. No local configuration required.' },
-              { icon: ShieldCheck, title: 'Global Certifications', desc: 'Our curriculum strictly aligns with leading industry standards, preparing you for Cisco, CompTIA, AWS, EC-Council, and Microsoft exams.' },
-              { icon: Flag, title: 'CTF Competitions', desc: 'Participate in regular Capture The Flag events and hackathons. Compete with peers globally to sharpen your practical defensive skills.' },
-              { icon: Rocket, title: 'Career Acceleration', desc: 'Benefit from dedicated mock interviews, CV optimization, and direct profile targeting for our network of global enterprise recruiters.' },
-            ].map((f, i) => (
-              <ScrollReveal key={i} delay={i * 0.08}>
-                <div className="feature-card">
-                  <div className="feature-card__icon"><f.icon size={24} /></div>
+          <div className="advantages-board">
+            <ScrollReveal delay={0.05}>
+              <div className="advantages-command">
+                <span className="advantages-command__label">Career Readiness Map</span>
+                <h3 className="advantages-command__title">From first lab to job-ready portfolio.</h3>
+                <p className="advantages-command__desc">Every learner moves through a practical sequence: simulate, certify, compete, and launch.</p>
+                <div className="advantages-command__metrics">
                   <div>
-                    <h3 className="feature-card__title">{f.title}</h3>
-                    <p className="feature-card__desc">{f.desc}</p>
+                    <strong>4</strong>
+                    <span>Career pillars</span>
+                  </div>
+                  <div>
+                    <strong>13</strong>
+                    <span>Programs</span>
+                  </div>
+                  <div>
+                    <strong>94%</strong>
+                    <span>Placement focus</span>
                   </div>
                 </div>
-              </ScrollReveal>
-            ))}
+              </div>
+            </ScrollReveal>
+            <div className="advantages-grid" aria-label="Academy advantages accordion">
+              {[
+                { title: 'Virtual Labs Environment', desc: 'Access real sandbox servers, virtual networks, and live attack simulations directly inside your browser. No local configuration required.' },
+                { title: 'Global Certifications', desc: 'Our curriculum strictly aligns with leading industry standards, preparing you for Cisco, CompTIA, AWS, EC-Council, and Microsoft exams.' },
+                { title: 'CTF Competitions', desc: 'Participate in regular Capture The Flag events and hackathons. Compete with peers globally to sharpen your practical defensive skills.' },
+                { title: 'Career Acceleration', desc: 'Benefit from dedicated mock interviews, CV optimization, and direct profile targeting for our network of global enterprise recruiters.' },
+              ].map((f, i) => (
+                <ScrollReveal key={i} delay={i * 0.08}>
+                  <div
+                    className={`feature-card${activeAdvantage === i ? ' feature-card--active' : ''}`}
+                    role="button"
+                    tabIndex={0}
+                    aria-pressed={activeAdvantage === i}
+                    onMouseEnter={() => setActiveAdvantage(i)}
+                    onFocus={() => setActiveAdvantage(i)}
+                    onClick={() => setActiveAdvantage(i)}
+                  >
+                    <span className="feature-card__step">{String(i + 1).padStart(2, '0')}</span>
+                    <div>
+                      <h3 className="feature-card__title">{f.title}</h3>
+                      <p className="feature-card__desc">{f.desc}</p>
+                    </div>
+                  </div>
+                </ScrollReveal>
+              ))}
+            </div>
           </div>
         </div>
       </section>
