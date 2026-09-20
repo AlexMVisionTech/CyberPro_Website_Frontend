@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Terminal, Monitor, Wifi, Shield, Server, Database, Cpu, Lock } from 'lucide-react';
+import { Terminal, Monitor, Wifi, Shield, Server, Database, Cpu, Lock, ArrowRight, PlayCircle } from 'lucide-react';
 import './CyberLabs.css';
 
 const LABS = [
@@ -27,10 +27,17 @@ export default function CyberLabs() {
     { type: 'system', text: 'CyberPro Global — Virtual Security Lab v2.0\nType "help" for available commands.\n' }
   ]);
   const [input, setInput] = useState('');
-  const terminalEnd = useRef(null);
+  const terminalBody = useRef(null);
+  const hasMounted = useRef(false);
 
   useEffect(() => {
-    terminalEnd.current?.scrollIntoView({ behavior: 'smooth' });
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      return;
+    }
+    if (terminalBody.current) {
+      terminalBody.current.scrollTop = terminalBody.current.scrollHeight;
+    }
   }, [history]);
 
   const handleCommand = (e) => {
@@ -53,26 +60,31 @@ export default function CyberLabs() {
   return (
     <div>
       <section className="cyber-hero-premium">
-        <div className="hero__grid-overlay" style={{ opacity: 0.3 }}></div>
-        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div className="breadcrumb">
-            <Link to="/" style={{ color: 'rgba(255,255,255,0.6)' }}>Home</Link>
-            <span style={{ color: 'rgba(255,255,255,0.3)' }}>/</span>
-            <span style={{ color: 'white' }}>Cyber Labs</span>
+        <div className="container cyber-hero__inner">
+          <div className="cyber-hero__copy">
+            <div className="breadcrumb">
+              <Link to="/">Home</Link>
+              <span>/</span>
+              <span>Cyber Labs</span>
+            </div>
+            <h1 className="page-hero__title">Virtual Cyber Labs</h1>
+            <p className="page-hero__desc">Practice security operations, penetration testing, cloud defense, and forensics inside isolated browser-based sandboxes.</p>
+            <div className="cyber-hero__actions">
+              <a href="#lab-terminal" className="btn btn-primary btn-lg">Try Terminal <PlayCircle size={18} /></a>
+              <Link to="/programs" className="btn btn-outline btn-lg">Explore Programs <ArrowRight size={18} /></Link>
+            </div>
           </div>
-          <h1 className="page-hero__title" style={{ color: 'white' }}>Virtual Cyber Labs</h1>
-          <p className="page-hero__desc" style={{ color: 'rgba(255,255,255,0.7)' }}>Hands-on sandbox environments for security operations, penetration testing, cloud infrastructure, and forensics.</p>
         </div>
       </section>
 
       <section className="section cyber-labs-grid-section">
-        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ textAlign: 'center' }}>
-            <span className="section-label" style={{ justifyContent: 'center', color: 'var(--text-muted)' }}>Lab Environments</span>
-            <h2 className="section-title" style={{ color: 'var(--text-primary)' }}>8 Immersive Training Sandboxes</h2>
-            <p className="section-subtitle" style={{ margin: '0 auto', color: 'var(--text-secondary)' }}>Each lab runs isolated virtual machines accessible directly from your browser.</p>
+        <div className="container">
+          <div className="cyber-section-heading">
+            <span className="section-label">Lab Environments</span>
+            <h2 className="section-title">8 Immersive Training Sandboxes</h2>
+            <p className="section-subtitle">Each lab runs isolated virtual machines accessible directly from your browser.</p>
           </div>
-          <div className="grid grid-4" style={{ marginTop: '56px' }}>
+          <div className="cyber-labs-grid">
             {LABS.map((lab, i) => (
               <div className="lab-card" key={i}>
                 <div className="lab-card__icon"><lab.icon size={22} /></div>
@@ -84,13 +96,13 @@ export default function CyberLabs() {
         </div>
       </section>
 
-      <section className="section" style={{ position: 'relative', background: 'var(--bg-primary)' }}>
+      <section className="section cyber-terminal-section" id="lab-terminal">
         <div className="terminal-glow"></div>
-        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <span className="section-label" style={{ justifyContent: 'center' }}>Live Demo</span>
+        <div className="container">
+          <div className="cyber-section-heading cyber-section-heading--terminal">
+            <span className="section-label">Live Demo</span>
             <h2 className="section-title">Interactive Security Terminal</h2>
-            <p className="section-subtitle" style={{ margin: '0 auto' }}>Try our simulated CLI environment. Type commands to explore.</p>
+            <p className="section-subtitle">Try our simulated CLI environment. Type <strong>help</strong>, <strong>scan</strong>, <strong>harden</strong>, or <strong>status</strong>.</p>
           </div>
 
           <div className="terminal">
@@ -102,13 +114,12 @@ export default function CyberLabs() {
               </div>
               <span className="terminal__title">analyst@cyberpro-lab ~ zsh</span>
             </div>
-            <div className="terminal__body">
+            <div className="terminal__body" ref={terminalBody}>
               {history.map((entry, i) => (
                 <div key={i} className={`terminal__line terminal__line--${entry.type}`}>
                   {entry.text}
                 </div>
               ))}
-              <div ref={terminalEnd} />
             </div>
             <form className="terminal__input-row" onSubmit={handleCommand}>
               <span className="terminal__prompt">analyst@lab:~$</span>
@@ -117,7 +128,6 @@ export default function CyberLabs() {
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 placeholder="Type a command..."
-                autoFocus
               />
             </form>
           </div>

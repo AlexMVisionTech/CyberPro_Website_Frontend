@@ -2,9 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Shield, Brain, Cloud, Server,
-  Users, Award, CheckCircle2, Zap, ArrowRight,
-  Terminal, ChevronRight, Star, Clock, Calendar, Database,
-  Timer, MapPin, UsersRound
+  ArrowRight, ChevronRight, Star
 } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import Partners from '../components/sections/Partners';
@@ -33,6 +31,13 @@ const TABS = [
   { key: 'ai-data', label: 'AI & Data' },
   { key: 'infra', label: 'Cloud' },
   { key: 'devops', label: 'DevOps' },
+];
+
+const HERO_FAST_PATHS = [
+  { icon: Shield, title: 'Cybersecurity', text: 'SOC, ethical hacking, forensics, and risk.', to: '/programs' },
+  { icon: Brain, title: 'AI & Data', text: 'AI, machine learning, automation, and analytics.', to: '/programs' },
+  { icon: Cloud, title: 'Cloud & DevOps', text: 'Cloud platforms, networks, CI/CD, and containers.', to: '/programs' },
+  { icon: Server, title: 'Virtual Labs', text: 'Practice real scenarios in guided sandboxes.', to: '/cyber-labs' },
 ];
 
 function useCounter(target, duration = 2000) {
@@ -275,46 +280,58 @@ export default function Home() {
       <section className="hero">
         <div className="hero__bg" />
         <div className="hero__grid-overlay" />
-        <div className="hero__particles">
-          {[...Array(20)].map((_, i) => (
-            <div key={i} className="hero__particle" style={{ '--delay': `${i * 0.5}s`, '--x': `${Math.random() * 100}%`, '--y': `${Math.random() * 100}%` }} />
-          ))}
-        </div>
-        <div className="hero__rings">
-          <div className="hero__ring" />
-          <div className="hero__ring" />
-          <div className="hero__ring" />
-        </div>
         
-        <div className="container hero__inner">
-          <div className="hero__content">
-            <div className="hero__badge">
-              <span className="hero__badge-line"></span>
-              <span className="hero__badge-text">Admissions Open 2026</span>
-            </div>
-            <h1 className="hero__title">
-              Master the Art of <span className="text-gradient">Digital Defense.</span>
-            </h1>
-            <p className="hero__desc">
-              Join 1500+ students building careers in cybersecurity, AI, and cloud. Get hands-on training with real-world labs and global certifications.
-            </p>
-            <div className="hero__actions">
-              <Link to="/programs" className="btn btn-primary btn-lg">Explore Programs</Link>
-              <Link to="/contact" className="btn btn-outline btn-lg">Talk to Admissions</Link>
-            </div>
-            <div className="hero__trusted">
-              <span className="hero__trusted-label">Learning Options</span>
-              <div className="hero__trusted-logos">
-                <span className="hero__option">Full-time Classes</span>
-                <span className="hero__option">Part-time Classes</span>
-                <span className="hero__option">Remote Learning</span>
-                <span className="hero__option">In-person Learning</span>
+        <div className="container hero__academy">
+          <div className="hero__stage">
+            <div className="hero__content">
+              <div className="hero__announcement">
+                <span>Admissions Open 2026</span>
+              </div>
+              <span className="hero__eyebrow">CyberPro Global Academy</span>
+              <h1 className="hero__title">
+                Build the skills shaping the future of technology.
+              </h1>
+              <p className="hero__desc">
+                A practical technology academy for learners and teams who need the essentials quickly: what to study, how classes work, what you build, and where to start.
+              </p>
+              <div className="hero__actions">
+                <Link to="/programs" className="btn btn-primary btn-lg">
+                  Explore Programs
+                  <ArrowRight size={17} />
+                </Link>
+                <button type="button" className="btn btn-outline btn-lg" onClick={openModal}>Apply Now</button>
+              </div>
+              <div className="hero__learning-options" aria-label="CyberPro training disciplines">
+                <span className="hero__learning-label">Learning Options</span>
+                <div className="hero__learning-pills">
+                  {HERO_FAST_PATHS.map((path) => {
+                    const Icon = path.icon;
+                    return (
+                      <Link className="hero__learning-pill" to={path.to} key={path.title}>
+                        <Icon size={14} />
+                        <span>{path.title}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="hero__visual">
-            <FeaturedEventCard />
+          <div className="hero__spotlight-row" aria-label="CyberPro highlights">
+            <Link className="hero__spotlight hero__spotlight--mode" to="/admissions">
+              <span>Mode of Study</span>
+              <strong>Hybrid, remote, in-person</strong>
+              <small>Flexible cohorts</small>
+              <ArrowRight size={16} />
+            </Link>
+            <a className="hero__spotlight hero__spotlight--event" href="https://www.cyberweekafrica.com/register/" target="_blank" rel="noopener noreferrer">
+              <span>Featured Event</span>
+              <strong>Cyberweek Africa</strong>
+              <img src="/images/events/cyberweek.png" alt="" aria-hidden="true" />
+              <small>Oct 27-31</small>
+              <ArrowRight size={16} />
+            </a>
           </div>
         </div>
       </section>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronDown, CheckCircle2, Banknote, FileText, ArrowRight } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
+import { useModal } from '../hooks/useModal.jsx';
 import './Admissions.css';
 
 const STEPS = [
@@ -21,6 +22,7 @@ const FAQS = [
 
 export default function Admissions() {
   const [openFaq, setOpenFaq] = useState(null);
+  const { openModal } = useModal();
 
   return (
     <div>
@@ -151,7 +153,7 @@ export default function Admissions() {
             <h2>Ready to Begin?</h2>
             <p>Start your application today and join the next cohort of technology leaders shaping Africa's digital future.</p>
             <div className="flex-center gap-4">
-              <Link to="/contact" className="btn btn-white btn-lg">Start Application <ArrowRight size={18} /></Link>
+              <button onClick={() => openModal()} className="btn btn-white btn-lg" type="button">Start Application <ArrowRight size={18} /></button>
               <Link to="/programs" className="btn btn-outline btn-lg">View Programs</Link>
             </div>
           </ScrollReveal>

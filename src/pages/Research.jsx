@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { BookOpen, FlaskConical, Globe, Users, FileText, ExternalLink } from 'lucide-react';
+import { ArrowRight, BookOpen, ExternalLink, FileText, FlaskConical, Globe, ShieldCheck } from 'lucide-react';
 import './Research.css';
 
 const CLUSTERS = [
@@ -19,26 +19,47 @@ export default function Research() {
   return (
     <div>
       <section className="cyber-hero-premium">
-        <div className="hero__grid-overlay" style={{ opacity: 0.3 }}></div>
-        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div className="breadcrumb">
-            <Link to="/" style={{ color: 'rgba(255,255,255,0.6)' }}>Home</Link>
-            <span style={{ color: 'rgba(255,255,255,0.3)' }}>/</span>
-            <span style={{ color: 'white' }}>Research</span>
+        <div className="container research-hero__inner">
+          <div className="research-hero__copy">
+            <div className="breadcrumb">
+              <Link to="/">Home</Link>
+              <span>/</span>
+              <span>Research</span>
+            </div>
+            <h1 className="page-hero__title">Research & Innovation</h1>
+            <p className="page-hero__desc">Applied research in cybersecurity, AI safety, and critical infrastructure protection for institutions building resilient digital systems.</p>
+            <div className="research-hero__actions">
+              <Link to="/contact" className="btn btn-primary btn-lg">Partner With Us <ArrowRight size={18} /></Link>
+              <a href="#publications" className="btn btn-outline btn-lg">View Publications</a>
+            </div>
           </div>
-          <h1 className="page-hero__title" style={{ color: 'white' }}>Research & Innovation</h1>
-          <p className="page-hero__desc" style={{ color: 'rgba(255,255,255,0.7)' }}>Our faculty conducts applied research in cybersecurity, AI safety, and critical infrastructure protection.</p>
+
+          <div className="research-hero__panel" aria-label="Research focus">
+            <span className="research-hero__panel-label">Applied research focus</span>
+            <div className="research-hero__panel-row">
+              <ShieldCheck size={22} />
+              <span>Cyber defense</span>
+            </div>
+            <div className="research-hero__panel-row">
+              <FlaskConical size={22} />
+              <span>AI assurance</span>
+            </div>
+            <div className="research-hero__panel-row">
+              <Globe size={22} />
+              <span>Infrastructure resilience</span>
+            </div>
+          </div>
         </div>
       </section>
 
       <section className="section research-clusters-section">
         <div className="container">
-          <div style={{ textAlign: 'center' }}>
-            <span className="section-label" style={{ justifyContent: 'center' }}>Research Clusters</span>
+          <div className="research-section-heading">
+            <span className="section-label">Research Clusters</span>
             <h2 className="section-title">Active Research Initiatives</h2>
-            <p className="section-subtitle" style={{ margin: '0 auto' }}>Interdisciplinary teams working on problems that matter to Africa and the world.</p>
+            <p className="section-subtitle">Interdisciplinary teams working on problems that matter to Africa and the world.</p>
           </div>
-          <div className="grid grid-3" style={{ marginTop: '56px' }}>
+          <div className="research-grid">
             {CLUSTERS.map((c, i) => (
               <div className="research-card" key={i}>
                 <div className="research-card__header">
@@ -56,12 +77,12 @@ export default function Research() {
         </div>
       </section>
 
-      <section className="section publications-section">
+      <section className="section publications-section" id="publications">
         <div className="container" style={{ maxWidth: '900px' }}>
-          <div style={{ textAlign: 'center' }}>
-            <span className="section-label" style={{ justifyContent: 'center' }}>Publications</span>
+          <div className="research-section-heading">
+            <span className="section-label">Publications</span>
             <h2 className="section-title">Selected Publications</h2>
-            <p className="section-subtitle" style={{ margin: '0 auto' }}>Peer-reviewed research from our faculty across top-tier journals and conferences.</p>
+            <p className="section-subtitle">Peer-reviewed research from our faculty across top-tier journals and conferences.</p>
           </div>
           <div className="publications-list">
             {PUBLICATIONS.map((pub, i) => (
@@ -74,6 +95,7 @@ export default function Research() {
                   <p>{pub.authors} — <em>{pub.venue}</em></p>
                 </div>
                 <span className={`badge ${pub.type === 'Journal' ? 'badge-crimson' : 'badge-navy'}`}>{pub.type}</span>
+                <ExternalLink size={16} className="publication-link-icon" />
               </div>
             ))}
           </div>
@@ -81,10 +103,10 @@ export default function Research() {
       </section>
 
       <section className="section research-cta">
-        <div className="container" style={{ textAlign: 'center', maxWidth: '700px' }}>
+        <div className="container research-cta__inner">
           <h2 className="section-title">Collaborate With Our Research Labs</h2>
-          <p className="section-subtitle" style={{ margin: '0 auto 32px' }}>We welcome partnerships with industry, academia, and government institutions for joint research programs.</p>
-          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <p className="section-subtitle">We welcome partnerships with industry, academia, and government institutions for joint research programs.</p>
+          <div className="research-cta__actions">
             <Link to="/contact" className="btn btn-primary btn-lg">Get in Touch</Link>
             <Link to="/corporate" className="btn btn-outline btn-lg">Corporate Partnerships</Link>
           </div>
