@@ -2,7 +2,7 @@
 deployment:
   tasks:
     - export DEPLOYPATH=$HOME/public_html/
-    - /bin/mkdir -p $DEPLOYPATH
+    - /bin/rm -rf $DEPLOYPATH/*
     - npm ci
     - npm run build
     - /bin/cp -R dist/. $DEPLOYPATH
