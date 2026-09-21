@@ -3,6 +3,8 @@ import { createPortal } from 'react-dom';
 import { X, ArrowRight, ArrowLeft, User, BookOpen, Settings2, CheckCircle2 } from 'lucide-react';
 import './ApplicationModal.css';
 
+const API_BASE = 'http://localhost:8000/api';
+
 const PROGRAMS = [
   { name: 'Cybersecurity Specialist', img: '/images/programs/cybersecurity.png' },
   { name: 'Ethical Hacking & Penetration Testing', img: '/images/programs/ethical_hacking.png' },
@@ -43,6 +45,8 @@ const INITIAL_FORM = {
 export default function ApplicationModal({ isOpen, onClose, selectedProgram = '' }) {
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const [form, setForm] = useState({
     ...INITIAL_FORM,
     program: selectedProgram,
@@ -77,10 +81,31 @@ export default function ApplicationModal({ isOpen, onClose, selectedProgram = ''
     };
   }, [isOpen]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setStep(3);
+    if (step !== 3) return;
+
+    setSubmitting(true);
+    setSubmitError('');
+
+    try {
+      const res = await fetch(`${API_BASE}/applications`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.detail || 'Unable to submit application');
+      }
+
+      setSubmitted(true);
+    } catch (err) {
+      setSubmitError(err.message || 'Unable to submit application');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const canNext = () => {

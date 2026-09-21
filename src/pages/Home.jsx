@@ -289,10 +289,10 @@ export default function Home() {
               </div>
               <span className="hero__eyebrow">CyberPro Global Academy</span>
               <h1 className="hero__title">
-                Build the skills shaping the future of technology.
+                Empowering the Next Generation to Build What the World Needs Next.
               </h1>
               <p className="hero__desc">
-                A practical technology academy for learners and teams who need the essentials quickly: what to study, how classes work, what you build, and where to start.
+                Master the technologies shaping our world, develop the skills to solve tomorrow’s challenges and turn your ideas, curiosity and ambition into technology that makes a difference.
               </p>
               <div className="hero__actions">
                 <Link to="/programs" className="btn btn-primary btn-lg">

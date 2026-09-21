@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/layout/Navbar.jsx';
 import Footer from './components/layout/Footer.jsx';
 import ScrollToTop from './components/layout/ScrollToTop.jsx';
@@ -14,32 +14,45 @@ import Events from './pages/Events.jsx';
 import Blog from './pages/Blog.jsx';
 import About from './pages/About.jsx';
 import Contact from './pages/Contact.jsx';
+import Admin from './pages/Admin.jsx';
 import { ModalProvider } from './hooks/useModal.jsx';
 import FloatingChat from './components/layout/FloatingChat.jsx';
+
+function AppContent() {
+  const location = useLocation();
+  const isAdmin = location.pathname === '/admin';
+  
+  return (
+    <>
+      {!isAdmin && <Navbar />}
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/programs" element={<Programs />} />
+          <Route path="/programs/:slug" element={<ProgramDetail />} />
+          <Route path="/admissions" element={<Admissions />} />
+          <Route path="/corporate" element={<Corporate />} />
+          <Route path="/research" element={<Research />} />
+          <Route path="/cyber-labs" element={<CyberLabs />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/admin" element={<Admin />} />
+        </Routes>
+      </main>
+      {!isAdmin && <Footer />}
+      <FloatingChat />
+    </>
+  );
+}
 
 export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
       <ModalProvider>
-        <Navbar />
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/programs" element={<Programs />} />
-            <Route path="/programs/:slug" element={<ProgramDetail />} />
-            <Route path="/admissions" element={<Admissions />} />
-            <Route path="/corporate" element={<Corporate />} />
-            <Route path="/research" element={<Research />} />
-            <Route path="/cyber-labs" element={<CyberLabs />} />
-            <Route path="/events" element={<Events />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-          </Routes>
-        </main>
-        <Footer />
-        <FloatingChat />
+        <AppContent />
       </ModalProvider>
     </BrowserRouter>
   );

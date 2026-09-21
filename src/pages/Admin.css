@@ -1,0 +1,502 @@
+/* ============================================
+   ADMIN LOGIN - PREMIUM SECURE ACCESS
+   ============================================ */
+
+.admin-login-page {
+  position: relative;
+  min-height: 100vh;
+  background: #040f1a;
+  overflow: hidden;
+  font-family: var(--font-body);
+}
+
+.admin-login-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(10, 64, 96, 0.35), transparent 50%),
+    radial-gradient(ellipse at 85% 80%, rgba(254, 1, 28, 0.08), transparent 45%),
+    linear-gradient(135deg, #031020 0%, #071933 55%, #040f1a 100%);
+}
+
+.admin-login-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+
+.admin-login-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+}
+
+.admin-login-orb--one {
+  width: 420px;
+  height: 420px;
+  top: -160px;
+  right: -100px;
+  background: rgba(10, 64, 96, 0.35);
+  animation: adminOrbFloat 12s ease-in-out infinite;
+}
+
+.admin-login-orb--two {
+  width: 340px;
+  height: 340px;
+  bottom: -140px;
+  left: -80px;
+  background: rgba(254, 1, 28, 0.07);
+  animation: adminOrbFloat 14s ease-in-out infinite reverse;
+}
+
+@keyframes adminOrbFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-30px, 30px) scale(1.08); }
+}
+
+.admin-login-panel {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background: #f5f6f8;
+}
+
+.admin-login-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #FE011C, #071933);
+}
+
+.admin-login-card {
+  width: 100%;
+  max-width: 440px;
+}
+
+.admin-login-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+
+.admin-login-logo-img {
+  width: 150px;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 4px 10px rgba(7, 25, 51, 0.08));
+}
+
+.admin-login-card-inner {
+  background: white;
+  border: 1px solid rgba(7, 25, 51, 0.08);
+  border-radius: 20px;
+  padding: 44px 40px;
+  box-shadow: 0 24px 60px rgba(7, 25, 51, 0.1), 0 2px 8px rgba(7, 25, 51, 0.05);
+}
+
+.admin-login-heading {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.admin-login-title {
+  font-family: var(--font-heading);
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0 0 8px;
+  letter-spacing: -0.025em;
+}
+
+.admin-login-subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.admin-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.admin-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-input-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.01em;
+}
+
+.admin-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.admin-input-wrapper > svg {
+  position: absolute;
+  left: 15px;
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: color 0.2s ease;
+}
+
+.admin-input-wrapper input {
+  width: 100%;
+  padding: 13px 16px 13px 44px;
+  border: 1.5px solid rgba(7, 25, 51, 0.12);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  background: #fbfcfd;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.admin-input-wrapper input::placeholder {
+  color: rgba(58, 74, 90, 0.45);
+}
+
+.admin-input-wrapper input:hover {
+  border-color: rgba(7, 25, 51, 0.22);
+}
+
+.admin-input-wrapper input:focus {
+  border-color: #FE011C;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(254, 1, 28, 0.1);
+}
+
+.admin-input-wrapper input:focus + svg,
+.admin-input-wrapper:focus-within > svg {
+  color: #FE011C;
+}
+
+.admin-login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2px;
+}
+
+.admin-login-remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.admin-login-remember input {
+  display: none;
+}
+
+.admin-login-checkbox {
+  width: 17px;
+  height: 17px;
+  border-radius: 5px;
+  border: 1.5px solid rgba(7, 25, 51, 0.25);
+  background: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.admin-login-checkbox::after {
+  content: '';
+  width: 9px;
+  height: 5px;
+  border-left: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: rotate(-45deg) scale(0);
+  transition: transform 0.15s ease;
+}
+
+.admin-login-remember input:checked + .admin-login-checkbox {
+  background: #FE011C;
+  border-color: #FE011C;
+}
+
+.admin-login-remember input:checked + .admin-login-checkbox::after {
+  transform: rotate(-45deg) scale(1);
+}
+
+.admin-login-forgot {
+  font-size: 13px;
+  color: #FE011C;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.admin-login-forgot:hover {
+  color: #d9001b;
+  text-decoration: underline;
+}
+
+.admin-login-btn {
+  width: 100%;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #FE011C, #d9001b);
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 8px 20px rgba(254, 1, 28, 0.25);
+  letter-spacing: 0.01em;
+}
+
+.admin-login-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(254, 1, 28, 0.32);
+}
+
+.admin-login-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.admin-login-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.admin-login-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(254, 1, 28, 0.08);
+  border: 1px solid rgba(254, 1, 28, 0.2);
+  color: #d9001b;
+  font-size: 13px;
+  font-weight: 500;
+  animation: adminErrorSlide 0.3s ease;
+}
+
+@keyframes adminErrorSlide {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.admin-login-divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 28px 0 20px;
+  color: rgba(58, 74, 90, 0.55);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.admin-login-divider::before,
+.admin-login-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(7, 25, 51, 0.1);
+}
+
+.admin-login-support {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* --- Loading state --- */
+
+.admin-loading {
+  text-align: center;
+  padding: 50px;
+  color: var(--text-muted);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 1100px) {
+  .admin-login-panel {
+    min-height: 100vh;
+    padding: 32px 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-login-panel {
+    padding: 24px 16px;
+  }
+
+  .admin-login-card-inner {
+    padding: 36px 24px;
+    border-radius: 16px;
+  }
+
+  .admin-login-title {
+    font-size: 23px;
+  }
+
+  .admin-login-options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+
+.spin {
+  animation: adminSpin 1s linear infinite;
+}
+
+@keyframes adminSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   ADMIN DASHBOARD STYLES
+   ============================================ */
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+  overflow-x: auto;
+}
+
+.admin-tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: 0.2s;
+  white-space: nowrap;
+}
+
+.admin-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+.admin-tab-btn.active {
+  background: var(--accent-blue);
+  color: white;
+}
+
+.admin-table-container {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+.admin-table th, .admin-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.admin-table th {
+  background: rgba(255, 255, 255, 0.03);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.admin-table tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.admin-loading {
+  text-align: center;
+  padding: 50px;
+  color: var(--text-muted);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 1100px) {
+  .admin-login-panel {
+    min-height: 100vh;
+    padding: 32px 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-login-panel {
+    padding: 24px 16px;
+  }
+
+  .admin-login-card-inner {
+    padding: 36px 24px;
+    border-radius: 16px;
+  }
+
+  .admin-login-title {
+    font-size: 23px;
+  }
+
+  .admin-login-options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
