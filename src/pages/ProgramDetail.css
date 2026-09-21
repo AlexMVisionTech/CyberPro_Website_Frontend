@@ -149,6 +149,20 @@
   color: var(--text-primary);
 }
 
+.program-detail__source-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.program-detail__source-link:hover {
+  color: var(--blue-hover);
+}
+
 .program-detail__cta-card {
   background: var(--navy);
   border-color: rgba(255, 255, 255, 0.08);

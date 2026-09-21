@@ -1,6 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
-import { useState } from 'react';
-import { ArrowLeft, CheckCircle2, Clock, Globe2, Signal, BarChart3, Banknote } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Clock, Globe2, Signal, BarChart3, Banknote, Users, ExternalLink } from 'lucide-react';
 import { PROGRAMS, CAT_LABELS } from './Programs';
 import { useModal } from '../hooks/useModal.jsx';
 import './ProgramDetail.css';
@@ -61,23 +60,21 @@ export default function ProgramDetail() {
               <div className="section-label">Program Overview</div>
               <h2 className="section-title">About This Program</h2>
               <p className="program-detail__text">
-                This comprehensive program is designed to equip you with industry-relevant skills through hands-on projects, 
-                expert instruction, and real-world case studies. You'll work with cutting-edge tools and technologies used by 
-                leading organizations worldwide.
+                {program.desc}
               </p>
               <p className="program-detail__text">
-                Our curriculum is continuously updated to reflect the latest industry trends and certification requirements, 
-                ensuring you graduate with credentials that employers recognize and value.
+                This course is part of CyberPro Global's published catalog and is organized under the {CAT_LABELS[program.cat]} tier. 
+                Course availability, enrollment requirements, and cohort details can be confirmed through CyberPro Global admissions.
               </p>
 
               <div className="section-label" style={{ marginTop: '40px' }}>What You'll Learn</div>
               <h2 className="section-title">Key Learning Areas</h2>
               <ul className="program-detail__list">
-                <li><CheckCircle2 size={18} /> Core principles and foundational knowledge</li>
-                <li><CheckCircle2 size={18} /> Practical, hands-on project experience</li>
-                <li><CheckCircle2 size={18} /> Industry-standard tools and platforms</li>
-                <li><CheckCircle2 size={18} /> Certification exam preparation</li>
-                <li><CheckCircle2 size={18} /> Career placement and mentorship support</li>
+                <li><CheckCircle2 size={18} /> Core concepts for {program.certs.toLowerCase()}</li>
+                <li><CheckCircle2 size={18} /> Practical application through CyberPro learning activities</li>
+                <li><CheckCircle2 size={18} /> Current cybersecurity, AI, governance, and privacy context</li>
+                <li><CheckCircle2 size={18} /> Skills aligned to the {program.lvl.toLowerCase()} course tier</li>
+                <li><CheckCircle2 size={18} /> Admissions guidance for enrollment and course scheduling</li>
               </ul>
             </div>
 
@@ -106,6 +103,13 @@ export default function ProgramDetail() {
                     </div>
                   </div>
                   <div className="program-detail__meta-item">
+                    <Users size={20} />
+                    <div>
+                      <span className="program-detail__meta-label">Students</span>
+                      <span className="program-detail__meta-value">{program.students}</span>
+                    </div>
+                  </div>
+                  <div className="program-detail__meta-item">
                     <Signal size={20} />
                     <div>
                       <span className="program-detail__meta-label">Level</span>
@@ -113,17 +117,19 @@ export default function ProgramDetail() {
                     </div>
                   </div>
                   <div className="program-detail__meta-item">
-                    <Globe2 size={20} />
-                    <div>
-                      <span className="program-detail__meta-label">Mode</span>
-                      <span className="program-detail__meta-value">{program.mode}</span>
-                    </div>
-                  </div>
-                  <div className="program-detail__meta-item">
                     <BarChart3 size={20} />
                     <div>
                       <span className="program-detail__meta-label">Certifications</span>
                       <span className="program-detail__meta-value">{program.certs}</span>
+                    </div>
+                  </div>
+                  <div className="program-detail__meta-item">
+                    <Globe2 size={20} />
+                    <div>
+                      <span className="program-detail__meta-label">Source</span>
+                      <a className="program-detail__source-link" href={program.sourceUrl} target="_blank" rel="noopener noreferrer">
+                        CyberPro Global <ExternalLink size={14} />
+                      </a>
                     </div>
                   </div>
                 </div>
