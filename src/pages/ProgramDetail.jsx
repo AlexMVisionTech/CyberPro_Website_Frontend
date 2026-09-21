@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, CheckCircle2, Clock, Globe2, Signal, BarChart3, Banknote, Users, ExternalLink } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Clock, Globe2, Signal, BarChart3, Banknote, ExternalLink } from 'lucide-react';
 import { PROGRAMS, CAT_LABELS } from './Programs';
 import { useModal } from '../hooks/useModal.jsx';
 import './ProgramDetail.css';
@@ -100,13 +100,6 @@ export default function ProgramDetail() {
                     <div>
                       <span className="program-detail__meta-label">Duration</span>
                       <span className="program-detail__meta-value">{program.dur}</span>
-                    </div>
-                  </div>
-                  <div className="program-detail__meta-item">
-                    <Users size={20} />
-                    <div>
-                      <span className="program-detail__meta-label">Students</span>
-                      <span className="program-detail__meta-value">{program.students}</span>
                     </div>
                   </div>
                   <div className="program-detail__meta-item">
