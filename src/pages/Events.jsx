@@ -2,18 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, ArrowRight, Camera } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
+import useApiCollection from '../hooks/useApiCollection';
 import './Events.css';
-
-const EVENTS = [
-  { title: 'Zero-Day Cyber Defense CTF', date: 'Aug 15, 2026', type: 'Hackathon', cat: 'ctf', desc: 'Breach isolated virtual environments, capture dynamic flags, and earn points on the leaderboard.', color: 'badge-blue', img: '/images/events/ctf-cyber-defense.svg' },
-  { title: 'Generative AI Security Pipelines', date: 'Sep 02, 2026', type: 'Webinar', cat: 'webinar', desc: 'Learn safe prompt parsing and hardening pipelines against model poisoning with guest speakers.', color: 'badge-orange', img: '/images/events/ai-security-webinar.svg' },
-  { title: 'AWS Enterprise Cloud Foundations', date: 'Sep 20, 2026', type: 'Bootcamp', cat: 'bootcamp', desc: 'Intensive hands-on lab walkthrough of AWS container configuration, IAM, and bucket policies.', color: 'badge-green', img: '/images/events/aws-bootcamp.svg' },
-  { title: 'SOC Operations Deep Dive', date: 'Oct 05, 2026', type: 'Webinar', cat: 'webinar', desc: 'Understand SIEM configuration, log correlation, and real-time alert triage in enterprise SOC environments.', color: 'badge-orange', img: '/images/events/soc-webinar.svg' },
-  { title: 'Cyberweek Africa 2026', date: 'Oct 27-31, 2026', type: 'Conference', cat: 'conference', desc: 'Africa\'s premier cybersecurity summit on Cyber Threat Intelligence. 4800+ attendees, keynotes, workshops & panels at KICC Nairobi.', color: 'badge-orange', img: '/images/events/image.png', link: 'https://www.cyberweekafrica.com/register/' },
-  { title: 'Cyberweek Africa Hackathon', date: 'Oct 27-30, 2026', type: 'Hackathon', cat: 'ctf', desc: 'Africa\'s premier cybersecurity innovation challenge. Build practical solutions for real-world cyber threats. Teams of 5. Students & professionals welcome.', color: 'badge-blue', img: '/images/events/image.png', link: 'https://www.cyberweekafrica.com/hackathon/' },
-  { title: 'Network Forensics Challenge', date: 'Oct 18, 2026', type: 'CTF', cat: 'ctf', desc: 'Analyze packet captures, trace attack vectors, and reconstruct incident timelines.', color: 'badge-blue', img: '/images/events/network-forensics.svg' },
-  { title: 'Python for Security Automation', date: 'Nov 01, 2026', type: 'Bootcamp', cat: 'bootcamp', desc: 'Build security automation scripts, API integrations, and threat intelligence collectors.', color: 'badge-green', img: '/images/events/python-bootcamp.svg' },
-];
 
 const TABS = [
   { key: 'all', label: 'All Events' },
@@ -23,41 +13,25 @@ const TABS = [
   { key: 'conference', label: 'Conferences' },
 ];
 
-const FAME_ITEMS = [
-  { id: 1, caption: 'Defcon Qualifier Team' },
-  { id: 2, caption: 'Cyber Lab Inauguration' },
-  { id: 3, caption: 'Cloud Security Bootcamp' },
-  { id: 4, caption: 'Annual Hackathon' },
-  { id: 5, caption: 'Guest Speaker Series' },
-  { id: 6, caption: 'Capture The Flag' },
-  { id: 7, caption: 'Networking Night' },
-  { id: 8, caption: 'Red Team vs Blue Team' },
-  { id: 9, caption: 'Graduation Ceremony' },
-  { id: 10, caption: 'Malware Analysis Lab' },
-  { id: 11, caption: 'VR Cyber Training' },
-  { id: 12, caption: 'Community Meetup' },
-  { id: 13, caption: 'Zero-Day Defense' },
-  { id: 14, caption: 'Pen-Testing Workshop' },
-  { id: 15, caption: 'Security Summit 2026' }
-];
-
 export default function Events() {
   const [activeTab, setActiveTab] = useState('all');
-  const [featuredFame, setFeaturedFame] = useState(FAME_ITEMS[0]);
+  const { items: events, loading, error } = useApiCollection('/events');
+  const { items: galleryItems } = useApiCollection('/gallery');
+  const [featuredFame, setFeaturedFame] = useState(null);
   
-  // Make the featured image dynamic (auto-rotate every 4 seconds)
   useEffect(() => {
+    if (!galleryItems.length) return;
+    if (!featuredFame) setFeaturedFame(galleryItems[0]);
     const timer = setInterval(() => {
       setFeaturedFame(prev => {
-        const currentIndex = FAME_ITEMS.findIndex(item => item.id === prev.id);
-        const nextIndex = (currentIndex + 1) % FAME_ITEMS.length;
-        return FAME_ITEMS[nextIndex];
+        const index = galleryItems.findIndex(item => item.id === prev?.id);
+        return galleryItems[(index + 1) % galleryItems.length];
       });
     }, 4000);
     return () => clearInterval(timer);
-  }, [featuredFame]);
+  }, [galleryItems, featuredFame]);
 
-  const filtered = activeTab === 'all' ? EVENTS : EVENTS.filter(e => e.cat === activeTab);
+  const filtered = activeTab === 'all' ? events : events.filter(e => e.cat === activeTab);
 
   return (
     <div>
@@ -89,9 +63,11 @@ export default function Events() {
             </div>
           </ScrollReveal>
 
+          {loading && <p>Loading events…</p>}
+          {error && <p role="alert">{error}</p>}
           <div className="events-grid">
             {filtered.map((event, i) => (
-              <ScrollReveal key={i} delay={i * 0.05}>
+              <ScrollReveal key={event.id} delay={i * 0.05}>
                 <div className="event-card">
                   <div className="event-card__image">
                     <img src={event.img} alt={event.title} loading="lazy" />
@@ -110,8 +86,8 @@ export default function Events() {
                       Register Now
                     </a>
                   ) : (
-                    <button className="btn btn-primary btn-sm" style={{ marginTop: 'auto', alignSelf: 'flex-start' }}>
-                      Register Now
+                    <button className="btn btn-outline btn-sm" style={{ marginTop: 'auto', alignSelf: 'flex-start' }} disabled>
+                      Registration opening soon
                     </button>
                   )}
                   </div>
@@ -120,7 +96,7 @@ export default function Events() {
             ))}
           </div>
 
-          {filtered.length === 0 && (
+          {!loading && !error && filtered.length === 0 && (
             <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--text-muted)' }}>
               No events in this category yet. Check back soon.
             </div>
@@ -129,7 +105,7 @@ export default function Events() {
       </section>
 
       {/* Wall of Fame - Command Center Display */}
-      <section className="section section-dark fame-section">
+      {featuredFame && <section className="section section-dark fame-section">
         <div className="container">
           <ScrollReveal>
             <div className="fame-header">
@@ -146,13 +122,13 @@ export default function Events() {
                 <img 
                   key={`bg-${featuredFame.id}`}
                   className="fame-featured-bg"
-                  src={`/images/cyberpro_story/${featuredFame.id}.jpeg`} 
+                  src={featuredFame.img} 
                   alt="" 
                 />
                 <img 
                   key={`fg-${featuredFame.id}`}
                   className="fame-featured-fg"
-                  src={`/images/cyberpro_story/${featuredFame.id}.jpeg`} 
+                  src={featuredFame.img} 
                   alt={featuredFame.caption} 
                 />
                 <div className="fame-featured-overlay">
@@ -162,7 +138,7 @@ export default function Events() {
 
               {/* Right: Interactive Thumbnail Grid */}
               <div className="fame-thumbnails">
-                {FAME_ITEMS.map((item) => (
+                {galleryItems.map((item) => (
                   <div 
                     key={item.id} 
                     className={`fame-thumb ${featuredFame.id === item.id ? 'active' : ''}`}
@@ -171,13 +147,13 @@ export default function Events() {
                   >
                     <img 
                       className="fame-thumb-bg"
-                      src={`/images/cyberpro_story/${item.id}.jpeg`} 
+                      src={item.img} 
                       alt="" 
                       loading="lazy" 
                     />
                     <img 
                       className="fame-thumb-fg"
-                      src={`/images/cyberpro_story/${item.id}.jpeg`} 
+                      src={item.img} 
                       alt={item.caption} 
                       loading="lazy" 
                     />
@@ -187,7 +163,7 @@ export default function Events() {
             </div>
           </ScrollReveal>
         </div>
-      </section>
+      </section>}
 
       {/* Dark CTA Bottom */}
       <section className="events-cta">

@@ -60,8 +60,8 @@
 .program-detail__price-card {
   position: relative;
   overflow: hidden;
-  padding: 28px;
-  margin-bottom: 24px;
+  padding: 20px 22px;
+  margin-bottom: 18px;
   border-radius: var(--radius-lg);
   background:
     radial-gradient(circle at 86% 12%, rgba(254, 1, 28, 0.2), transparent 34%),
@@ -73,9 +73,9 @@
 
 .program-detail__price-label {
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   color: #ff9aa6;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 900;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -85,15 +85,15 @@
   display: block;
   color: white;
   font-family: var(--font-heading);
-  font-size: 38px;
+  font-size: clamp(1.65rem, 2.5vw, 2rem);
   line-height: 1;
   letter-spacing: -0.03em;
 }
 
 .program-detail__price-card p {
-  margin: 14px 0 0;
+  margin: 10px 0 0;
   color: rgba(255, 255, 255, 0.68);
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.6;
 }
 

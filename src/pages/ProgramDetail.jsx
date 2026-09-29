@@ -1,14 +1,19 @@
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, CheckCircle2, Clock, Globe2, Signal, BarChart3, Banknote, ExternalLink } from 'lucide-react';
-import { PROGRAMS, CAT_LABELS } from './Programs';
+import { CAT_LABELS, slugify } from './Programs';
+import usePrograms from '../hooks/usePrograms';
 import { useModal } from '../hooks/useModal.jsx';
 import './ProgramDetail.css';
 
 export default function ProgramDetail() {
   const { slug } = useParams();
   const { openModal } = useModal();
+  const { programs, loading, error } = usePrograms();
 
-  const program = PROGRAMS.find(p => p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') === slug);
+  const program = programs.find(p => slug === `${slugify(p.title)}-${p.id}` || slug === slugify(p.title));
+
+  if (loading) return <div className="program-detail"><section className="page-hero"><div className="container"><h1 className="page-hero__title">Loading course…</h1></div></section></div>;
+  if (error) return <div className="program-detail"><section className="page-hero"><div className="container"><h1 className="page-hero__title">Course unavailable</h1><p className="page-hero__desc">{error}</p></div></section></div>;
 
   if (!program) {
     return (
@@ -79,12 +84,6 @@ export default function ProgramDetail() {
             </div>
 
             <div className="program-detail__sidebar">
-              <div className="program-detail__price-card">
-                <span className="program-detail__price-label">Course Amount</span>
-                <strong>{program.fee}</strong>
-                <p>Flexible payment options are available through admissions.</p>
-              </div>
-
               <div className="program-detail__card">
                 <h3 className="program-detail__card-title">Program Details</h3>
                 <div className="program-detail__meta">

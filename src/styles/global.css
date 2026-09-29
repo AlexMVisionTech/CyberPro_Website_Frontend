@@ -201,6 +201,36 @@ img, svg, video {
   margin-bottom: var(--sp-3);
 }
 
+.page-hero,
+.about-hero,
+.admissions-hero,
+.events-hero {
+  padding-block: clamp(7rem, 11vw, 8.5rem) clamp(3rem, 5vw, 4rem);
+}
+
+.page-hero__title,
+.about-hero__title,
+.admissions-hero__title,
+.events-hero__title,
+.cyber-hero-premium .page-hero__title,
+.programs-hero-premium .page-hero__title {
+  font-size: var(--fs-h1);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.page-hero__desc,
+.about-hero__desc,
+.admissions-hero__desc,
+.events-hero__desc,
+.cyber-hero-premium .page-hero__desc,
+.programs-hero-premium .page-hero__desc {
+  max-width: 660px;
+  font-size: clamp(1rem, 1.35vw, 1.125rem);
+  line-height: 1.7;
+}
+
 .section-title {
   font-size: var(--fs-h2);
   margin-bottom: var(--sp-4);
@@ -717,4 +747,118 @@ img, svg, video {
   .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
   .section { padding: 56px 0; }
   .container { padding: 0 var(--sp-4); }
+}
+
+/* Consistent layout scale across public pages */
+:root {
+  --fs-h1: clamp(2.25rem, 4.2vw, 3.5rem);
+  --fs-h2: clamp(1.8rem, 3vw, 2.5rem);
+  --fs-h3: clamp(1.2rem, 1.8vw, 1.45rem);
+  --fs-body: 1rem;
+  --fs-body-sm: 0.9375rem;
+  --fs-caption: 0.75rem;
+  --page-gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --section-space: clamp(4rem, 7vw, 6rem);
+}
+
+body {
+  font-size: var(--fs-body);
+  line-height: 1.7;
+}
+
+.container {
+  width: min(100%, 1320px);
+  padding-inline: var(--page-gutter);
+}
+
+.section {
+  padding-block: var(--section-space);
+}
+
+.section-title {
+  font-size: var(--fs-h2);
+  line-height: 1.18;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.section-subtitle {
+  max-width: 680px;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.section-label {
+  margin-bottom: 0.75rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.13em;
+}
+
+.grid {
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+.grid > *,
+.container > * {
+  min-width: 0;
+}
+
+.btn {
+  min-height: 44px;
+  padding: 0.7rem 1.2rem;
+  font-size: 0.875rem;
+  line-height: 1.2;
+}
+
+.btn-lg {
+  min-height: 50px;
+  padding: 0.85rem 1.5rem;
+  font-size: 0.9375rem;
+}
+
+.card,
+.program-card,
+.event-card {
+  height: 100%;
+}
+
+.program-card__body {
+  padding: clamp(1.125rem, 2vw, 1.5rem);
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  min-height: 46px;
+  font-size: 0.9375rem;
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --section-space: 4.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --fs-h1: clamp(2rem, 8vw, 2.75rem);
+    --fs-h2: clamp(1.6rem, 6vw, 2rem);
+    --fs-h3: 1.2rem;
+    --section-space: 3.5rem;
+  }
+
+  .section-subtitle {
+    margin-bottom: 1.75rem;
+    font-size: 0.9375rem;
+  }
+
+  .tabs {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .tab-btn {
+    flex: 1 1 auto;
+    padding-inline: 0.75rem;
+  }
 }

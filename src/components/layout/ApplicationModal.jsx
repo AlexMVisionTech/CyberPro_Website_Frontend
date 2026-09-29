@@ -1,25 +1,10 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { X, ArrowRight, ArrowLeft, User, BookOpen, Settings2, CheckCircle2 } from 'lucide-react';
+import usePrograms from '../../hooks/usePrograms';
 import './ApplicationModal.css';
 
-const API_BASE = 'http://localhost:8000/api';
-
-const PROGRAMS = [
-  { name: 'Cybersecurity Specialist', img: '/images/programs/cybersecurity.png' },
-  { name: 'Ethical Hacking & Penetration Testing', img: '/images/programs/ethical_hacking.png' },
-  { name: 'Artificial Intelligence & Machine Learning', img: '/images/programs/ai_ml.png' },
-  { name: 'Cloud Computing & Architecture', img: '/images/programs/cloud_computing.png' },
-  { name: 'Data Science & Analytics', img: '/images/programs/data_science.png' },
-  { name: 'DevOps & Automation', img: '/images/programs/devops.png' },
-  { name: 'Digital Forensics & Incident Response', img: '/images/programs/digital_forensics.png' },
-  { name: 'Network Engineering', img: '/images/programs/network_engineering.jpg' },
-  { name: 'Full-Stack Software Development', img: '/images/programs/fullstack_dev.jpg' },
-  { name: 'Database Administration', img: '/images/programs/database_admin.jpg' },
-  { name: 'IoT & Embedded Systems Security', img: '/images/programs/iot_security.jpg' },
-  { name: 'Blockchain & Web3 Security', img: '/images/programs/blockchain.jpg' },
-  { name: 'Emerging Technologies', img: '/images/programs/emerging_tech.jpg' },
-];
+const API_BASE = `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api`;
 
 const STEPS = [
   { label: 'Personal Info', icon: User },
@@ -43,6 +28,7 @@ const INITIAL_FORM = {
 };
 
 export default function ApplicationModal({ isOpen, onClose, selectedProgram = '' }) {
+  const { programs, loading: programsLoading, error: programsError } = usePrograms();
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -267,14 +253,16 @@ export default function ApplicationModal({ isOpen, onClose, selectedProgram = ''
                 <p className="form-section-heading__desc">Select the program you want the admissions team to discuss with you.</p>
               </div>
               <div className="program-picker">
-                 {PROGRAMS.map((p, i) => (
+                 {programsLoading && <p>Loading courses…</p>}
+                 {programsError && <p role="alert">{programsError}</p>}
+                 {programs.map((p) => (
                    <button
                      type="button"
-                     key={i}
-                     className={`program-picker__item ${form.program === p.name ? 'program-picker__item--active' : ''}`}
-                     onClick={() => update('program', p.name)}
+                     key={p.id}
+                     className={`program-picker__item ${form.program === p.title ? 'program-picker__item--active' : ''}`}
+                     onClick={() => update('program', p.title)}
                    >
-                     {p.name}
+                     {p.title}
                    </button>
                  ))}
               </div>
@@ -403,7 +391,7 @@ export default function ApplicationModal({ isOpen, onClose, selectedProgram = ''
                     <span className="review-item__value review-item__value--highlight">{form.program || '—'}</span>
                   </div>
                   {form.program && (() => {
-                    const prog = PROGRAMS.find(p => p.name === form.program);
+                    const prog = programs.find(p => p.title === form.program);
                     return prog ? (
                       <div className="review-item review-item--full">
                         <span className="review-item__label">Program Image</span>

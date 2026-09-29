@@ -2,35 +2,29 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Shield, Brain, Cloud, Server,
-  ArrowRight, ChevronRight, Star
+  ArrowRight, ChevronRight, Star, Check, Building2, GraduationCap, CalendarDays,
+  BriefcaseBusiness, ChevronLeft, Landmark
 } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import Partners from '../components/sections/Partners';
 import { useModal } from '../hooks/useModal.jsx';
+import usePrograms from '../hooks/usePrograms';
+import useApiCollection from '../hooks/useApiCollection';
 import './Home.css';
 
 const CAT_LABELS = {
-  security: 'Security',
-  'ai-data': 'AI & Data',
-  infra: 'Infrastructure',
-  devops: 'Development',
+  foundation: "Foundations",
+  intermediate: "Intermediate",
+  advanced: "Advanced",
+  expert: "Expert",
 };
 
-const PROGRAMS = [
-  { title: 'Cybersecurity', desc: 'Defensive security, SOC operations, and risk management.', cat: 'security', dur: '6 Months', mode: 'Hybrid', lvl: 'Intermediate', img: '/images/programs/cybersecurity.png' },
-  { title: 'Ethical Hacking', desc: 'Penetration testing, vulnerability scanning, and wireless security.', cat: 'security', dur: '4 Months', mode: 'Remote', lvl: 'Advanced', img: '/images/programs/ethical_hacking.png' },
-  { title: 'Artificial Intelligence', desc: 'Neural networks, computer vision, NLP, and generative AI.', cat: 'ai-data', dur: '6 Months', mode: 'Hybrid', lvl: 'Advanced', img: '/images/programs/ai_ml.png' },
-  { title: 'Cloud Computing', desc: 'AWS, Azure, GCP architecture and container orchestration.', cat: 'infra', dur: '5 Months', mode: 'Hybrid', lvl: 'Intermediate', img: '/images/programs/cloud_computing.png' },
-  { title: 'Data Science', desc: 'Statistical modeling, Python, Pandas, and Tableau visualization.', cat: 'ai-data', dur: '6 Months', mode: 'Remote', lvl: 'Beginner', img: '/images/programs/data_science.png' },
-  { title: 'DevOps & Automation', desc: 'CI/CD pipelines, Docker, Kubernetes, and infrastructure as code.', cat: 'devops', dur: '4 Months', mode: 'Hybrid', lvl: 'Intermediate', img: '/images/programs/devops.png' },
-];
-
 const TABS = [
-  { key: 'all', label: 'All Disciplines' },
-  { key: 'security', label: 'Security' },
-  { key: 'ai-data', label: 'AI & Data' },
-  { key: 'infra', label: 'Cloud' },
-  { key: 'devops', label: 'DevOps' },
+  { key: "all", label: "All Courses" },
+  { key: "foundation", label: "Foundations" },
+  { key: "intermediate", label: "Intermediate" },
+  { key: "advanced", label: "Advanced" },
+  { key: "expert", label: "Expert" },
 ];
 
 const HERO_FAST_PATHS = [
@@ -39,6 +33,18 @@ const HERO_FAST_PATHS = [
   { icon: Cloud, title: 'Cloud & DevOps', text: 'Cloud platforms, networks, CI/CD, and containers.', to: '/programs' },
   { icon: Server, title: 'Virtual Labs', text: 'Practice real scenarios in guided sandboxes.', to: '/cyber-labs' },
 ];
+
+const AUDIENCE_PATHS = [
+  { icon: GraduationCap, title: 'Individuals', focus: 'LEARNING PATHWAYS', text: 'Develop practical skills for the next step in your technology career.', link: 'Explore learning', to: '/programs' },
+  { icon: Building2, title: 'Industry', focus: 'WORKFORCE PARTNERSHIPS', text: 'Build digital capability across your teams and organization.', link: 'Explore solutions', to: '/corporate' },
+  { icon: BriefcaseBusiness, title: 'Government', focus: 'PUBLIC RESILIENCE', text: 'Advance cyber readiness and technology skills across public services.', link: 'Start a conversation', to: '/contact' },
+];
+
+function eventTimestamp(event) {
+  const match = event.date?.match(/[A-Za-z]{3,9}\s+\d{1,2},?\s+\d{4}/);
+  const timestamp = match ? Date.parse(match[0]) : NaN;
+  return Number.isNaN(timestamp) ? Number.MAX_SAFE_INTEGER : timestamp;
+}
 
 function useCounter(target, duration = 2000) {
   const [count, setCount] = useState(0);
@@ -265,8 +271,57 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState('all');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [activeAdvantage, setActiveAdvantage] = useState(1);
+  const [scheduledEcosystemNode, setScheduledEcosystemNode] = useState(null);
+  const [interactionEcosystemNode, setInteractionEcosystemNode] = useState(null);
   const { openModal } = useModal();
-  const filtered = activeTab === 'all' ? PROGRAMS : PROGRAMS.filter(p => p.cat === activeTab);
+  const { programs, loading: programsLoading, error: programsError } = usePrograms();
+  const { items: events } = useApiCollection('/events');
+  const filtered = (activeTab === 'all' ? programs : programs.filter(p => p.cat === activeTab)).slice(0, 6);
+  const featuredEvent = events.find(event => event.title === 'Cyberweek Africa 2026')
+    || [...events].filter(event => eventTimestamp(event) >= Date.now()).sort((a, b) => eventTimestamp(a) - eventTimestamp(b))[0];
+  const featuredProgram = programs[0];
+  const featuredEventImage = featuredEvent?.title === 'Cyberweek Africa 2026'
+    ? '/images/events/cyberweek.png'
+    : featuredEvent?.img;
+  const ecosystemNodeHandlers = node => ({
+    onPointerEnter: () => setInteractionEcosystemNode(node),
+    onPointerLeave: event => {
+      if (document.activeElement !== event.currentTarget) setInteractionEcosystemNode(null);
+    },
+    onFocus: () => setInteractionEcosystemNode(node),
+    onBlur: event => {
+      if (!event.currentTarget.matches(':hover')) setInteractionEcosystemNode(null);
+    },
+  });
+
+  useEffect(() => {
+    const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+
+    const cycleDuration = 16000;
+    let animationFrame;
+    let cycleStart;
+    let lastNode;
+    const updateNode = () => {
+      const progress = ((performance.now() - cycleStart) % cycleDuration) / cycleDuration;
+      const node = progress < 0.321 ? 'academia' : progress < 0.679 ? 'industry' : 'government';
+      if (node !== lastNode) {
+        lastNode = node;
+        setScheduledEcosystemNode(node);
+      }
+      animationFrame = requestAnimationFrame(updateNode);
+    };
+
+    const startTimer = window.setTimeout(() => {
+      cycleStart = performance.now();
+      updateNode();
+    }, 1800);
+
+    return () => {
+      window.clearTimeout(startTimer);
+      cancelAnimationFrame(animationFrame);
+    };
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -285,66 +340,86 @@ export default function Home() {
           <div className="hero__stage">
             <div className="hero__content">
               <div className="hero__announcement">
-                <span>Admissions Open 2026</span>
+                <span>Technology · Security · Resilience</span>
               </div>
-              <span className="hero__eyebrow">CyberPro Global Academy</span>
               <h1 className="hero__title">
-                Empowering the Next Generation to Build What the World Needs Next.
+                Building a stronger digital future for Africa.
               </h1>
               <p className="hero__desc">
-                Master the technologies shaping our world, develop the skills to solve tomorrow’s challenges and turn your ideas, curiosity and ambition into technology that makes a difference.
+                We develop technology talent, strengthen organizations, and support public institutions to thrive securely in a connected world.
               </p>
               <div className="hero__actions">
-                <Link to="/programs" className="btn btn-primary btn-lg">
-                  Explore Programs
+                <Link to="/corporate" className="btn btn-primary btn-lg">
+                  Discover CyberPro
                   <ArrowRight size={17} />
                 </Link>
-                <button type="button" className="btn btn-outline btn-lg" onClick={openModal}>Apply Now</button>
-              </div>
-              <div className="hero__learning-options" aria-label="CyberPro training disciplines">
-                <span className="hero__learning-label">Learning Options</span>
-                <div className="hero__learning-pills">
-                  {HERO_FAST_PATHS.map((path) => {
-                    const Icon = path.icon;
-                    return (
-                      <Link className="hero__learning-pill" to={path.to} key={path.title}>
-                        <Icon size={14} />
-                        <span>{path.title}</span>
-                      </Link>
-                    );
-                  })}
-                </div>
+                <Link to="/contact" className="btn btn-outline btn-lg">Talk to our team</Link>
               </div>
             </div>
+            <div className="hero__ecosystem" aria-label="CyberPro connects Academia, Industry, and Government">
+              <svg className="hero__ecosystem-lines" viewBox="0 0 480 340" aria-hidden="true">
+                <path className="ecosystem-outline" d="M240 36 L72 286 L408 286 Z" />
+                <path className="ecosystem-trail" d="M240 36 L72 286 L408 286 Z" />
+                <path className="ecosystem-tracer" d="M240 36 L72 286 L408 286 Z" />
+                <path className="ecosystem-spokes" d="M240 72 L240 170 M104 267 L198 211 M376 267 L282 211" />
+                <circle className="ecosystem-signal ecosystem-signal--one" cx="240" cy="36" r="5" />
+                <circle className="ecosystem-signal ecosystem-signal--two" cx="72" cy="286" r="5" />
+                <circle className="ecosystem-signal ecosystem-signal--three" cx="408" cy="286" r="5" />
+                <circle className="ecosystem-orbit" cx="240" cy="177" r="72" />
+                <circle className="ecosystem-orbit ecosystem-orbit--outer" cx="240" cy="177" r="126" />
+                <circle className="ecosystem-marker" cx="113" cy="144" r="2.5" />
+                <circle className="ecosystem-marker ecosystem-marker--delay" cx="367" cy="144" r="2.5" />
+                <circle className="ecosystem-marker ecosystem-marker--delay-long" cx="240" cy="318" r="2.5" />
+              </svg>
+              <Link to="/programs" className={`ecosystem-node ecosystem-node--academy ${scheduledEcosystemNode === 'academia' ? 'ecosystem-node--lit' : ''} ${interactionEcosystemNode === 'academia' ? 'ecosystem-node--details-open' : ''}`} aria-describedby="academy-sector-detail" {...ecosystemNodeHandlers('academia')}><span className="ecosystem-node__icon"><GraduationCap size={20} /></span><span className="ecosystem-node__label"><strong>Academia</strong></span><span className="ecosystem-node__detail" id="academy-sector-detail"><strong>How CyberPro supports learners</strong><small>Career-focused programs, expert instruction, and practical cyber labs help learners build skills they can use in the workplace.</small><em>Explore Academia <ArrowRight size={13} /></em></span></Link>
+              <Link to="/corporate" className={`ecosystem-node ecosystem-node--industry ${scheduledEcosystemNode === 'industry' ? 'ecosystem-node--lit' : ''} ${interactionEcosystemNode === 'industry' ? 'ecosystem-node--details-open' : ''}`} aria-describedby="industry-sector-detail" {...ecosystemNodeHandlers('industry')}><span className="ecosystem-node__icon"><Building2 size={20} /></span><span className="ecosystem-node__label"><strong>Industry</strong></span><span className="ecosystem-node__detail" id="industry-sector-detail"><strong>How CyberPro supports business</strong><small>Tailored workforce training and applied research help organizations strengthen technology capability and cyber readiness.</small><em>Explore Industry <ArrowRight size={13} /></em></span></Link>
+              <Link to="/contact" className={`ecosystem-node ecosystem-node--government ${scheduledEcosystemNode === 'government' ? 'ecosystem-node--lit' : ''} ${interactionEcosystemNode === 'government' ? 'ecosystem-node--details-open' : ''}`} aria-describedby="government-sector-detail" {...ecosystemNodeHandlers('government')}><span className="ecosystem-node__icon"><Landmark size={20} /></span><span className="ecosystem-node__label"><strong>Government</strong></span><span className="ecosystem-node__detail" id="government-sector-detail"><strong>How CyberPro supports government</strong><small>Work with CyberPro on public sector skills development, cyber resilience, and secure digital transformation.</small><em>Discuss a partnership <ArrowRight size={13} /></em></span></Link>
+              <div className={`ecosystem-center${scheduledEcosystemNode ? ` ecosystem-center--${scheduledEcosystemNode}` : ''}`}><img src="/logo_blue-removebg-preview.png" alt="CyberPro Global" /></div>
+            </div>
           </div>
-
-          <div className="hero__spotlight-row" aria-label="CyberPro highlights">
-            <Link className="hero__spotlight hero__spotlight--mode" to="/admissions">
-              <span>Mode of Study</span>
-              <strong>Hybrid, remote, in-person</strong>
-              <small>Flexible cohorts</small>
-              <ArrowRight size={16} />
-            </Link>
-            <a className="hero__spotlight hero__spotlight--event" href="https://www.cyberweekafrica.com/register/" target="_blank" rel="noopener noreferrer">
-              <span>Featured Event</span>
-              <strong>Cyberweek Africa</strong>
-              <img src="/images/events/cyberweek.png" alt="" aria-hidden="true" />
-              <small>Oct 27-31</small>
-              <ArrowRight size={16} />
-            </a>
+          <div className="hero__featured" aria-label="Featured at CyberPro">
+            <div className="hero__featured-grid">
+              <Link to="/events" className="hero-feature-card hero-feature-card--event">
+                {featuredEventImage && <img className="hero-feature-card__image" src={featuredEventImage} alt="" />}
+                <span className="hero-feature-card__copy"><small>Featured event {featuredEvent?.date ? `· ${featuredEvent.date}` : ''}</small><strong>{featuredEvent?.title || 'Events & community'}</strong><span>{featuredEvent?.type || 'Workshops, webinars and meetups'}</span></span>
+                <ArrowRight size={17} />
+              </Link>
+              <Link to={featuredProgram ? `/programs/${featuredProgram.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}-${featuredProgram.id}` : '/programs'} className="hero-feature-card hero-feature-card--course">
+                {featuredProgram?.img && <img className="hero-feature-card__image" src={featuredProgram.img} alt="" />}
+                <span className="hero-feature-card__copy"><small>Featured course</small><strong>{featuredProgram?.title || (programsLoading ? 'Explore our programs' : 'Professional learning')}</strong><span>{featuredProgram?.dur || 'Practical, career-focused pathways'}</span></span>
+                <ArrowRight size={17} />
+              </Link>
+              <Link to="/cyber-labs" className="hero-feature-card hero-feature-card--lab">
+                <span className="hero-feature-card__icon"><Server size={18} /></span>
+                <span className="hero-feature-card__copy"><small>Featured lab</small><strong>Virtual Cyber Labs</strong><span>Practice in guided environments</span></span>
+                <ArrowRight size={17} />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
       <Partners />
 
+      <section className="audience-section">
+        <div className="container">
+          <div className="audience-heading">
+            <span className="section-label">Where capability meets impact</span>
+            <h2>Three forces. <span>One digital future.</span></h2>
+            <p>CyberPro connects people, business, and public institutions to make Africa’s digital ecosystem stronger.</p>
+          </div>
+          <div className="audience-network" aria-hidden="true"><span /><span /><span /><i /></div>
+          <div className="audience-grid">{AUDIENCE_PATHS.map((item, i) => { const Icon = item.icon; return <ScrollReveal key={item.title} delay={i * .08}><Link className={`audience-card audience-card--${i + 1}`} to={item.to}><span className="audience-card__index">0{i + 1}</span><span className="audience-card__icon"><Icon size={22} /></span><span className="audience-card__focus">{item.focus}</span><span className="audience-card__title">{item.title === 'Individuals' ? 'Academia' : item.title}</span><span className="audience-card__text">{item.text}</span><span className="audience-card__link">{item.link}<ArrowRight size={16} /></span></Link></ScrollReveal>; })}</div>
+        </div>
+      </section>
+
       <section className="section">
         <div className="container">
           <ScrollReveal>
             <div style={{ textAlign: 'center' }}>
-              <span className="section-label">Academy Programs</span>
-              <h2 className="section-title">Launch a High-Impact Tech Career</h2>
-              <p className="section-subtitle">Select from expert-designed programs mapped to globally recognized certifications.</p>
+              <span className="section-label">Professional learning</span>
+              <h2 className="section-title">Build capability for what comes next.</h2>
+              <p className="section-subtitle">Explore practical pathways in cybersecurity, cloud, AI, and software development.</p>
             </div>
           </ScrollReveal>
 
@@ -365,6 +440,8 @@ export default function Home() {
           </ScrollReveal>
 
           <div className="grid grid-3">
+            {programsLoading && <p>Loading courses…</p>}
+            {programsError && <p role="alert">{programsError}</p>}
             {filtered.map((prog, i) => (
               <ScrollReveal key={i} delay={i * 0.06}>
                 <div className="program-card">
@@ -377,7 +454,7 @@ export default function Home() {
                     <p className="program-card__desc">{prog.desc}</p>
                     <div className="program-card__meta">
                       <span className="badge badge-navy">{prog.dur}</span>
-                      <span className="badge badge-blue">{prog.mode}</span>
+                      <span className="badge badge-blue">{prog.fee}</span>
                       <span className="badge badge-green">{prog.lvl}</span>
                     </div>
                     <Link to="/programs" className="card-link">
@@ -391,7 +468,7 @@ export default function Home() {
 
           <ScrollReveal delay={0.2}>
             <div style={{ textAlign: 'center', marginTop: '36px' }}>
-              <Link to="/programs" className="btn btn-outline btn-lg">View All 13 Programs <ArrowRight size={18} /></Link>
+              <Link to="/programs" className="btn btn-outline btn-lg">View All {programs.length} Courses <ArrowRight size={18} /></Link>
             </div>
           </ScrollReveal>
         </div>
@@ -402,7 +479,7 @@ export default function Home() {
           <ScrollReveal>
             <div className="advantages-header">
               <div>
-                <span className="section-label">Academy Advantages</span>
+                <span className="section-label">Academia Advantages</span>
                 <h2 className="section-title">Designed for Careers, Guided by Experts</h2>
               </div>
               <p className="section-subtitle">A practical learning environment built around real labs, certification readiness, competitive practice, and career support.</p>
@@ -424,8 +501,8 @@ export default function Home() {
                     <span>Programs</span>
                   </div>
                   <div>
-                    <strong>94%</strong>
-                    <span>Placement focus</span>
+                  <strong>4</strong>
+                  <span>Learning advantages</span>
                   </div>
                 </div>
               </div>
@@ -501,13 +578,13 @@ export default function Home() {
       <section className="impact-section">
         <div className="container">
           <div className="impact-bar">
-            <StatItem target={1500} suffix="+" label="Students Trained" />
+            <StatItem target={1500} suffix="+" label="Learners reached" />
             <div className="impact-divider" />
-            <StatItem target={13} suffix="" label="Academy Programs" />
+            <StatItem target={13} suffix="" label="Learning pathways" />
             <div className="impact-divider" />
-            <StatItem target={45} suffix="+" label="Enterprise Partners" />
+            <StatItem target={45} suffix="+" label="Partner organizations" />
             <div className="impact-divider" />
-            <StatItem target={94} suffix="%" label="Alumni Placement" />
+            <StatItem target={94} suffix="%" label="Alumni employment" />
           </div>
         </div>
       </section>
@@ -516,9 +593,9 @@ export default function Home() {
         <div className="container">
           <ScrollReveal>
             <div style={{ textAlign: 'center' }}>
-              <span className="section-label">Student Success</span>
-              <h2 className="section-title">Trusted by Alumni at Top Companies</h2>
-              <p className="section-subtitle">Hear from CyberPro Global graduates who transitioned into technical roles.</p>
+              <span className="section-label">People and outcomes</span>
+              <h2 className="section-title">Skills that make a difference.</h2>
+              <p className="section-subtitle">Hear from professionals who have grown their capabilities with CyberPro.</p>
             </div>
           </ScrollReveal>
           <ScrollReveal delay={0.15}>
@@ -533,7 +610,7 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="testimonial-stars">
-                    {[...Array(5)].map((_, j) => <Star key={j} size={16} fill="#FE011C" color="#FE011C" />)}
+                    {[...Array(5)].map((_, j) => <Star key={j} size={16} fill="#5d9fbe" color="#5d9fbe" />)}
                   </div>
                   <p className="testimonial-quote">"{t.quote}"</p>
                 </div>
@@ -541,14 +618,20 @@ export default function Home() {
             </div>
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
-            <div className="testimonial-dots">
+            <div className="testimonial-controls">
+              <button className="testimonial-arrow" aria-label="Previous testimonial" onClick={() => setCurrentSlide(s => (s - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)}><ChevronLeft size={18} /></button>
+              <div className="testimonial-dots">
               {TESTIMONIALS.map((_, i) => (
                 <button
                   key={i}
                   className={`testimonial-dot ${i === currentSlide ? 'active' : ''}`}
                   onClick={() => setCurrentSlide(i)}
+                  aria-label={`Show testimonial ${i + 1}`}
+                  aria-current={i === currentSlide ? 'true' : undefined}
                 />
               ))}
+              </div>
+              <button className="testimonial-arrow" aria-label="Next testimonial" onClick={() => setCurrentSlide(s => (s + 1) % TESTIMONIALS.length)}><ArrowRight size={18} /></button>
             </div>
           </ScrollReveal>
         </div>
@@ -556,16 +639,16 @@ export default function Home() {
 
       <section className="cta-section">
         <div className="container cta-inner">
-          <span className="cta-kicker">Admissions Open</span>
+          <span className="cta-kicker">Start a conversation</span>
           <h2 className="cta-title">
-            <span>Start Your Journey Toward</span>
-            <span>Becoming a World-Class</span>
-            <span>Technology Professional.</span>
+            <span>Let’s build a more</span>
+            <span>capable, connected,</span>
+            <span>and secure future.</span>
           </h2>
-          <p className="cta-desc">Join hundreds of active students shaping the digital future at CyberPro Global.</p>
+          <p className="cta-desc">Tell us what you’re working toward. We’ll help you find the right place to start.</p>
           <div className="flex-center gap-4">
-            <button type="button" onClick={() => openModal()} className="btn btn-white btn-lg">Apply Now</button>
-            <Link to="/contact" className="btn btn-outline btn-lg">Talk to an Advisor</Link>
+            <Link to="/contact" className="btn btn-white btn-lg">Contact CyberPro</Link>
+            <Link to="/about" className="btn btn-outline btn-lg">Learn about us</Link>
           </div>
         </div>
       </section>

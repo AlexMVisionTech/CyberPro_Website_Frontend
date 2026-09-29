@@ -92,6 +92,24 @@
   transform: scale(1.05);
 }
 
+.home .partners-section {
+  background: #f5f8fa;
+  border-color: rgba(10, 27, 50, 0.09);
+}
+
+.home .partners-title { color: #0a1b32; }
+.home .partners-subtitle { color: #536579; }
+.home .partner-card {
+  background: #fff;
+  border-color: rgba(10, 27, 50, 0.1);
+  box-shadow: 0 8px 24px rgba(10, 27, 50, 0.045);
+}
+
+.home .partner-card:hover {
+  border-color: rgba(93, 159, 190, 0.48);
+  box-shadow: 0 14px 30px rgba(10, 27, 50, 0.1);
+}
+
 @media (max-width: 768px) {
   .partners-section {
     padding: 64px 0;

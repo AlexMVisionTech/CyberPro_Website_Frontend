@@ -2,20 +2,13 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, BookOpen, ExternalLink, FileText, FlaskConical, Globe, ShieldCheck } from 'lucide-react';
 import './Research.css';
 
-const CLUSTERS = [
-  { icon: FlaskConical, title: 'Adversarial Machine Learning', desc: 'Researching defense mechanisms against model poisoning, evasion attacks, and data backdoors in production AI systems.', lead: 'Dr. Philip Mulwa' },
-  { icon: Globe, title: 'Critical Infrastructure Protection', desc: 'Developing security frameworks for SCADA systems, power grids, and IoT networks across East African institutions.', lead: 'Prof. Janet Okoth' },
-  { icon: BookOpen, title: 'Privacy-Preserving Computation', desc: 'Advancing federated learning, differential privacy, and homomorphic encryption for healthcare and finance data.', lead: 'Dr. Eric Gitonga' },
-];
+import useApiCollection from "../hooks/useApiCollection";
 
-const PUBLICATIONS = [
-  { title: 'Adversarial Robustness in CNN-Based Malware Classifiers', authors: 'Mulwa, P. et al.', venue: 'IEEE Access, 2026', type: 'Journal' },
-  { title: 'Zero-Trust Architecture Adoption in East African Financial Institutions', authors: 'Okoth, J. & Gitonga, E.', venue: 'ACM Computing Surveys, 2025', type: 'Journal' },
-  { title: 'Federated Learning for Cross-Border Threat Intelligence Sharing', authors: 'Mulwa, P. & Amina, M.', venue: 'USENIX Security Symposium, 2025', type: 'Conference' },
-  { title: 'IoT Firmware Vulnerability Analysis Using Automated Fuzzing', authors: 'Gitonga, E. et al.', venue: 'Black Hat Africa, 2025', type: 'Conference' },
-];
+const ICONS = { FlaskConical, Globe, BookOpen };
 
 export default function Research() {
+  const { items: clusters, loading: clustersLoading, error: clustersError } = useApiCollection("/research/clusters");
+  const { items: publications, loading: publicationsLoading, error: publicationsError } = useApiCollection("/research/publications");
   return (
     <div>
       <section className="cyber-hero-premium">
@@ -59,11 +52,13 @@ export default function Research() {
             <h2 className="section-title">Active Research Initiatives</h2>
             <p className="section-subtitle">Interdisciplinary teams working on problems that matter to Africa and the world.</p>
           </div>
+          {clustersLoading && <p>Loading research clusters…</p>}
+          {clustersError && <p role="alert">{clustersError}</p>}
           <div className="research-grid">
-            {CLUSTERS.map((c, i) => (
-              <div className="research-card" key={i}>
+            {clusters.map((c) => (
+              <div className="research-card" key={c.id}>
                 <div className="research-card__header">
-                  <div className="research-card__icon"><c.icon size={22} /></div>
+                  <div className="research-card__icon">{(() => { const Icon = ICONS[c.icon] || FlaskConical; return <Icon size={22} />; })()}</div>
                   <span className="research-card__tag">Cluster</span>
                 </div>
                 <h3 className="research-card__title">{c.title}</h3>
@@ -84,9 +79,11 @@ export default function Research() {
             <h2 className="section-title">Selected Publications</h2>
             <p className="section-subtitle">Peer-reviewed research from our faculty across top-tier journals and conferences.</p>
           </div>
+          {publicationsLoading && <p>Loading publications…</p>}
+          {publicationsError && <p role="alert">{publicationsError}</p>}
           <div className="publications-list">
-            {PUBLICATIONS.map((pub, i) => (
-              <div className="publication-card" key={i}>
+            {publications.map((pub) => (
+              <div className="publication-card" key={pub.id}>
                 <div className="publication-icon">
                   <FileText size={22} />
                 </div>
@@ -95,7 +92,7 @@ export default function Research() {
                   <p>{pub.authors} — <em>{pub.venue}</em></p>
                 </div>
                 <span className={`badge ${pub.type === 'Journal' ? 'badge-crimson' : 'badge-navy'}`}>{pub.type}</span>
-                <ExternalLink size={16} className="publication-link-icon" />
+                {pub.link ? <a href={pub.link} target="_blank" rel="noopener noreferrer" aria-label={`Open publication: ${pub.title}`}><ExternalLink size={16} className="publication-link-icon" /></a> : <ExternalLink size={16} className="publication-link-icon" />}
               </div>
             ))}
           </div>

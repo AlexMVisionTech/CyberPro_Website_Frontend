@@ -17,16 +17,25 @@ import {
   AlertTriangle, 
   Search, 
   Users,
-  ArrowRight
+  ArrowRight,
+  Image as ImageIcon,
+  UploadCloud,
+  Copy,
+  Check,
+  Link as LinkIcon,
+  Building2,
+  BarChart3,
+  Inbox
 } from 'lucide-react';
 import './Admin.css';
 
-const API_BASE = 'http://localhost:8000/api';
+const API_BASE = `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api`;
 
 const api = async (path, options = {}) => {
   const token = localStorage.getItem('cyberpro_admin_token');
+  const isMultipart = options.body instanceof FormData;
   const headers = { 
-    'Content-Type': 'application/json', 
+    ...(isMultipart ? {} : { 'Content-Type': 'application/json' }),
     ...(token ? { Authorization: `Bearer ${token}` } : {}), 
     ...options.headers 
   };
@@ -39,8 +48,14 @@ const api = async (path, options = {}) => {
   }
   
   if (!res.ok) {
-    const errText = await res.text();
-    throw new Error(errText || 'Request failed');
+    let message = 'Request failed';
+    try {
+      const payload = await res.json();
+      message = payload.detail || message;
+    } catch {
+      // Keep the default message when the response is not JSON.
+    }
+    throw new Error(message);
   }
   
   // Handle 204 No Content for deletes
@@ -65,9 +80,15 @@ const Admin = () => {
   const [data, setData] = useState([]);
   const [stats, setStats] = useState({ programs: 0, events: 0, articles: 0, applications: 0, contacts: 0 });
   const [loading, setLoading] = useState(false);
+  const [dashboardError, setDashboardError] = useState('');
+  const [sectionError, setSectionError] = useState('');
+  const [uploadFile, setUploadFile] = useState(null);
+  const [mediaMessage, setMediaMessage] = useState('');
+  const [copiedMediaId, setCopiedMediaId] = useState(null);
   
   // Modal state
   const [modalOpen, setModalOpen] = useState(false);
+  const [applicantPreview, setApplicantPreview] = useState(null);
   const [modalMode, setModalMode] = useState('create');
   const [editingItem, setEditingItem] = useState(null);
   const [formData, setFormData] = useState({});
@@ -108,13 +129,10 @@ const Admin = () => {
 
   // Fetch stats for dashboard
   const fetchStats = async () => {
+    setDashboardError('');
     try {
       const [progs, evts, arts, apps, conts] = await Promise.all([
-        api('/programs').catch(() => []),
-        api('/events').catch(() => []),
-        api('/articles').catch(() => []),
-        api('/applications').catch(() => []),
-        api('/contact').catch(() => [])
+        api('/programs'), api('/events'), api('/articles'), api('/applications'), api('/contact')
       ]);
       
       setStats({
@@ -130,7 +148,8 @@ const Admin = () => {
       setRecentContacts(conts.slice(0, 5));
       
     } catch (error) {
-      console.error('Error fetching stats:', error);
+      console.error('Error fetching dashboard data:', error);
+      setDashboardError(error.message || 'Dashboard data could not be loaded.');
     }
   };
 
@@ -148,6 +167,7 @@ const Admin = () => {
 
   const fetchSectionData = async () => {
     setLoading(true);
+    setSectionError('');
     try {
       let endpoint = '';
       if (activeSection === 'programs') endpoint = '/programs';
@@ -155,6 +175,10 @@ const Admin = () => {
       else if (activeSection === 'articles') endpoint = '/articles';
       else if (activeSection === 'applications') endpoint = '/applications';
       else if (activeSection === 'contacts') endpoint = '/contact';
+      else if (activeSection === 'media') endpoint = '/media';
+      else if (activeSection === 'corporate-services') endpoint = '/corporate/services';
+      else if (activeSection === 'corporate-metrics') endpoint = '/corporate/metrics';
+      else if (activeSection === 'corporate-inquiries') endpoint = '/corporate/inquiries';
       
       if (endpoint) {
         const result = await api(endpoint);
@@ -162,6 +186,7 @@ const Admin = () => {
       }
     } catch (err) {
       console.error(`Failed to fetch ${activeSection}:`, err);
+      setSectionError(err.message || `Could not load ${activeSection}.`);
     } finally {
       setLoading(false);
     }
@@ -170,13 +195,18 @@ const Admin = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoginError('');
+    const username = loginUsername.trim().toLowerCase();
+    if (!username.endsWith('@cyberpro.ke')) {
+      setLoginError('Use your @cyberpro.ke administrator email.');
+      return;
+    }
     setLoginLoading(true);
     
     try {
       const res = await fetch(`${API_BASE}/admin/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: loginUsername, password: loginPassword })
+        body: JSON.stringify({ username, password: loginPassword })
       });
       
       const data = await res.json();
@@ -231,11 +261,15 @@ const Admin = () => {
   const handleSave = async () => {
     setSaveLoading(true);
     try {
-      let endpoint = `/${activeSection}`;
+      const corporateEndpoints = {
+        'corporate-services': '/corporate/services',
+        'corporate-metrics': '/corporate/metrics',
+      };
+      let endpoint = corporateEndpoints[activeSection] || `/${activeSection}`;
       let method = 'POST';
       
       if (modalMode === 'edit') {
-        endpoint = `/${activeSection}/${editingItem.id}`;
+        endpoint = `${corporateEndpoints[activeSection] || `/${activeSection}`}/${editingItem.id}`;
         method = 'PUT';
       }
       
@@ -267,7 +301,12 @@ const Admin = () => {
     
     setDeleteLoading(true);
     try {
-      let endpoint = `/${activeSection}/${deleteConfirm.id}`;
+      const corporateEndpoints = {
+        'corporate-services': '/corporate/services',
+        'corporate-metrics': '/corporate/metrics',
+        'corporate-inquiries': '/corporate/inquiries',
+      };
+      let endpoint = `${corporateEndpoints[activeSection] || `/${activeSection}`}/${deleteConfirm.id}`;
       // Special case for contacts
       if (activeSection === 'contacts') endpoint = `/contact/${deleteConfirm.id}`;
       
@@ -281,6 +320,36 @@ const Admin = () => {
       alert(`Delete failed: ${err.message}`);
     } finally {
       setDeleteLoading(false);
+    }
+  };
+
+  const handleMediaUpload = async (e) => {
+    e.preventDefault();
+    if (!uploadFile) return;
+    const formData = new FormData();
+    formData.append('file', uploadFile);
+    setSaveLoading(true);
+    setSectionError('');
+    setMediaMessage('');
+    try {
+      await api('/media', { method: 'POST', body: formData });
+      setUploadFile(null);
+      setMediaMessage('Image uploaded. Copy the URL below to use it in your content.');
+      await fetchSectionData();
+    } catch (err) {
+      setSectionError(err.message || 'Image upload failed.');
+    } finally {
+      setSaveLoading(false);
+    }
+  };
+
+  const copyMediaUrl = async (asset) => {
+    try {
+      await navigator.clipboard.writeText(asset.url);
+      setCopiedMediaId(asset.id);
+      window.setTimeout(() => setCopiedMediaId(null), 1800);
+    } catch {
+      setSectionError('Could not copy the link. Select and copy it from the URL field.');
     }
   };
 
@@ -324,11 +393,12 @@ const Admin = () => {
             <div className="admin-login-card">
               <div className="admin-login-card-inner">
                 <div className="admin-login-logo">
-                  <img src="/logo blue.jpg" alt="CyberPro Global" className="admin-login-logo-img" />
+                  <img src="/logo.jpg" alt="CyberPro Global" className="admin-login-logo-img" />
                 </div>
+                <div className="admin-login-kicker"><span /> ADMINISTRATOR PORTAL</div>
                 <div className="admin-login-heading">
                   <h1 className="admin-login-title">Welcome back</h1>
-                  <p className="admin-login-subtitle">Sign in to your administrator account to continue.</p>
+                  <p className="admin-login-subtitle">Sign in to manage CyberPro Global content and enquiries.</p>
                 </div>
 
                 <form className="admin-login-form" onSubmit={handleLogin}>
@@ -340,17 +410,17 @@ const Admin = () => {
                   )}
 
                   <div className="admin-input-group">
-                    <label htmlFor="admin-username">Username</label>
+                    <label htmlFor="admin-username">Work email</label>
                     <div className="admin-input-wrapper">
                       <Users size={17} />
                       <input
                         id="admin-username"
-                        type="text"
+                        type="email"
                         value={loginUsername}
                         onChange={e => setLoginUsername(e.target.value)}
                         required
-                        placeholder="Enter your username"
-                        autoComplete="username"
+                        placeholder="name@cyberpro.ke"
+                        autoComplete="email"
                       />
                     </div>
                   </div>
@@ -369,15 +439,6 @@ const Admin = () => {
                         autoComplete="current-password"
                       />
                     </div>
-                  </div>
-
-                  <div className="admin-login-options">
-                    <label className="admin-login-remember">
-                      <input type="checkbox" />
-                      <span className="admin-login-checkbox"></span>
-                      <span>Remember me</span>
-                    </label>
-                    <a href="#" className="admin-login-forgot" onClick={e => e.preventDefault()}>Forgot password?</a>
                   </div>
 
                   <button type="submit" className="admin-login-btn" disabled={loginLoading}>
@@ -424,6 +485,8 @@ const Admin = () => {
               <select name="cat" value={formData.cat || 'foundation'} onChange={handleFormChange}>
                 <option value="foundation">Foundation</option>
                 <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+                <option value="expert">Expert</option>
               </select>
             </div>
             <div className="admin-form-group">
@@ -575,6 +638,45 @@ const Admin = () => {
         </>
       );
     }
+
+    if (activeSection === 'corporate-services') {
+      return (
+        <>
+          <div className="admin-form-group">
+            <label>Service title</label>
+            <input type="text" name="title" value={formData.title || ''} onChange={handleFormChange} required />
+          </div>
+          <div className="admin-form-group">
+            <label>Icon</label>
+            <select name="icon" value={formData.icon || 'Building2'} onChange={handleFormChange}>
+              <option value="Shield">Shield</option>
+              <option value="Building2">Building</option>
+              <option value="Users">People</option>
+              <option value="BarChart3">Analytics</option>
+            </select>
+          </div>
+          <div className="admin-form-group">
+            <label>Description</label>
+            <textarea name="desc" value={formData.desc || ''} onChange={handleFormChange} required />
+          </div>
+        </>
+      );
+    }
+
+    if (activeSection === 'corporate-metrics') {
+      return (
+        <div className="admin-form-row">
+          <div className="admin-form-group">
+            <label>Metric value</label>
+            <input type="text" name="value" value={formData.value || ''} onChange={handleFormChange} required placeholder="45+" />
+          </div>
+          <div className="admin-form-group">
+            <label>Metric label</label>
+            <input type="text" name="label" value={formData.label || ''} onChange={handleFormChange} required placeholder="Corporate Partners" />
+          </div>
+        </div>
+      );
+    }
     
     return <p>Form not configured for this section.</p>;
   };
@@ -701,6 +803,42 @@ const Admin = () => {
       );
     }
 
+    if (activeSection === 'corporate-services') {
+      return (
+        <div className="admin-table-wrapper"><table className="admin-table">
+          <thead><tr><th>Service</th><th>Description</th><th>Icon</th><th>Actions</th></tr></thead>
+          <tbody>{data.map(item => <tr key={item.id}>
+            <td><strong>{item.title}</strong></td><td className="cell-truncate">{item.desc}</td><td>{item.icon}</td>
+            <td><div className="table-actions"><button className="admin-btn-icon" onClick={() => openEditModal(item)} title="Edit"><Edit size={16} /></button><button className="admin-btn-icon delete" onClick={() => confirmDelete(item)} title="Delete"><Trash2 size={16} /></button></div></td>
+          </tr>)}</tbody>
+        </table></div>
+      );
+    }
+
+    if (activeSection === 'corporate-metrics') {
+      return (
+        <div className="admin-table-wrapper"><table className="admin-table">
+          <thead><tr><th>Value</th><th>Label</th><th>Actions</th></tr></thead>
+          <tbody>{data.map(item => <tr key={item.id}>
+            <td><strong>{item.value}</strong></td><td>{item.label}</td>
+            <td><div className="table-actions"><button className="admin-btn-icon" onClick={() => openEditModal(item)} title="Edit"><Edit size={16} /></button><button className="admin-btn-icon delete" onClick={() => confirmDelete(item)} title="Delete"><Trash2 size={16} /></button></div></td>
+          </tr>)}</tbody>
+        </table></div>
+      );
+    }
+
+    if (activeSection === 'corporate-inquiries') {
+      return (
+        <div className="admin-table-wrapper"><table className="admin-table">
+          <thead><tr><th>Company</th><th>Contact</th><th>Email</th><th>Team size</th><th>Received</th><th>Actions</th></tr></thead>
+          <tbody>{data.map(item => <tr key={item.id}>
+            <td><strong>{item.company}</strong></td><td>{item.contact_name}</td><td>{item.email}</td><td>{item.team_size}</td><td>{formatDate(item.created_at)}</td>
+            <td><div className="table-actions"><button className="admin-btn-icon delete" onClick={() => confirmDelete(item)} title="Delete"><Trash2 size={16} /></button></div></td>
+          </tr>)}</tbody>
+        </table></div>
+      );
+    }
+
     if (activeSection === 'applications') {
       return (
         <div className="admin-table-wrapper">
@@ -728,6 +866,7 @@ const Admin = () => {
                   <td>{formatDate(item.created_at)}</td>
                   <td>
                     <div className="table-actions">
+                      <button className="admin-btn-icon" onClick={() => setApplicantPreview(item)} title="Preview applicant details" aria-label={`Preview ${item.fullName}'s application`}><Search size={16} /></button>
                       <button className="admin-btn-icon delete" onClick={() => confirmDelete(item)} title="Delete"><Trash2 size={16} /></button>
                     </div>
                   </td>
@@ -780,6 +919,15 @@ const Admin = () => {
 
   const renderDashboard = () => (
     <>
+      {dashboardError && <div className="admin-alert" role="alert"><AlertTriangle size={17} />{dashboardError}</div>}
+      <section className="dashboard-welcome">
+        <div>
+          <span className="dashboard-eyebrow">ADMIN WORKSPACE</span>
+          <h2>Welcome back{adminUser?.username ? `, ${adminUser.username}` : ''}</h2>
+          <p>Here’s the latest snapshot of your content and incoming enquiries.</p>
+        </div>
+        <div className="dashboard-live-label"><span />Live overview</div>
+      </section>
       <div className="admin-stats">
         <div className="admin-stat-card" onClick={() => setActiveSection('programs')} style={{cursor: 'pointer'}}>
           <div className="admin-stat-icon blue">
@@ -831,7 +979,51 @@ const Admin = () => {
           </div>
         </div>
       </div>
-      
+
+      {(() => {
+        const distribution = [
+          { label: 'Programs', value: stats.programs, color: '#3977c5' },
+          { label: 'Events', value: stats.events, color: '#1e9b78' },
+          { label: 'Articles', value: stats.articles, color: '#e29436' },
+          { label: 'Applications', value: stats.applications, color: '#8068c8' },
+          { label: 'Messages', value: stats.contacts, color: '#df536b' }
+        ];
+        const total = distribution.reduce((sum, item) => sum + item.value, 0);
+        let cursor = 0;
+        const gradient = total
+          ? `conic-gradient(${distribution.map(item => {
+              const start = cursor;
+              cursor += (item.value / total) * 100;
+              return `${item.color} ${start}% ${cursor}%`;
+            }).join(', ')})`
+          : 'conic-gradient(#e8edf3 0% 100%)';
+
+        return (
+          <section className="dashboard-visual-card" aria-labelledby="dashboard-distribution-title">
+            <div className="dashboard-visual-heading">
+              <div>
+                <h2 id="dashboard-distribution-title">Workspace distribution</h2>
+                <p>A live breakdown of records across your portal.</p>
+              </div>
+              <span className="dashboard-total-label">{total.toLocaleString()} total records</span>
+            </div>
+            <div className="dashboard-distribution">
+              <div className="dashboard-donut" style={{ '--dashboard-donut': gradient }} aria-label={`${total} total records`}>
+                <div><strong>{total.toLocaleString()}</strong><span>Total records</span></div>
+              </div>
+              <div className="dashboard-legend">
+                {distribution.map(item => (
+                  <div className="dashboard-legend-row" key={item.label}>
+                    <span className="dashboard-legend-name"><i style={{ background: item.color }} />{item.label}</span>
+                    <strong>{item.value.toLocaleString()}</strong>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      })()}
+
       <div className="dashboard-tables">
         <div className="admin-table-card">
           <div className="admin-table-header">
@@ -857,7 +1049,7 @@ const Admin = () => {
                     </tr>
                   ))
                 ) : (
-                  <tr><td colSpan="3" style={{textAlign: 'center', padding: '20px', color: 'rgba(255,255,255,0.4)'}}>No recent applications</td></tr>
+                  <tr><td colSpan="3" className="dashboard-empty-cell">No recent applications yet</td></tr>
                 )}
               </tbody>
             </table>
@@ -888,7 +1080,7 @@ const Admin = () => {
                     </tr>
                   ))
                 ) : (
-                  <tr><td colSpan="3" style={{textAlign: 'center', padding: '20px', color: 'rgba(255,255,255,0.4)'}}>No recent messages</td></tr>
+                  <tr><td colSpan="3" className="dashboard-empty-cell">No recent messages yet</td></tr>
                 )}
               </tbody>
             </table>
@@ -898,15 +1090,67 @@ const Admin = () => {
     </>
   );
 
+  const renderMediaLibrary = () => (
+    <section className="media-library">
+      {sectionError && <div className="admin-alert" role="alert"><AlertTriangle size={17} />{sectionError}</div>}
+      {mediaMessage && <div className="media-success" role="status"><Check size={17} />{mediaMessage}</div>}
+      <form className="media-upload-panel" onSubmit={handleMediaUpload}>
+        <div className="media-upload-copy">
+          <span className="media-upload-icon"><UploadCloud size={21} /></span>
+          <div>
+            <h2>Upload an image</h2>
+            <p>Upload a JPEG, PNG, WebP, or GIF up to 10 MB. We’ll generate a reusable public link.</p>
+          </div>
+        </div>
+        <div className="media-upload-controls">
+          <label className="media-file-picker">
+            <input key={uploadFile ? uploadFile.name : 'empty'} type="file" accept="image/jpeg,image/png,image/webp,image/gif" onChange={e => setUploadFile(e.target.files?.[0] || null)} />
+            <ImageIcon size={16} />
+            <span>{uploadFile?.name || 'Choose image'}</span>
+          </label>
+          <button className="admin-btn admin-btn-primary" type="submit" disabled={!uploadFile || saveLoading}>
+            <UploadCloud size={16} />{saveLoading ? 'Uploading…' : 'Upload image'}
+          </button>
+        </div>
+      </form>
+
+      <div className="media-library-heading">
+        <div><h2>Image library</h2><p>{data.length} uploaded {data.length === 1 ? 'image' : 'images'}</p></div>
+      </div>
+
+      {loading ? <div className="admin-loading">Loading images…</div> : data.length === 0 ? (
+        <div className="media-empty"><ImageIcon size={25} /><strong>No images yet</strong><span>Upload your first image to create a link.</span></div>
+      ) : (
+        <div className="media-grid">
+          {data.map(asset => (
+            <article className="media-card" key={asset.id}>
+              <div className="media-card-preview"><img src={asset.url} alt={asset.original_name} loading="lazy" /></div>
+              <div className="media-card-info">
+                <strong title={asset.original_name}>{asset.original_name}</strong>
+                <span>{(asset.size_bytes / 1024 / 1024).toFixed(2)} MB</span>
+                <div className="media-url-field"><LinkIcon size={14} /><input aria-label="Image URL" readOnly value={asset.url} onFocus={e => e.target.select()} /></div>
+                <button className="admin-btn admin-btn-secondary media-copy-btn" type="button" onClick={() => copyMediaUrl(asset)}>
+                  {copiedMediaId === asset.id ? <Check size={15} /> : <Copy size={15} />}
+                  {copiedMediaId === asset.id ? 'Copied' : 'Copy image URL'}
+                </button>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+
   return (
     <div className="admin-layout">
       <aside className="admin-sidebar">
         <div className="admin-sidebar-brand">
-          <Shield color="#3b82f6" size={28} />
-          <h2>CyberPro Admin</h2>
+          <img src="/logo.jpg" alt="CyberPro Global" className="admin-sidebar-logo" />
+          <h2>ADMINISTRATION</h2>
         </div>
         
         <nav className="admin-sidebar-nav">
+          <span className="admin-nav-section-label">Workspace</span>
           <button 
             className={`admin-nav-item ${activeSection === 'dashboard' ? 'active' : ''}`}
             onClick={() => setActiveSection('dashboard')}
@@ -914,6 +1158,8 @@ const Admin = () => {
             <LayoutDashboard size={18} />
             Dashboard
           </button>
+
+          <span className="admin-nav-section-label">Content management</span>
           
           <button 
             className={`admin-nav-item ${activeSection === 'programs' ? 'active' : ''}`}
@@ -923,7 +1169,7 @@ const Admin = () => {
             Programs
             <span className="nav-badge">{stats.programs}</span>
           </button>
-          
+
           <button 
             className={`admin-nav-item ${activeSection === 'events' ? 'active' : ''}`}
             onClick={() => setActiveSection('events')}
@@ -932,7 +1178,7 @@ const Admin = () => {
             Events
             <span className="nav-badge">{stats.events}</span>
           </button>
-          
+
           <button 
             className={`admin-nav-item ${activeSection === 'articles' ? 'active' : ''}`}
             onClick={() => setActiveSection('articles')}
@@ -941,6 +1187,8 @@ const Admin = () => {
             Articles
             <span className="nav-badge">{stats.articles}</span>
           </button>
+
+          <span className="admin-nav-section-label">Admissions & enquiries</span>
           
           <button 
             className={`admin-nav-item ${activeSection === 'applications' ? 'active' : ''}`}
@@ -958,6 +1206,26 @@ const Admin = () => {
             <MessageSquare size={18} />
             Messages
             <span className="nav-badge">{stats.contacts}</span>
+          </button>
+
+          <span className="admin-nav-section-label">Corporate</span>
+          <button className={`admin-nav-item ${activeSection === 'corporate-services' ? 'active' : ''}`} onClick={() => setActiveSection('corporate-services')}>
+            <Building2 size={18} /> Corporate Services
+          </button>
+          <button className={`admin-nav-item ${activeSection === 'corporate-metrics' ? 'active' : ''}`} onClick={() => setActiveSection('corporate-metrics')}>
+            <BarChart3 size={18} /> Corporate Metrics
+          </button>
+          <button className={`admin-nav-item ${activeSection === 'corporate-inquiries' ? 'active' : ''}`} onClick={() => setActiveSection('corporate-inquiries')}>
+            <Inbox size={18} /> Proposal Inquiries
+          </button>
+
+          <span className="admin-nav-section-label">Tools</span>
+          <button
+            className={`admin-nav-item ${activeSection === 'media' ? 'active' : ''}`}
+            onClick={() => setActiveSection('media')}
+          >
+            <ImageIcon size={18} />
+            Media Library
           </button>
         </nav>
         
@@ -978,10 +1246,14 @@ const Admin = () => {
             {activeSection === 'articles' && 'Manage Articles'}
             {activeSection === 'applications' && 'Course Applications'}
             {activeSection === 'contacts' && 'Contact Messages'}
+            {activeSection === 'media' && 'Media Library'}
+            {activeSection === 'corporate-services' && 'Corporate Services'}
+            {activeSection === 'corporate-metrics' && 'Corporate Impact Metrics'}
+            {activeSection === 'corporate-inquiries' && 'Corporate Proposal Inquiries'}
           </h1>
           
           <div className="admin-topbar-actions">
-            {['programs', 'events', 'articles'].includes(activeSection) && (
+            {['programs', 'events', 'articles', 'corporate-services', 'corporate-metrics'].includes(activeSection) && (
               <button className="admin-btn admin-btn-primary" onClick={openCreateModal}>
                 <Plus size={16} /> Add New
               </button>
@@ -992,24 +1264,70 @@ const Admin = () => {
           </div>
         </div>
         
-        {activeSection === 'dashboard' ? (
-          renderDashboard()
-        ) : (
+          {activeSection === 'dashboard' ? (
+            renderDashboard()
+          ) : activeSection === 'media' ? (
+            renderMediaLibrary()
+          ) : (
           <div className="admin-table-card">
             <div className="admin-table-header">
               <h2>All {activeSection.charAt(0).toUpperCase() + activeSection.slice(1)}</h2>
             </div>
-            {renderTableContent()}
+            {sectionError ? <div className="admin-alert admin-alert--table" role="alert"><AlertTriangle size={17} />{sectionError}</div> : renderTableContent()}
           </div>
         )}
       </main>
+
+      {applicantPreview && (
+        <div className="admin-modal-overlay" onClick={(e) => { if (e.target.classList.contains('admin-modal-overlay')) setApplicantPreview(null); }}>
+          <section className="admin-modal applicant-preview-modal" role="dialog" aria-modal="true" aria-labelledby="applicant-preview-title">
+            <div className="admin-modal-header">
+              <div>
+                <span className="applicant-preview-kicker">APPLICATION DETAILS</span>
+                <h2 id="applicant-preview-title">{applicantPreview.fullName}</h2>
+              </div>
+              <button className="admin-modal-close" onClick={() => setApplicantPreview(null)} aria-label="Close applicant preview"><X size={20} /></button>
+            </div>
+            <div className="admin-modal-body">
+              <div className="applicant-preview-grid">
+                {[
+                  ['Email address', applicantPreview.email],
+                  ['Phone number', applicantPreview.phone],
+                  ['Location', applicantPreview.location],
+                  ['Program', applicantPreview.program],
+                  ['Class format', applicantPreview.classFormat],
+                  ['Study mode', applicantPreview.studyMode],
+                  ['Payment plan', applicantPreview.paymentPlan],
+                  ['Preferred start date', applicantPreview.startDate],
+                  ['Experience level', applicantPreview.experienceLevel],
+                  ['Submitted', applicantPreview.created_at ? formatDate(applicantPreview.created_at) : null],
+                  ['Application ID', applicantPreview.id]
+                ].map(([label, value]) => (
+                  <div className="applicant-preview-field" key={label}>
+                    <span>{label}</span>
+                    <strong>{value || 'Not provided'}</strong>
+                  </div>
+                ))}
+              </div>
+              <div className="applicant-preview-notes">
+                <span>Additional notes</span>
+                <p>{applicantPreview.notes?.trim() || 'No additional notes provided.'}</p>
+              </div>
+            </div>
+            <div className="admin-modal-footer">
+              <button className="admin-btn admin-btn-secondary" onClick={() => setApplicantPreview(null)}>Close preview</button>
+              <a className="admin-btn admin-btn-primary applicant-email-link" href={`mailto:${encodeURIComponent(applicantPreview.email || '')}`}><MessageSquare size={15} /> Email applicant</a>
+            </div>
+          </section>
+        </div>
+      )}
 
       {/* Create/Edit Modal */}
       {modalOpen && (
         <div className="admin-modal-overlay" onClick={(e) => { if (e.target.classList.contains('admin-modal-overlay')) setModalOpen(false); }}>
           <div className="admin-modal">
             <div className="admin-modal-header">
-              <h2>{modalMode === 'create' ? 'Add New' : 'Edit'} {activeSection.slice(0, -1).charAt(0).toUpperCase() + activeSection.slice(0, -1).slice(1)}</h2>
+              <h2>{modalMode === 'create' ? 'Add New' : 'Edit'} {activeSection === 'corporate-services' ? 'Corporate Service' : activeSection === 'corporate-metrics' ? 'Corporate Metric' : activeSection.slice(0, -1).charAt(0).toUpperCase() + activeSection.slice(0, -1).slice(1)}</h2>
               <button className="admin-modal-close" onClick={() => setModalOpen(false)}>
                 <X size={20} />
               </button>

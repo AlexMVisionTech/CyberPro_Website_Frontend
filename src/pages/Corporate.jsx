@@ -1,22 +1,42 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Building2, Users, BarChart3, Shield, Target, Briefcase, ArrowRight } from 'lucide-react';
+import { Building2, Users, BarChart3, Shield, ArrowRight } from 'lucide-react';
+import useApiCollection from '../hooks/useApiCollection';
 import './Programs.css';
 
-const SERVICES = [
-  { icon: Shield, title: 'Cybersecurity Awareness Training', desc: 'Equip your workforce with security best practices, phishing recognition, and incident response protocols.' },
-  { icon: Building2, title: 'Enterprise Cloud Migration', desc: 'Hands-on cloud architecture workshops for IT teams transitioning to AWS, Azure, or GCP environments.' },
-  { icon: Users, title: 'Leadership Tech Bootcamps', desc: 'Executive-level programs on AI strategy, digital transformation, and technology risk governance.' },
-  { icon: BarChart3, title: 'Data Analytics Upskilling', desc: 'Train analysts and managers on Python, SQL, BI tools, and data-driven decision frameworks.' },
-];
-
-const METRICS = [
-  { value: '45+', label: 'Corporate Partners' },
-  { value: '3,200+', label: 'Employees Trained' },
-  { value: '98%', label: 'Satisfaction Rate' },
-  { value: '12', label: 'Industry Sectors' },
-];
+const API_BASE = `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api`;
+const SERVICE_ICONS = { Building2, Users, BarChart3, Shield };
 
 export default function Corporate() {
+  const { items: services, loading: servicesLoading, error: servicesError } = useApiCollection('/corporate/services');
+  const { items: metrics, loading: metricsLoading, error: metricsError } = useApiCollection('/corporate/metrics');
+  const [form, setForm] = useState({ company: '', contact_name: '', email: '', team_size: '' });
+  const [submitting, setSubmitting] = useState(false);
+  const [formMessage, setFormMessage] = useState('');
+  const [formError, setFormError] = useState('');
+
+  const submitInquiry = async (event) => {
+    event.preventDefault();
+    setSubmitting(true);
+    setFormError('');
+    setFormMessage('');
+    try {
+      const response = await fetch(`${API_BASE}/corporate/inquiries`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(payload.detail || 'Unable to send your request. Please try again.');
+      setForm({ company: '', contact_name: '', email: '', team_size: '' });
+      setFormMessage('Thank you. Our corporate team will be in touch soon.');
+    } catch (error) {
+      setFormError(error.message || 'Unable to send your request. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <div>
       <section className="page-hero section-dark" style={{ position: 'relative', overflow: 'hidden' }}>
@@ -40,14 +60,17 @@ export default function Corporate() {
             <h2 className="section-title">Tailored Programs for Your Organization</h2>
             <p className="section-subtitle">From cybersecurity awareness to advanced cloud migration — we design training that delivers measurable impact.</p>
           </div>
+          {servicesLoading && <p>Loading corporate services…</p>}
+          {servicesError && <p role="alert">{servicesError}</p>}
           <div className="grid grid-2" style={{ marginTop: '48px' }}>
-            {SERVICES.map((s, i) => (
-              <div className="service-card" key={i}>
-                <div className="service-card__icon"><s.icon size={26} /></div>
+            {services.map((s) => {
+              const Icon = SERVICE_ICONS[s.icon] || Building2;
+              return <div className="service-card" key={s.id}>
+                <div className="service-card__icon"><Icon size={26} /></div>
                 <h3 className="service-card__title">{s.title}</h3>
                 <p className="service-card__desc">{s.desc}</p>
-              </div>
-            ))}
+              </div>;
+            })}
           </div>
         </div>
       </section>
@@ -59,9 +82,11 @@ export default function Corporate() {
             <span className="section-label" style={{ justifyContent: 'center' }}>Impact</span>
             <h2 className="section-title" style={{ color: 'white' }}>Trusted by Industry Leaders</h2>
           </div>
+          {metricsLoading && <p>Loading impact metrics…</p>}
+          {metricsError && <p role="alert">{metricsError}</p>}
           <div className="corporate-metrics">
-            {METRICS.map((m, i) => (
-              <div className="metric-card-dark" key={i}>
+            {metrics.map((m) => (
+              <div className="metric-card-dark" key={m.id}>
                 <div className="metric-value-neon">{m.value}</div>
                 <div className="metric-label-dark">{m.label}</div>
               </div>
@@ -78,25 +103,25 @@ export default function Corporate() {
               <h2 className="section-title">Schedule a Training Consultation</h2>
               <p className="section-subtitle" style={{ margin: '0 auto' }}>Our enterprise team will assess your organization's needs and design a custom training roadmap.</p>
             </div>
-            <form onSubmit={e => { e.preventDefault(); alert('Thank you! Our enterprise team will contact you within 24 hours.'); e.target.reset(); }}>
+            <form onSubmit={submitInquiry}>
               <div className="form-row">
                 <div className="form-group">
                   <label className="form-label">Company Name</label>
-                  <input className="form-input" required placeholder="e.g. Safaricom PLC" />
+                  <input className="form-input" required placeholder="e.g. Safaricom PLC" value={form.company} onChange={e => setForm({ ...form, company: e.target.value })} />
                 </div>
                 <div className="form-group">
                   <label className="form-label">Contact Person</label>
-                  <input className="form-input" required placeholder="Full name" />
+                  <input className="form-input" required placeholder="Full name" value={form.contact_name} onChange={e => setForm({ ...form, contact_name: e.target.value })} />
                 </div>
               </div>
               <div className="form-row">
                 <div className="form-group">
                   <label className="form-label">Work Email</label>
-                  <input type="email" className="form-input" required placeholder="name@company.com" />
+                  <input type="email" className="form-input" required placeholder="name@company.com" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} />
                 </div>
                 <div className="form-group">
                   <label className="form-label">Team Size</label>
-                  <select className="form-select" required>
+                    <select className="form-select" required value={form.team_size} onChange={e => setForm({ ...form, team_size: e.target.value })}>
                     <option value="">Select team size</option>
                     <option>5–20 employees</option>
                     <option>20–50 employees</option>
@@ -105,8 +130,10 @@ export default function Corporate() {
                   </select>
                 </div>
               </div>
-              <button type="submit" className="btn btn-primary btn-lg" style={{ width: '100%', marginTop: '16px' }}>
-                Request Custom Proposal <ArrowRight size={18} />
+              {formError && <p role="alert" className="corporate-form-message corporate-form-message--error">{formError}</p>}
+              {formMessage && <p role="status" className="corporate-form-message">{formMessage}</p>}
+              <button type="submit" className="btn btn-primary btn-lg" style={{ width: '100%', marginTop: '16px' }} disabled={submitting}>
+                {submitting ? 'Sending request…' : 'Request Custom Proposal'} <ArrowRight size={18} />
               </button>
             </form>
           </div>

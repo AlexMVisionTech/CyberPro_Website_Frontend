@@ -2,15 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Clock, User, ArrowRight } from 'lucide-react';
 import './Blog.css';
-
-const ARTICLES = [
-  { title: 'Implementing Zero-Trust Architecture in Legacy Enterprise Infrastructure', excerpt: 'Explore concrete pathways to migrate older networks to zero-trust segments using micro-segmentations.', cat: 'security', catLabel: 'Cybersecurity', date: 'August 1, 2026', read: '6 min', author: 'Dr. Philip Mulwa', img: '/images/blog_1.jpg', featured: true },
-  { title: 'Model Adversarial Defense: Hardening ML Classifiers', excerpt: 'A technical breakdown of threat mechanisms attacking image recognition systems with adversarial feeds.', cat: 'ai', catLabel: 'Artificial Intelligence', date: 'July 28, 2026', read: '8 min', author: 'Prof. Janet Okoth', img: '/images/blog_2.jpg' },
-  { title: 'Navigating Your First Cybersecurity Job Search in Africa', excerpt: 'Practical tips for landing entry-level SOC roles, building portfolios, and passing technical interviews.', cat: 'career', catLabel: 'Career Guide', date: 'July 15, 2026', read: '5 min', author: 'Amina M.', img: '/images/blog_3.jpg' },
-  { title: 'AWS Security Best Practices for Startups', excerpt: 'Essential IAM policies, S3 bucket configurations, and CloudTrail monitoring for early-stage companies.', cat: 'security', catLabel: 'Cloud Security', date: 'July 10, 2026', read: '7 min', author: 'Dr. Eric Gitonga', img: '/images/blog_1.jpg' },
-  { title: 'The Rise of AI-Powered Phishing Attacks', excerpt: 'How generative AI is transforming social engineering and what defenders need to know.', cat: 'ai', catLabel: 'AI Security', date: 'July 5, 2026', read: '6 min', author: 'Dr. Philip Mulwa', img: '/images/blog_2.jpg' },
-  { title: 'Building a Cybersecurity Home Lab on a Budget', excerpt: 'Step-by-step guide to setting up VMs, vulnerable targets, and monitoring tools for self-study.', cat: 'career', catLabel: 'Career Guide', date: 'June 28, 2026', read: '10 min', author: 'Amina M.', img: '/images/blog_3.jpg' },
-];
+import useApiCollection from '../hooks/useApiCollection';
 
 const TABS = [
   { key: 'all', label: 'All Articles' },
@@ -22,14 +14,15 @@ const TABS = [
 export default function Blog() {
   const [activeTab, setActiveTab] = useState('all');
   const [search, setSearch] = useState('');
+  const { items: articles, loading, error } = useApiCollection('/articles');
 
-  const filtered = ARTICLES.filter(a => {
+  const filtered = articles.filter(a => {
     const matchTab = activeTab === 'all' || a.cat === activeTab;
     const matchSearch = a.title.toLowerCase().includes(search.toLowerCase());
     return matchTab && matchSearch;
   });
 
-  const featured = ARTICLES.find(a => a.featured);
+  const featured = articles.find(a => a.featured);
 
   return (
     <div>
@@ -49,6 +42,8 @@ export default function Blog() {
 
       <section className="section">
         <div className="container">
+          {loading && <p>Loading articles…</p>}
+          {error && <p role="alert">{error}</p>}
           {featured && (
             <Link to="/blog" className="blog-featured" style={{ textDecoration: 'none', color: 'inherit' }}>
               <div className="blog-featured__image">
@@ -82,7 +77,7 @@ export default function Blog() {
 
           <div className="grid grid-3" style={{ marginTop: '36px' }}>
             {filtered.map((article, i) => (
-              <div className="card blog-card" key={i}>
+              <div className="card blog-card" key={article.id}>
                 <div className="blog-card__image">
                   <img src={article.img} alt={article.title} />
                 </div>
@@ -99,7 +94,7 @@ export default function Blog() {
             ))}
           </div>
 
-          {filtered.length === 0 && (
+          {!loading && !error && filtered.length === 0 && (
             <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--text-muted)' }}>
               No articles match your search.
             </div>

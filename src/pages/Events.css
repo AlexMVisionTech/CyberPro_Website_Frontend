@@ -101,24 +101,37 @@
 .events-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  align-items: stretch;
+  gap: 22px;
+}
+
+.events-grid > div {
+  display: flex;
+  min-width: 0;
 }
 
 .event-card {
+  width: 100%;
+  min-width: 0;
+  min-height: 492px;
+  height: 100%;
   background: white;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: var(--radius-lg);
+  border: 1px solid #e4e9f0;
+  border-radius: 15px;
   display: flex;
   flex-direction: column;
-  transition: all 0.3s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 3px 12px rgba(16, 35, 63, .035);
 }
 
 .event-card__image {
   position: relative;
-  aspect-ratio: 16 / 10;
+  flex: 0 0 190px;
+  height: 190px;
   overflow: hidden;
+  background: #e9eef4;
 }
 
 .event-card__image img {
@@ -141,46 +154,71 @@
 }
 
 .event-card__body {
-  padding: 24px;
+  padding: 20px 21px 21px;
   flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
 }
 
 .event-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.06);
-  border-color: rgba(254, 1, 28, 0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 32px rgba(16, 35, 63, .09);
+  border-color: #d4dce7;
 }
 
 .event-card__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 14px;
-  gap: 10px;
+  min-height: 27px;
+  margin-bottom: 13px;
+  gap: 8px;
 }
 
 .event-card__date {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
+  min-width: 0;
+  font-size: 11px;
   font-weight: 600;
   color: var(--text-muted);
 }
 
 .event-card__title {
+  display: -webkit-box;
+  min-height: 47px;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   font-size: 18px;
   line-height: 1.3;
-  margin-bottom: 10px;
+  margin-bottom: 9px;
 }
 
 .event-card__desc {
+  display: -webkit-box;
+  min-height: 89px;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
   font-size: 14px;
   color: var(--text-secondary);
   line-height: 1.6;
-  margin-bottom: 20px;
+  margin-bottom: 17px;
+}
+
+.event-card .btn {
+  min-height: 36px;
+  border-radius: 7px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.event-card .btn:disabled {
+  opacity: .72;
+  cursor: default;
 }
 
 /* Interactive Command Center Gallery */
