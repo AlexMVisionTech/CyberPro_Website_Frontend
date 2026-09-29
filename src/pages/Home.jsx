@@ -401,18 +401,6 @@ export default function Home() {
 
       <Partners />
 
-      <section className="audience-section">
-        <div className="container">
-          <div className="audience-heading">
-            <span className="section-label">Where capability meets impact</span>
-            <h2>Three forces. <span>One digital future.</span></h2>
-            <p>CyberPro connects people, business, and public institutions to make Africa’s digital ecosystem stronger.</p>
-          </div>
-          <div className="audience-network" aria-hidden="true"><span /><span /><span /><i /></div>
-          <div className="audience-grid">{AUDIENCE_PATHS.map((item, i) => { const Icon = item.icon; return <ScrollReveal key={item.title} delay={i * .08}><Link className={`audience-card audience-card--${i + 1}`} to={item.to}><span className="audience-card__index">0{i + 1}</span><span className="audience-card__icon"><Icon size={22} /></span><span className="audience-card__focus">{item.focus}</span><span className="audience-card__title">{item.title === 'Individuals' ? 'Academia' : item.title}</span><span className="audience-card__text">{item.text}</span><span className="audience-card__link">{item.link}<ArrowRight size={16} /></span></Link></ScrollReveal>; })}</div>
-        </div>
-      </section>
-
       <section className="section">
         <div className="container">
           <ScrollReveal>
