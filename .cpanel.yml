@@ -2,5 +2,7 @@
 deployment:
   tasks:
     - export DEPLOYPATH=$HOME/public_html/
-    - /bin/rm -rf $DEPLOYPATH/*
-    - /bin/cp -R dist/. $DEPLOYPATH
+    - /bin/mkdir -p "$DEPLOYPATH"
+    - /bin/cp -R dist/. "$DEPLOYPATH"
+    - /bin/mkdir -p "$HOME/cyberpro_data/uploads"
+    - /bin/chmod 700 "$HOME/cyberpro_data" "$HOME/cyberpro_data/uploads"
