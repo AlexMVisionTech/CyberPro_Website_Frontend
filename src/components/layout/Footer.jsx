@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import { Shield, Mail, MapPin, Phone, ArrowRight, Camera } from 'lucide-react';
 import './Footer.css';
 
 export default function Footer() {
+  const [newsletterMessage, setNewsletterMessage] = useState('');
   return (
     <footer className="footer">
       <div className="container">
@@ -69,21 +71,20 @@ export default function Footer() {
             <p className="footer__newsletter-desc">
               Get monthly insights on cybersecurity trends, new programs, and career opportunities.
             </p>
-            <form className="footer__newsletter" onSubmit={e => { e.preventDefault(); alert('Subscribed!'); }}>
-              <input type="email" placeholder="Your email" required />
-              <button type="submit" aria-label="Subscribe">
+            <form className="footer__newsletter" onSubmit={e => { e.preventDefault(); setNewsletterMessage('Newsletter signup is not connected yet. Please contact us to hear about updates.'); }}>
+              <label className="sr-only" htmlFor="footer-newsletter-email">Your email address</label>
+              <input id="footer-newsletter-email" type="email" placeholder="Your email" required />
+              <button type="submit" aria-label="Request newsletter updates">
                 <ArrowRight size={18} />
               </button>
             </form>
+            {newsletterMessage && <p className="footer__newsletter-desc" role="status">{newsletterMessage}</p>}
           </div>
         </div>
 
         <div className="footer__bottom">
           <p>&copy; {new Date().getFullYear()} CyberPro Global. All rights reserved.</p>
-          <div className="footer__bottom-links">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-          </div>
+          <div className="footer__bottom-links"><Link to="/contact">Privacy & terms inquiries</Link></div>
         </div>
       </div>
     </footer>

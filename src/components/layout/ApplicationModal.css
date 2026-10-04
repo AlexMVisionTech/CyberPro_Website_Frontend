@@ -63,7 +63,7 @@
 .modal-hero__title {
   max-width: 560px;
   font-size: 26px;
-  font-weight: 800;
+  font-weight: 600;
   color: white;
   margin-bottom: 6px;
   letter-spacing: 0;
@@ -161,7 +161,7 @@
   margin-top: 5px;
   color: rgba(255, 255, 255, 0.34);
   font-size: 9px;
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: 0.14em;
   line-height: 1;
   text-transform: uppercase;
@@ -171,7 +171,7 @@
   min-width: 0;
   color: rgba(255, 255, 255, 0.42);
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: 0.06em;
   line-height: 1.25;
   text-transform: uppercase;
@@ -222,7 +222,7 @@
   margin-bottom: 8px;
   color: var(--primary);
   font-size: 10.5px;
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
@@ -238,7 +238,7 @@
 .form-section-heading__title {
   color: var(--navy);
   font-size: 20px;
-  font-weight: 800;
+  font-weight: 600;
   margin-bottom: 6px;
   letter-spacing: 0;
 }
@@ -265,7 +265,7 @@
 .form-label {
   color: var(--navy);
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -325,7 +325,7 @@ select.form-input {
   cursor: pointer;
   font-family: var(--font-body);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.25;
   text-align: left;
   transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
@@ -416,7 +416,7 @@ select.form-input {
 .option-card__label {
   color: var(--navy);
   font-size: 15px;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .option-card__desc {
@@ -439,7 +439,7 @@ select.form-input {
   border-bottom: 1px solid rgba(254, 1, 28, 0.16);
   color: var(--navy);
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -464,7 +464,7 @@ select.form-input {
 .review-item__label {
   color: var(--text-muted);
   font-size: 10.5px;
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -472,7 +472,7 @@ select.form-input {
 .review-item__value {
   color: var(--text-primary);
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
   overflow-wrap: anywhere;
 }
 
@@ -509,7 +509,7 @@ select.form-input {
 .submission-panel__title {
   color: white;
   font-size: 20px;
-  font-weight: 800;
+  font-weight: 600;
   margin-bottom: 6px;
   letter-spacing: 0;
 }

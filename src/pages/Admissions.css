@@ -98,7 +98,7 @@
   justify-content: center;
   font-family: var(--font-heading);
   font-size: 22px;
-  font-weight: 800;
+  font-weight: 600;
   margin: 0 auto 18px;
   background: white;
   color: var(--primary);
@@ -117,7 +117,7 @@
 
 .step-card .card-title {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 8px;
 }
@@ -201,7 +201,7 @@
 .fee-amount {
   font-family: var(--font-heading);
   font-size: 30px;
-  font-weight: 800;
+  font-weight: 600;
   color: var(--text-primary);
   letter-spacing: -0.02em;
   margin-bottom: 6px;
@@ -271,6 +271,11 @@
 
 .faq-question {
   display: flex;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  font: inherit;
   align-items: center;
   justify-content: space-between;
   padding: 18px 20px;

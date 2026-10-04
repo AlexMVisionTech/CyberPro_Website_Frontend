@@ -8,6 +8,7 @@ import Programs from './pages/Programs.jsx';
 import ProgramDetail from './pages/ProgramDetail.jsx';
 import Admissions from './pages/Admissions.jsx';
 import Corporate from './pages/Corporate.jsx';
+import Government from './pages/Government.jsx';
 import Research from './pages/Research.jsx';
 import CyberLabs from './pages/CyberLabs.jsx';
 import Events from './pages/Events.jsx';
@@ -32,6 +33,7 @@ function AppContent() {
           <Route path="/programs/:slug" element={<ProgramDetail />} />
           <Route path="/admissions" element={<Admissions />} />
           <Route path="/corporate" element={<Corporate />} />
+          <Route path="/government" element={<Government />} />
           <Route path="/research" element={<Research />} />
           <Route path="/cyber-labs" element={<CyberLabs />} />
           <Route path="/events" element={<Events />} />

@@ -110,6 +110,58 @@ const TERMINAL_LINES = [
   { text: '[OK] Security audit passed - 0 critical findings', color: 'ok' },
 ];
 
+const GLOBE_LATITUDES = Array.from({ length: 9 }, (_, index) => -64 + index * 16);
+const GLOBE_LONGITUDES = Array.from({ length: 12 }, (_, index) => index * 15);
+const SECTOR_ROUTES = [
+  { longitude: -34, latitude: 22, label: 'ACADEMIA' },
+  { longitude: 24, latitude: -8, label: 'INDUSTRY' },
+  { longitude: 152, latitude: -24, label: 'GOVERNMENT' },
+];
+const NETWORK_SECTORS = [
+  { icon: GraduationCap, title: 'Academia', focus: 'Learning & research', to: '/programs' },
+  { icon: Building2, title: 'Industry', focus: 'Workforce capability', to: '/corporate' },
+  { icon: Landmark, title: 'Government', focus: 'Public resilience', to: '/contact' },
+];
+
+function GlobeMatrix({ rotation }) {
+  const longitude = `rotateY(${rotation}deg)`;
+  return (
+    <div className="hero__globe-scene" aria-label="Rotating three-dimensional CyberPro network globe">
+      <div className="hero__globe-halo" />
+      <div className="hero__globe-shell">
+        <div className="hero__globe-sphere">
+          <div className="hero__globe-surface" />
+          <div className="hero__globe-continents" />
+          <div className="hero__globe-grid" style={{ transform: longitude }}>
+            {GLOBE_LATITUDES.map(latitude => <span className="hero__globe-latitude" key={latitude} style={{ '--latitude': `${latitude}deg` }} />)}
+            {GLOBE_LONGITUDES.map(degree => <span className="hero__globe-longitude" key={degree} style={{ transform: `rotateY(${degree}deg)` }} />)}
+          </div>
+          <div className="hero__globe-network" aria-label="Academia, industry, and government connected through CyberPro">
+              <svg className="hero__globe-network-map" viewBox="0 0 300 300" aria-hidden="true">
+                <defs><linearGradient id="networkFlow" x1="0" y1="1" x2="1" y2="0"><stop stopColor="#ff4568" /><stop offset=".52" stopColor="#9a91ff" /><stop offset="1" stopColor="#45e6f3" /></linearGradient></defs>
+                <path className="hero__globe-network-arc hero__globe-network-arc--academia" d="M52 78 Q112 77 150 150" />
+                <path className="hero__globe-network-arc hero__globe-network-arc--industry" d="M248 78 Q188 77 150 150" />
+                <path className="hero__globe-network-arc hero__globe-network-arc--government" d="M150 264 Q122 205 150 150" />
+                <circle className="hero__globe-network-endpoint hero__globe-network-endpoint--academia" cx="52" cy="78" r="4" />
+                <circle className="hero__globe-network-endpoint hero__globe-network-endpoint--industry" cx="248" cy="78" r="4" />
+                <circle className="hero__globe-network-endpoint hero__globe-network-endpoint--government" cx="150" cy="264" r="4" />
+              </svg>
+              <span className="hero__globe-network-name hero__globe-network-name--academia">ACADEMIA</span>
+              <span className="hero__globe-network-name hero__globe-network-name--industry">INDUSTRY</span>
+              <span className="hero__globe-network-name hero__globe-network-name--government">GOVERNMENT</span>
+              <span className="hero__globe-network-brand"><img src="/logo%20blue.jpg" alt="CyberPro" /></span>
+          </div>
+          <div className="hero__globe-front-glow" />
+        </div>
+      </div>
+      <div className="hero__globe-orbit hero__globe-orbit--one"><i /></div>
+      <div className="hero__globe-orbit hero__globe-orbit--two"><i /></div>
+      <div className="hero__globe-signal hero__globe-signal--one" />
+      <div className="hero__globe-signal hero__globe-signal--two" />
+    </div>
+  );
+}
+
 function AutoTypingTerminal() {
   const [lines, setLines] = useState([]);
   const [lineIndex, setLineIndex] = useState(0);
@@ -269,10 +321,12 @@ function FeaturedEventCard() {
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('all');
+  const [activeSector, setActiveSector] = useState('academia');
+  const [globeRotation, setGlobeRotation] = useState(0);
+  const globeRotationRef = useRef(0);
+  const globeDragX = useRef(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [activeAdvantage, setActiveAdvantage] = useState(1);
-  const [scheduledEcosystemNode, setScheduledEcosystemNode] = useState(null);
-  const [interactionEcosystemNode, setInteractionEcosystemNode] = useState(null);
   const { openModal } = useModal();
   const { programs, loading: programsLoading, error: programsError } = usePrograms();
   const { items: events } = useApiCollection('/events');
@@ -283,51 +337,27 @@ export default function Home() {
   const featuredEventImage = featuredEvent?.title === 'Cyberweek Africa 2026'
     ? '/images/events/cyberweek.png'
     : featuredEvent?.img;
-  const ecosystemNodeHandlers = node => ({
-    onPointerEnter: () => setInteractionEcosystemNode(node),
-    onPointerLeave: event => {
-      if (document.activeElement !== event.currentTarget) setInteractionEcosystemNode(null);
-    },
-    onFocus: () => setInteractionEcosystemNode(node),
-    onBlur: event => {
-      if (!event.currentTarget.matches(':hover')) setInteractionEcosystemNode(null);
-    },
-  });
-
-  useEffect(() => {
-    const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    if (reduceMotion) return;
-
-    const cycleDuration = 16000;
-    let animationFrame;
-    let cycleStart;
-    let lastNode;
-    const updateNode = () => {
-      const progress = ((performance.now() - cycleStart) % cycleDuration) / cycleDuration;
-      const node = progress < 0.321 ? 'academia' : progress < 0.679 ? 'industry' : 'government';
-      if (node !== lastNode) {
-        lastNode = node;
-        setScheduledEcosystemNode(node);
-      }
-      animationFrame = requestAnimationFrame(updateNode);
-    };
-
-    const startTimer = window.setTimeout(() => {
-      cycleStart = performance.now();
-      updateNode();
-    }, 1800);
-
-    return () => {
-      window.clearTimeout(startTimer);
-      cancelAnimationFrame(animationFrame);
-    };
-  }, []);
-
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide(s => (s + 1) % TESTIMONIALS.length);
     }, 5000);
     return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    let frame;
+    let previousTime;
+    const animateGlobe = (time) => {
+      if (previousTime !== undefined) {
+        const elapsed = Math.min(time - previousTime, 48);
+        globeRotationRef.current = (globeRotationRef.current + elapsed * 0.006) % 360;
+        setGlobeRotation(globeRotationRef.current);
+      }
+      previousTime = time;
+      frame = requestAnimationFrame(animateGlobe);
+    };
+    frame = requestAnimationFrame(animateGlobe);
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   return (
@@ -337,68 +367,53 @@ export default function Home() {
         <div className="hero__grid-overlay" />
         
         <div className="container hero__academy">
-          <div className="hero__stage">
-            <div className="hero__content">
-              <div className="hero__announcement">
-                <span>Technology · Security · Resilience</span>
+          <div className="hero__stage hero__stage--globe">
+            <div className="hero__content hero__content--globe">
+              <div className="hero__announcement" aria-label="Technology. Security. Resilience.">
+                <span className="hero__announcement-dot" aria-hidden="true" />
+                <span>Technology</span><b aria-hidden="true" />
+                <span>Security</span><b aria-hidden="true" />
+                <span>Resilience</span>
               </div>
-              <h1 className="hero__title">
-                Building a stronger digital future for Africa.
-              </h1>
-              <p className="hero__desc">
-                We develop technology talent, strengthen organizations, and support public institutions to thrive securely in a connected world.
-              </p>
+              <h1 className="hero__title">Engineering <span className="hero__title-accent">Sovereign AI, Data Integrity <i aria-hidden="true">&amp;</i> Global Cyber Defense.</span></h1>
+              <p className="hero__desc">CYBERPRO unites academia, enterprise, and government to build breach-resilient digital infrastructure across Africa and beyond.</p>
               <div className="hero__actions">
-                <Link to="/corporate" className="btn btn-primary btn-lg">
-                  Discover CyberPro
-                  <ArrowRight size={17} />
-                </Link>
-                <Link to="/contact" className="btn btn-outline btn-lg">Talk to our team</Link>
+                <Link to="/about" className="btn btn-primary btn-lg">Discover Cyberpro <ArrowRight size={17} /></Link>
+                <Link to="/contact" className="btn btn-outline btn-lg"><Building2 size={17} /> Talk to our team</Link>
+              </div>
+              <div className="hero__featured" aria-label="Featured at CyberPro">
+                <div className="hero__featured-grid">
+                  <Link to="/events" className="hero-feature-card hero-feature-card--event">
+                    {featuredEventImage && <img className="hero-feature-card__image" src={featuredEventImage} alt="" />}
+                    <span className="hero-feature-card__copy"><small>Featured event {featuredEvent?.date ? `· ${featuredEvent.date}` : ''}</small><strong>{featuredEvent?.title || 'Events & community'}</strong><span>{featuredEvent?.type || 'Workshops, webinars and meetups'}</span></span>
+                    <ArrowRight size={17} />
+                  </Link>
+                  <Link to={featuredProgram ? `/programs/${featuredProgram.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}-${featuredProgram.id}` : '/programs'} className="hero-feature-card hero-feature-card--course">
+                    {featuredProgram?.img && <img className="hero-feature-card__image" src={featuredProgram.img} alt="" />}
+                    <span className="hero-feature-card__copy"><small>Featured course</small><strong>{featuredProgram?.title || (programsLoading ? 'Explore our programs' : 'Professional learning')}</strong><span>{featuredProgram?.dur || 'Practical, career-focused pathways'}</span></span>
+                    <ArrowRight size={17} />
+                  </Link>
+                  <Link to="/cyber-labs" className="hero-feature-card hero-feature-card--lab">
+                    <span className="hero-feature-card__icon"><Server size={18} /></span>
+                    <span className="hero-feature-card__copy"><small>Featured lab</small><strong>Virtual Cyber Labs</strong><span>Practice in guided environments</span></span>
+                    <ArrowRight size={17} />
+                  </Link>
+                </div>
               </div>
             </div>
-            <div className="hero__ecosystem" aria-label="CyberPro connects Academia, Industry, and Government">
-              <svg className="hero__ecosystem-lines" viewBox="0 0 480 340" aria-hidden="true">
-                <path className="ecosystem-outline" d="M240 36 L72 286 L408 286 Z" />
-                <path className="ecosystem-trail" d="M240 36 L72 286 L408 286 Z" />
-                <path className="ecosystem-tracer" d="M240 36 L72 286 L408 286 Z" />
-                <path className="ecosystem-spokes" d="M240 72 L240 170 M104 267 L198 211 M376 267 L282 211" />
-                <circle className="ecosystem-signal ecosystem-signal--one" cx="240" cy="36" r="5" />
-                <circle className="ecosystem-signal ecosystem-signal--two" cx="72" cy="286" r="5" />
-                <circle className="ecosystem-signal ecosystem-signal--three" cx="408" cy="286" r="5" />
-                <circle className="ecosystem-orbit" cx="240" cy="177" r="72" />
-                <circle className="ecosystem-orbit ecosystem-orbit--outer" cx="240" cy="177" r="126" />
-                <circle className="ecosystem-marker" cx="113" cy="144" r="2.5" />
-                <circle className="ecosystem-marker ecosystem-marker--delay" cx="367" cy="144" r="2.5" />
-                <circle className="ecosystem-marker ecosystem-marker--delay-long" cx="240" cy="318" r="2.5" />
-              </svg>
-              <Link to="/programs" className={`ecosystem-node ecosystem-node--academy ${scheduledEcosystemNode === 'academia' ? 'ecosystem-node--lit' : ''} ${interactionEcosystemNode === 'academia' ? 'ecosystem-node--details-open' : ''}`} aria-describedby="academy-sector-detail" {...ecosystemNodeHandlers('academia')}><span className="ecosystem-node__icon"><GraduationCap size={20} /></span><span className="ecosystem-node__label"><strong>Academia</strong></span><span className="ecosystem-node__detail" id="academy-sector-detail"><strong>How CyberPro supports learners</strong><small>Career-focused programs, expert instruction, and practical cyber labs help learners build skills they can use in the workplace.</small><em>Explore Academia <ArrowRight size={13} /></em></span></Link>
-              <Link to="/corporate" className={`ecosystem-node ecosystem-node--industry ${scheduledEcosystemNode === 'industry' ? 'ecosystem-node--lit' : ''} ${interactionEcosystemNode === 'industry' ? 'ecosystem-node--details-open' : ''}`} aria-describedby="industry-sector-detail" {...ecosystemNodeHandlers('industry')}><span className="ecosystem-node__icon"><Building2 size={20} /></span><span className="ecosystem-node__label"><strong>Industry</strong></span><span className="ecosystem-node__detail" id="industry-sector-detail"><strong>How CyberPro supports business</strong><small>Tailored workforce training and applied research help organizations strengthen technology capability and cyber readiness.</small><em>Explore Industry <ArrowRight size={13} /></em></span></Link>
-              <Link to="/contact" className={`ecosystem-node ecosystem-node--government ${scheduledEcosystemNode === 'government' ? 'ecosystem-node--lit' : ''} ${interactionEcosystemNode === 'government' ? 'ecosystem-node--details-open' : ''}`} aria-describedby="government-sector-detail" {...ecosystemNodeHandlers('government')}><span className="ecosystem-node__icon"><Landmark size={20} /></span><span className="ecosystem-node__label"><strong>Government</strong></span><span className="ecosystem-node__detail" id="government-sector-detail"><strong>How CyberPro supports government</strong><small>Work with CyberPro on public sector skills development, cyber resilience, and secure digital transformation.</small><em>Discuss a partnership <ArrowRight size={13} /></em></span></Link>
-              <div className={`ecosystem-center${scheduledEcosystemNode ? ` ecosystem-center--${scheduledEcosystemNode}` : ''}`}><img src="/logo_blue-removebg-preview.png" alt="CyberPro Global" /></div>
-            </div>
-          </div>
-          <div className="hero__featured" aria-label="Featured at CyberPro">
-            <div className="hero__featured-grid">
-              <Link to="/events" className="hero-feature-card hero-feature-card--event">
-                {featuredEventImage && <img className="hero-feature-card__image" src={featuredEventImage} alt="" />}
-                <span className="hero-feature-card__copy"><small>Featured event {featuredEvent?.date ? `· ${featuredEvent.date}` : ''}</small><strong>{featuredEvent?.title || 'Events & community'}</strong><span>{featuredEvent?.type || 'Workshops, webinars and meetups'}</span></span>
-                <ArrowRight size={17} />
-              </Link>
-              <Link to={featuredProgram ? `/programs/${featuredProgram.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}-${featuredProgram.id}` : '/programs'} className="hero-feature-card hero-feature-card--course">
-                {featuredProgram?.img && <img className="hero-feature-card__image" src={featuredProgram.img} alt="" />}
-                <span className="hero-feature-card__copy"><small>Featured course</small><strong>{featuredProgram?.title || (programsLoading ? 'Explore our programs' : 'Professional learning')}</strong><span>{featuredProgram?.dur || 'Practical, career-focused pathways'}</span></span>
-                <ArrowRight size={17} />
-              </Link>
-              <Link to="/cyber-labs" className="hero-feature-card hero-feature-card--lab">
-                <span className="hero-feature-card__icon"><Server size={18} /></span>
-                <span className="hero-feature-card__copy"><small>Featured lab</small><strong>Virtual Cyber Labs</strong><span>Practice in guided environments</span></span>
-                <ArrowRight size={17} />
-              </Link>
+            <div className="hero__globe-panel">
+              <div className="hero__globe-hud">
+                <span className="hero__globe-hud-brand"><Shield size={15} /><span><small>CYBERPRO / NETWORK 01</small><strong>GLOBAL DIGITAL NETWORK</strong></span></span>
+                <span className="hero__globe-hud-live"><i /><span><small>NETWORK STATUS</small><strong>LIVE CONNECTIONS <b>WORLDWIDE</b></strong></span></span>
+              </div>
+              <div className="hero__globe-wrap" onPointerDown={event => { globeDragX.current = event.clientX; event.currentTarget.setPointerCapture(event.pointerId); }} onPointerMove={event => { if (globeDragX.current !== null) { globeRotationRef.current = (globeRotationRef.current + (event.clientX - globeDragX.current) * 0.35) % 360; setGlobeRotation(globeRotationRef.current); globeDragX.current = event.clientX; } }} onPointerUp={() => { globeDragX.current = null; }} onPointerCancel={() => { globeDragX.current = null; }}>
+                <GlobeMatrix rotation={globeRotation} />
+              </div>
+              <div className="hero__globe-caption"><span>Cybersecurity <b>·</b> Artificial Intelligence</span></div>
             </div>
           </div>
         </div>
       </section>
-
       <Partners />
 
       <section className="section">

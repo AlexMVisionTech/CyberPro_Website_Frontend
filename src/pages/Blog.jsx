@@ -45,7 +45,7 @@ export default function Blog() {
           {loading && <p>Loading articles…</p>}
           {error && <p role="alert">{error}</p>}
           {featured && (
-            <Link to="/blog" className="blog-featured" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <article className="blog-featured">
               <div className="blog-featured__image">
                 <img src={featured.img} alt={featured.title} />
               </div>
@@ -58,7 +58,7 @@ export default function Blog() {
                   <span><Clock size={14} /> {featured.read} read</span>
                 </div>
               </div>
-            </Link>
+            </article>
           )}
 
           <div className="blog-filter">

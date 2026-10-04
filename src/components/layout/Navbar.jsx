@@ -8,20 +8,20 @@ import './Navbar.css';
 const NAV_ITEMS = [
   { path: '/', label: 'Home' },
   { label: 'Academia', children: [
-    { path: '/programs', label: 'Programs', description: 'Explore career-focused courses' },
-    { path: '/admissions', label: 'Admissions', description: 'How to apply and get started' },
-    { path: '/cyber-labs', label: 'Cyber Labs', description: 'Practice in hands-on environments' },
+    { path: '/programs#academia', label: 'Academic Programs', description: 'Courses for students and faculty' },
+    { path: '/admissions#institutional', label: 'Institutional Pathways', description: 'Plan a cohort or campus partnership' },
+    { path: '/research#collaborate', label: 'Research Collaboration', description: 'Explore joint research opportunities' },
   ], action: { path: '/programs', label: 'View all programs' } },
   { label: 'Industry', children: [
-    { path: '/corporate', label: 'Corporate Training', description: 'Upskill teams with tailored training' },
-    { path: '/research', label: 'Research & Innovation', description: 'Explore applied research and insight' },
-    { path: '/contact', label: 'Partnerships', description: 'Work with our team' },
+    { path: '/corporate#training', label: 'Workforce Training', description: 'Build practical skills across your teams' },
+    { path: '/corporate#delivery', label: 'How We Deliver', description: 'Flexible formats and learning pathways' },
+    { path: '/research#collaborate', label: 'Research & Innovation', description: 'Collaborate on applied research' },
   ], action: { path: '/corporate', label: 'View industry solutions' } },
   { label: 'Government', children: [
-    { path: '/corporate', label: 'Workforce Training', description: 'Develop in-house digital skills' },
-    { path: '/research', label: 'Cybersecurity Research', description: 'Support resilient digital services' },
-    { path: '/contact', label: 'Talk to Our Team', description: 'Discuss a government partnership' },
-  ], action: { path: '/contact', label: 'Contact our team' } },
+    { path: '/government#capability', label: 'Public Sector Capability', description: 'Build skills for secure digital services' },
+    { path: '/government#priorities', label: 'Readiness Priorities', description: 'Address people, process, and technology' },
+    { path: '/government#engage', label: 'Work With CyberPro', description: 'Plan a government engagement' },
+  ], action: { path: '/government', label: 'Government solutions' } },
   { path: '/events', label: 'Events' },
   { path: '/blog', label: 'Blogs' },
   { path: '/about', label: 'About' },
@@ -68,7 +68,7 @@ export default function Navbar() {
         <nav className="navbar__links" aria-label="Main navigation">
           {NAV_ITEMS.map(item => item.children ? (
             <div className="navbar__dropdown" key={item.label}>
-              <button className={`navbar__link navbar__dropdown-trigger ${item.children.some(link => location.pathname.startsWith(link.path)) ? 'navbar__link--active' : ''}`} aria-haspopup="true" aria-expanded={desktopExpanded === item.label} onClick={() => setDesktopExpanded(desktopExpanded === item.label ? '' : item.label)}>
+              <button className={`navbar__link navbar__dropdown-trigger ${item.children.some(link => location.pathname.startsWith(link.path.split('#')[0])) ? 'navbar__link--active' : ''}`} aria-haspopup="true" aria-expanded={desktopExpanded === item.label} onClick={() => setDesktopExpanded(desktopExpanded === item.label ? '' : item.label)}>
                 {item.label}<ChevronDown className={desktopExpanded === item.label ? 'navbar__chevron--open' : ''} size={14} aria-hidden="true" />
               </button>
               <div className={`navbar__dropdown-menu ${desktopExpanded === item.label ? 'navbar__dropdown-menu--open' : ''}`}>
@@ -89,17 +89,19 @@ export default function Navbar() {
           <button onClick={() => openModal()} className="btn btn-primary btn-sm">
             Apply Now
           </button>
-          <button
+            <button
             className="navbar__toggle"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle navigation"
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-navigation"
           >
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
-      <div className={`navbar__mobile ${mobileOpen ? 'navbar__mobile--open' : ''}`}>
+      <div className={`navbar__mobile ${mobileOpen ? 'navbar__mobile--open' : ''}`} id="mobile-navigation" inert={!mobileOpen}>
         <nav className="navbar__mobile-links" aria-label="Mobile navigation">
           {NAV_ITEMS.map(item => item.children ? (
             <div className="navbar__mobile-group" key={item.label}>

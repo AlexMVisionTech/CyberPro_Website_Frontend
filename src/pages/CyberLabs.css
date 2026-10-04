@@ -202,7 +202,7 @@
 
 .lab-card__title {
   font-size: 17px;
-  font-weight: 800;
+  font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 12px;
   letter-spacing: -0.01em;
@@ -232,7 +232,7 @@
 
 .cyber-section-heading--terminal strong {
   color: var(--primary);
-  font-weight: 900;
+  font-weight: 600;
 }
 
 /* Ambient Glow behind Terminal */

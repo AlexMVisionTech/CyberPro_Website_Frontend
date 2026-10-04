@@ -1,12 +1,17 @@
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
 import './Programs.css';
 
 export default function Contact() {
+  const [formMessage, setFormMessage] = useState('');
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert('Thank you! Your message has been sent successfully. A coordinator will respond shortly.');
-    e.target.reset();
+    const values = new FormData(e.currentTarget);
+    const subject = encodeURIComponent(`CyberPro inquiry: ${values.get('subject')}`);
+    const body = encodeURIComponent(`Name: ${values.get('name')}\nEmail: ${values.get('email')}\n\n${values.get('message')}`);
+    window.location.href = `mailto:admissions@cyberproglobal.com?subject=${subject}&body=${body}`;
+    setFormMessage('Your email app should open with this inquiry prepared. If it does not, email admissions@cyberproglobal.com directly.');
   };
 
   return (
@@ -21,7 +26,7 @@ export default function Contact() {
             <span style={{ color: 'white' }}>Contact</span>
           </div>
           <h1 className="page-hero__title" style={{ color: 'white' }}>Connect with CyberPro</h1>
-          <p className="page-hero__desc" style={{ color: 'rgba(255,255,255,0.7)' }}>Have questions about enrollment, team training, or partnerships? Our Westlands team is ready to help.</p>
+          <p className="page-hero__desc" style={{ color: 'rgba(255,255,255,0.7)' }}>Have questions about enrollment, team training, or partnerships? Contact our Nairobi team and we’ll point you in the right direction.</p>
         </div>
       </section>
 
@@ -29,7 +34,7 @@ export default function Contact() {
         <div className="container">
           <div className="contact-layout">
             <div>
-              <h2 style={{ fontSize: '28px', fontWeight: 800, marginBottom: '36px' }}>Main Office Campus Address</h2>
+              <h2 style={{ fontSize: '28px', fontWeight: 600, marginBottom: '36px' }}>Main Office Campus Address</h2>
               <div className="contact-info-list">
                 <div className="contact-info-item">
                   <div className="contact-info-icon"><MapPin size={20} /></div>
@@ -42,14 +47,14 @@ export default function Contact() {
                   <div className="contact-info-icon"><Phone size={20} /></div>
                   <div>
                     <h3>Registry Inquiries</h3>
-                    <p>+254 700 123 456<br />+254 733 987 654</p>
+                    <p><a href="tel:+254700123456">+254 700 123 456</a><br /><a href="tel:+254733987654">+254 733 987 654</a></p>
                   </div>
                 </div>
                 <div className="contact-info-item">
                   <div className="contact-info-icon"><Mail size={20} /></div>
                   <div>
                     <h3>Email Addresses</h3>
-                    <p>admissions@cyberproglobal.com<br />corporate@cyberproglobal.com</p>
+                    <p><a href="mailto:admissions@cyberproglobal.com">admissions@cyberproglobal.com</a><br /><a href="mailto:corporate@cyberproglobal.com">corporate@cyberproglobal.com</a></p>
                   </div>
                 </div>
                 <div className="contact-info-item">
@@ -63,25 +68,25 @@ export default function Contact() {
 
               <div className="contact-map">
                 <MapPin size={32} style={{ color: 'rgba(254, 1, 28, 0.4)' }} />
-                <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>Landmark Plaza, Westlands</span>
+                <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>APA Arcade, Nairobi</span>
                 <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Interactive map integration pending</span>
               </div>
             </div>
 
             <div className="contact-form-card">
-              <h2 style={{ fontSize: '24px', fontWeight: 700, marginBottom: '28px' }}>Send a Direct Message</h2>
+              <h2 style={{ fontSize: '24px', fontWeight: 600, marginBottom: '28px' }}>Send a Direct Message</h2>
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                  <label className="form-label">Your Full Name</label>
-                  <input type="text" className="form-input" required placeholder="e.g. John Doe" />
+                  <label className="form-label" htmlFor="contact-name">Your Full Name</label>
+                  <input id="contact-name" name="name" type="text" className="form-input" autoComplete="name" required placeholder="e.g. John Doe" />
                 </div>
                 <div className="form-group">
-                  <label className="form-label">Email Address</label>
-                  <input type="email" className="form-input" required placeholder="name@domain.com" />
+                  <label className="form-label" htmlFor="contact-email">Email Address</label>
+                  <input id="contact-email" name="email" type="email" className="form-input" autoComplete="email" required placeholder="name@domain.com" />
                 </div>
                 <div className="form-group">
-                  <label className="form-label">Inquiry Subject</label>
-                  <select className="form-select" required>
+                  <label className="form-label" htmlFor="contact-subject">Inquiry Subject</label>
+                  <select id="contact-subject" name="subject" className="form-select" required>
                     <option value="">Choose subject...</option>
                     <option>Admission Deadlines & Eligibility</option>
                     <option>Corporate Group Training</option>
@@ -90,9 +95,10 @@ export default function Contact() {
                   </select>
                 </div>
                 <div className="form-group">
-                  <label className="form-label">Inquiry Details</label>
-                  <textarea className="form-textarea" required placeholder="How can we assist you today?" style={{ height: '120px', resize: 'vertical' }} />
+                  <label className="form-label" htmlFor="contact-message">Inquiry Details</label>
+                  <textarea id="contact-message" name="message" className="form-textarea" required placeholder="How can we assist you today?" style={{ height: '120px', resize: 'vertical' }} />
                 </div>
+                {formMessage && <p role="status" className="corporate-form-message">{formMessage}</p>}
                 <button type="submit" className="btn btn-primary btn-lg" style={{ width: '100%', marginTop: '8px' }}>
                   Send Message <Send size={18} />
                 </button>

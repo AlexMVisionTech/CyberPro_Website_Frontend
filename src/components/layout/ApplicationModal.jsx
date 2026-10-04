@@ -4,8 +4,6 @@ import { X, ArrowRight, ArrowLeft, User, BookOpen, Settings2, CheckCircle2 } fro
 import usePrograms from '../../hooks/usePrograms';
 import './ApplicationModal.css';
 
-const API_BASE = `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api`;
-
 const STEPS = [
   { label: 'Personal Info', icon: User },
   { label: 'Program', icon: BookOpen },
@@ -31,8 +29,6 @@ export default function ApplicationModal({ isOpen, onClose, selectedProgram = ''
   const { programs, loading: programsLoading, error: programsError } = usePrograms();
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState('');
   const [form, setForm] = useState({
     ...INITIAL_FORM,
     program: selectedProgram,
@@ -50,6 +46,7 @@ export default function ApplicationModal({ isOpen, onClose, selectedProgram = ''
     onClose();
     setStep(0);
     setSubmitted(false);
+    setForm({ ...INITIAL_FORM });
   };
 
   useEffect(() => {
@@ -67,31 +64,11 @@ export default function ApplicationModal({ isOpen, onClose, selectedProgram = ''
     };
   }, [isOpen]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (step !== 3) return;
 
-    setSubmitting(true);
-    setSubmitError('');
-
-    try {
-      const res = await fetch(`${API_BASE}/applications`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
-
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.detail || 'Unable to submit application');
-      }
-
-      setSubmitted(true);
-    } catch (err) {
-      setSubmitError(err.message || 'Unable to submit application');
-    } finally {
-      setSubmitting(false);
-    }
+    setSubmitted(true);
   };
 
   const canNext = () => {
@@ -105,17 +82,17 @@ export default function ApplicationModal({ isOpen, onClose, selectedProgram = ''
 
   return createPortal(
     <div className="modal-overlay" onClick={handleClose}>
-      <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-container" role="dialog" aria-modal="true" aria-labelledby="application-modal-title" onClick={(e) => e.stopPropagation()}>
 
         {/* Dark Header */}
         <div className="modal-hero">
           <button className="modal-close" onClick={handleClose} aria-label="Close modal">
             <X size={20} />
           </button>
-          <h2 className="modal-hero__title">{submitted ? 'Application Received' : 'Start Your Application'}</h2>
+          <h2 className="modal-hero__title" id="application-modal-title">{submitted ? 'Application Preview' : 'Start Your Application'}</h2>
           <p className="modal-hero__desc">
             {submitted
-              ? 'Your application summary is shown below. Our admissions team will contact you within 24 hours.'
+              ? 'Review the details you entered. This preview has not been sent to the admissions team.'
               : "Join Africa's premier cybersecurity and technology academy."}
           </p>
 
@@ -146,7 +123,7 @@ export default function ApplicationModal({ isOpen, onClose, selectedProgram = ''
                 </div>
                 <div>
                   <h3 className="submission-panel__title">Thank you, {form.fullName || 'Applicant'}.</h3>
-                  <p className="submission-panel__desc">Your application has been captured successfully. Review the details below before closing.</p>
+                  <p className="submission-panel__desc">This is a local preview only. To submit your application, contact our admissions team using the details on the Contact page.</p>
                 </div>
               </div>
 
@@ -358,7 +335,7 @@ export default function ApplicationModal({ isOpen, onClose, selectedProgram = ''
           {step === 3 && (
             <div className="step-content">
               <p style={{ fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '4px' }}>
-                Please review your application details below before submitting.
+                Please review your details below. This preview is not submitted to CyberPro.
               </p>
 
               <div className="review-card">
@@ -456,7 +433,7 @@ export default function ApplicationModal({ isOpen, onClose, selectedProgram = ''
               </button>
             ) : (
               <button type="submit" className="btn btn-primary btn-lg">
-                Submit Application <ArrowRight size={16} />
+                Preview Application <ArrowRight size={16} />
               </button>
             )}
           </div>

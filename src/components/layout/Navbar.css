@@ -52,7 +52,7 @@
 .navbar__brand-text {
   font-family: var(--font-heading);
   font-size: 20px;
-  font-weight: 800;
+  font-weight: 600;
   color: var(--text-primary);
   letter-spacing: -0.04em;
 }
@@ -67,7 +67,7 @@
 .navbar__link {
   padding: 10px 12px;
   font-size: 13px;
-  font-weight: 650;
+  font-weight: 600;
   color: rgba(255, 255, 255, 0.85);
   border-radius: var(--radius-sm);
   text-decoration: none;
@@ -114,7 +114,7 @@
   transform: translateY(0);
 }
 .navbar__dropdown-intro { padding: 19px 20px 15px; background: #f5f7fa; border-bottom: 1px solid rgba(7, 25, 51, .07); }
-.navbar__dropdown-eyebrow { color: var(--primary); font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.navbar__dropdown-eyebrow { color: var(--primary); font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
 .navbar__dropdown-intro p { margin: 7px 0 0; color: #657287; font-size: 12px; line-height: 1.5; }
 .navbar__dropdown-items { display: grid; padding: 8px; }
 .navbar__dropdown-link {
@@ -134,7 +134,7 @@
 .navbar__dropdown-link > svg { color: #9aa5b3; flex: 0 0 auto; }
 .navbar__dropdown-link:hover,
 .navbar__dropdown-link.active { color: var(--primary); background: rgba(7, 25, 51, .045); }
-.navbar__dropdown-action { display: flex; align-items: center; justify-content: space-between; padding: 13px 20px; border-top: 1px solid rgba(7, 25, 51, .08); color: var(--navy); font-size: 12px; font-weight: 750; text-decoration: none; }
+.navbar__dropdown-action { display: flex; align-items: center; justify-content: space-between; padding: 13px 20px; border-top: 1px solid rgba(7, 25, 51, .08); color: var(--navy); font-size: 12px; font-weight: 600; text-decoration: none; }
 .navbar__dropdown-action:hover { color: var(--primary); background: #fafbfc; }
 
 .navbar__link:hover {
@@ -144,7 +144,7 @@
 
 .navbar__link--active {
   color: var(--primary);
-  font-weight: 700;
+  font-weight: 600;
   background: rgba(254, 1, 28, 0.15);
 }
 
@@ -219,7 +219,7 @@
 .navbar__mobile-group-trigger:hover { color: var(--primary); background: rgba(7, 25, 51, .06); }
 .navbar__mobile-submenu { display: grid; padding: 4px 0 10px 14px; margin-left: 14px; border-left: 1px solid var(--border); }
 .navbar__mobile-sublink { font-size: 13px; }
-.navbar__mobile-cta { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; color: var(--navy); font-size: 12px; font-weight: 750; text-decoration: none; }
+.navbar__mobile-cta { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; color: var(--navy); font-size: 12px; font-weight: 600; text-decoration: none; }
 
 .navbar__mobile-link {
   padding: 12px 14px;

@@ -73,7 +73,7 @@ export default function About() {
             </ScrollReveal>
             <ScrollReveal delay={0.2}>
               <div className="card" style={{ background: 'var(--navy)', color: 'white', border: 'none', padding: '40px', borderRadius: 'var(--radius-lg)' }}>
-                <h3 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '24px', color: 'white' }}>Our Commitments</h3>
+                <h3 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '24px', color: 'white' }}>Our Commitments</h3>
                 <ul style={{ display: 'flex', flexDirection: 'column', gap: '20px', listStyle: 'none', padding: 0 }}>
                   <li style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '20px' }}>
                     <strong style={{ display: 'block', marginBottom: '4px', color: 'var(--primary)' }}>Hands-on Labs First</strong>

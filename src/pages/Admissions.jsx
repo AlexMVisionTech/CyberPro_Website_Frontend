@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, CheckCircle2, Banknote, FileText, ArrowRight } from 'lucide-react';
+import { ChevronDown, CheckCircle2, Banknote, FileText, ArrowRight, Building2, Users, FlaskConical } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import { useModal } from '../hooks/useModal.jsx';
 import './Admissions.css';
@@ -42,7 +42,19 @@ export default function Admissions() {
         <div className="container">
           <ScrollReveal>
             <div style={{ textAlign: 'center' }}>
-              <span className="section-label">Application Process</span>
+              <span className="section-label">Learners & Institutions</span>
+              <h2 className="section-title">A clear way to get started</h2>
+              <p className="section-subtitle">Individuals can apply to a course. Universities and colleges can contact us to discuss cohort learning, curriculum support, or a research partnership.</p>
+            </div>
+          </ScrollReveal>
+          <div className="institutional-pathways" id="institutional">
+            <article><Building2 size={24} /><h3>Institutional cohorts</h3><p>Coordinate learning for a student group, department, or cross-campus initiative.</p><Link to="/contact">Discuss a cohort <ArrowRight size={15} /></Link></article>
+            <article><Users size={24} /><h3>Faculty & curriculum</h3><p>Explore faculty development, guest sessions, and ways to connect course content to practice.</p><Link to="/contact">Talk about teaching <ArrowRight size={15} /></Link></article>
+            <article><FlaskConical size={24} /><h3>Research partnerships</h3><p>Connect academic interests with applied cybersecurity and responsible technology research.</p><Link to="/research#collaborate">Explore research <ArrowRight size={15} /></Link></article>
+          </div>
+          <ScrollReveal>
+            <div style={{ textAlign: 'center', marginTop: '64px' }}>
+              <span className="section-label">Individual Applications</span>
               <h2 className="section-title">Four Steps to Enrollment</h2>
               <p className="section-subtitle">Our admissions process is designed to be straightforward and supportive.</p>
             </div>
@@ -132,12 +144,12 @@ export default function Admissions() {
             {FAQS.map((faq, i) => (
               <ScrollReveal key={i} delay={i * 0.05}>
                 <div className="faq-item">
-                  <div className="faq-question" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                  <button type="button" className="faq-question" aria-expanded={openFaq === i} aria-controls={`faq-answer-${i}`} onClick={() => setOpenFaq(openFaq === i ? null : i)}>
                     <h4>{faq.q}</h4>
                     <ChevronDown size={18} style={{ flexShrink: 0, transform: openFaq === i ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.3s', color: 'var(--text-muted)' }} />
-                  </div>
+                  </button>
                   {openFaq === i && (
-                    <div className="faq-answer">{faq.a}</div>
+                    <div className="faq-answer" id={`faq-answer-${i}`}>{faq.a}</div>
                   )}
                 </div>
               </ScrollReveal>

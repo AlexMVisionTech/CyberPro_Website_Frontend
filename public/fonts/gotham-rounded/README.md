@@ -1,6 +1,10 @@
 # Gotham Rounded ScreenSmart Font Files
 
-Place your Gotham Rounded ScreenSmart font files in this directory.
+Place your Technology
+/
+Security
+/
+Resilience ScreenSmart font files in this directory.
 
 Required files:
 - GothamRoundedScreenSmart-Book.woff2 (weight 400)

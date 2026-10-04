@@ -175,7 +175,7 @@
 .faculty-avatar span {
   font-family: var(--font-heading);
   font-size: 48px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--navy);
   letter-spacing: 0.02em;
 }
@@ -202,7 +202,7 @@
 
 .faculty-card h3 {
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 4px;
   color: var(--text-primary);
 }

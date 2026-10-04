@@ -99,7 +99,7 @@ export default function Research() {
         </div>
       </section>
 
-      <section className="section research-cta">
+      <section className="section research-cta" id="collaborate">
         <div className="container research-cta__inner">
           <h2 className="section-title">Collaborate With Our Research Labs</h2>
           <p className="section-subtitle">We welcome partnerships with industry, academia, and government institutions for joint research programs.</p>

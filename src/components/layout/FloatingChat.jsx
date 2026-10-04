@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { MessageSquare, Bot, Phone, X, Send, User } from 'lucide-react';
 import './FloatingChat.css';
 
@@ -6,7 +7,7 @@ export default function FloatingChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeChat, setActiveChat] = useState(null); // 'select', 'bot'
   const [messages, setMessages] = useState([
-    { id: 1, sender: 'bot', text: 'Hello! I am Dr. Akili, CyberPro\'s AI assistant. How can I help you today?' }
+    { id: 1, sender: 'bot', text: 'Hello! I am Dr. Akili, CyberPro\'s demo assistant. I can help you find your way around the site.' }
   ]);
   const [inputValue, setInputValue] = useState('');
   const chatRef = useRef(null);
@@ -30,8 +31,7 @@ export default function FloatingChat() {
     setIsOpen(!isOpen);
   };
 
-  const handleWhatsApp = () => {
-    window.open('https://wa.me/1234567890', '_blank');
+  const handleContact = () => {
     setIsOpen(false);
     setActiveChat(null);
   };
@@ -58,7 +58,7 @@ export default function FloatingChat() {
       setMessages(prev => [...prev, { 
         id: Date.now() + 1, 
         sender: 'bot', 
-        text: 'Thank you for your message. I am currently operating in demo mode and will be fully integrated soon to answer all your academy questions!' 
+        text: 'Thanks for your message. This assistant is currently a demo and cannot answer or send inquiries yet. Please use the Contact page to reach the team.'
       }]);
     }, 1000);
   };
@@ -78,19 +78,19 @@ export default function FloatingChat() {
               <div className="chat-body">
                 <p className="chat-desc">How would you like to get in touch today?</p>
                 
-                <button className="chat-option-btn whatsapp-btn" onClick={handleWhatsApp}>
+                <Link to="/contact" className="chat-option-btn whatsapp-btn" onClick={handleContact}>
                   <div className="option-icon"><Phone size={20} /></div>
                   <div className="option-text">
-                    <strong>WhatsApp Support</strong>
-                    <span>Chat with our admission team</span>
+                    <strong>Contact the team</strong>
+                    <span>Send an inquiry to CyberPro</span>
                   </div>
-                </button>
+                </Link>
                 
                 <button className="chat-option-btn bot-btn" onClick={handleBotChat}>
                   <div className="option-icon"><Bot size={20} /></div>
                   <div className="option-text">
-                    <strong>Talk to Dr. Akili</strong>
-                    <span>24/7 AI Assistant</span>
+                    <strong>Explore the demo assistant</strong>
+                    <span>Automated responses are not connected</span>
                   </div>
                 </button>
               </div>
@@ -106,7 +106,7 @@ export default function FloatingChat() {
                   <div className="bot-avatar"><Bot size={16} /></div>
                   <div>
                     <h3>Dr. Akili</h3>
-                    <span className="online-status">Online</span>
+                    <span className="online-status">Demo assistant</span>
                   </div>
                 </div>
                 <button className="close-btn" onClick={() => setIsOpen(false)}><X size={18} /></button>

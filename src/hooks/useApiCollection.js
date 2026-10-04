@@ -1,30 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
+import { articles, corporateMetrics, corporateServices, events, gallery, publications, researchClusters } from '../data/demoContent';
 
-const API_BASE = `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api`;
+const collections = {
+  '/events': events,
+  '/gallery': gallery,
+  '/articles': articles,
+  '/research/clusters': researchClusters,
+  '/research/publications': publications,
+  '/corporate/services': corporateServices,
+  '/corporate/metrics': corporateMetrics,
+};
 
+// Kept as a hook to minimize page changes; public collections are local demo content.
 export default function useApiCollection(path) {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    const controller = new AbortController();
-    setLoading(true);
-    setError('');
-    fetch(`${API_BASE}${path}`, { signal: controller.signal })
-      .then(async response => {
-        if (!response.ok) throw new Error(`Unable to load ${path.split('/').pop()}.`);
-        return response.json();
-      })
-      .then(setItems)
-      .catch(err => {
-        if (err.name !== 'AbortError') setError(err.message || 'Unable to load content.');
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) setLoading(false);
-      });
-    return () => controller.abort();
-  }, [path]);
-
-  return { items, loading, error };
+  const items = useMemo(() => collections[path] || [], [path]);
+  return { items, loading: false, error: '' };
 }

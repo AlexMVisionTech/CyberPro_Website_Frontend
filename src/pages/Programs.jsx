@@ -59,7 +59,7 @@ export default function Programs() {
       </section>
 
       {/* Programs Display */}
-      <section className="section" style={{ paddingTop: '40px' }}>
+      <section className="section" id="academia" style={{ paddingTop: '40px' }}>
         <div className="container">
           
           <ScrollReveal>
@@ -69,6 +69,10 @@ export default function Programs() {
                 <h2>Cybersecurity learning paths from CyberPro Global</h2>
               </div>
               <p>{filtered.length} course{filtered.length === 1 ? '' : 's'} available</p>
+            </div>
+            <div className="academia-pathway-note">
+              <div><strong>For universities, colleges, and faculty</strong><p>Use courses as a starting point for student cohorts, guest instruction, faculty development, or a broader learning partnership.</p></div>
+              <Link to="/admissions#institutional" className="btn btn-outline">Explore institutional pathways <ArrowUpRight size={16} /></Link>
             </div>
             <div className="programs-control-panel">
               <div className="tabs">
