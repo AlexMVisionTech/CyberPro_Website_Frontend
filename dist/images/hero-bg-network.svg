@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <pattern id="matrix" width="26" height="26" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.2" fill="#9cc7e8"/>
+    </pattern>
+    <pattern id="africadots" width="15" height="15" patternUnits="userSpaceOnUse" patternTransform="rotate(8)">
+      <circle cx="2" cy="2" r="1.6" fill="#7dd3fc"/>
+    </pattern>
+    <linearGradient id="fadeRight" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="0.35" stop-color="#fff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="1"/>
+    </linearGradient>
+    <linearGradient id="fadeDots" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.9"/>
+      <stop offset="0.7" stop-color="#fff" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <mask id="dotsMask"><rect width="1600" height="900" fill="url(#fadeDots)"/></mask>
+    <mask id="dotsMaskRight"><rect width="1600" height="900" fill="url(#fadeRight)"/></mask>
+    <linearGradient id="flow" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#5ec1ff" stop-opacity="0"/>
+      <stop offset="0.42" stop-color="#5ec1ff" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#7dd3fc" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="flowWarm" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#ff5f6f" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#ff7b8d" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#b18cff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="flowViolet" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#b18cff" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#b18cff" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#7dd3fc" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="nodeGlow">
+      <stop offset="0" stop-color="#7dd3fc" stop-opacity="0.75"/>
+      <stop offset="1" stop-color="#7dd3fc" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="nodeGlowWarm">
+      <stop offset="0" stop-color="#ff7b8d" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#ff7b8d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Fine dot matrix, fading downward and toward the left -->
+  <g mask="url(#dotsMask)">
+    <rect width="1600" height="900" fill="url(#matrix)" opacity="0.28" mask="url(#dotsMaskRight)"/>
+  </g>
+
+  <!-- Africa: dot-constellation landmass -->
+  <g transform="translate(950,110) scale(4.4)" opacity="0.34">
+    <path d="M45,12 L60,13 L67,29 L78,41 L86,44 L77,60 L68,80 L60,92 L50,106 L44,98 L38,88 L29,74 L25,60 L12,57 L1,61 L2,49 L6,31 Z" fill="url(#africadots)"/>
+    <!-- city nodes -->
+    <circle cx="58" cy="17" r="1.6" fill="#7dd3fc" opacity="0.9"/>
+    <circle cx="26" cy="54" r="1.6" fill="#7dd3fc" opacity="0.9"/>
+    <circle cx="50" cy="95" r="1.6" fill="#7dd3fc" opacity="0.8"/>
+    <!-- Nairobi: HQ node -->
+    <circle cx="57" cy="66" r="5.5" fill="url(#nodeGlowWarm)"/>
+    <circle cx="57" cy="66" r="2.1" fill="#ff7b8d"/>
+    <circle cx="57" cy="66" r="4.6" fill="none" stroke="#ff7b8d" stroke-width="0.4" opacity="0.7"/>
+  </g>
+
+  <!-- Connection arcs from Nairobi to city nodes -->
+  <g stroke="#7dd3fc" stroke-width="0.7" fill="none" opacity="0.28" stroke-dasharray="2 3">
+    <path d="M1200,400 Q1145,285 1205,185"/>
+    <path d="M1200,400 Q1100,420 1064,347"/>
+    <path d="M1200,400 Q1190,540 1170,528"/>
+  </g>
+
+  <!-- Flowing data streams -->
+  <g fill="none">
+    <path d="M-60,780 C 300,650 560,440 900,360 S 1420,170 1680,40" stroke="url(#flow)" stroke-width="1.4" opacity="0.55"/>
+    <path d="M-60,900 C 380,780 720,650 1040,520 S 1520,320 1680,250" stroke="url(#flowWarm)" stroke-width="1.1" opacity="0.6"/>
+    <path d="M-60,640 C 260,700 640,760 980,700 S 1440,560 1680,620" stroke="url(#flowViolet)" stroke-width="1" opacity="0.5"/>
+  </g>
+
+  <!-- Drifting glow nodes -->
+  <circle cx="1305" cy="235" r="46" fill="url(#nodeGlow)" opacity="0.5"/>
+  <circle cx="1305" cy="235" r="3.2" fill="#7dd3fc" opacity="0.85"/>
+  <circle cx="1460" cy="655" r="38" fill="url(#nodeGlowWarm)" opacity="0.45"/>
+  <circle cx="1460" cy="655" r="2.6" fill="#ff7b8d" opacity="0.85"/>
+  <circle cx="820" cy="150" r="30" fill="url(#nodeGlow)" opacity="0.35"/>
+  <circle cx="820" cy="150" r="2.2" fill="#7dd3fc" opacity="0.7"/>
+</svg>

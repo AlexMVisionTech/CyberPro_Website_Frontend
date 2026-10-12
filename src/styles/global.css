@@ -363,6 +363,7 @@ img, svg, video {
   padding: 24px;
   transition: var(--transition);
   box-shadow: var(--shadow-xs);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -445,6 +446,7 @@ img, svg, video {
   text-transform: uppercase;
   background: rgba(254, 1, 28, 0.9);
   color: white;
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
@@ -527,7 +529,7 @@ img, svg, video {
 
 .badge-green {
   background: rgba(16, 185, 129, 0.12);
-  color: #059669;
+  color: #14855a;
   border-color: rgba(16, 185, 129, 0.25);
 }
 
@@ -635,6 +637,7 @@ img, svg, video {
    ============================================ */
 .glass {
   background: var(--bg-glass);
+  -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border);
@@ -642,6 +645,7 @@ img, svg, video {
 
 .glass-strong {
   background: var(--bg-card);
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border);
@@ -651,7 +655,7 @@ img, svg, video {
    ANIMATIONS
    ============================================ */
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(18px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -711,7 +715,7 @@ img, svg, video {
 }
 
 .animate-fade-in-up {
-  animation: fadeInUp 0.7s ease forwards;
+  animation: fadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   opacity: 0;
 }
 
@@ -864,5 +868,68 @@ body {
   .tab-btn {
     flex: 1 1 auto;
     padding-inline: 0.75rem;
+  }
+}
+
+/* ============================================
+   UNIFIED PALETTE CONTRACT (system tokens)
+   Dark-surface accents:
+     --premium-azure      #7dd3fc  text + glow accents
+     --premium-azure-int  #5ec1ff  interactive (rgba(94,193,255))
+     --premium-crimson    #ff5f6f  all crimson on dark
+     --premium-violet     #b18cff  secondary arcs
+     --premium-green      #35d08a  live status dots
+     --premium-gold       #f4b63f  ratings + expert tier
+   Light-surface inks (contrasting text/accents):
+     --ink-azure    #1c6ea8   icon tiles, tags, links
+     --ink-crimson  #c40418   fees, type chips
+     --ink-violet   #6a48b8   category chips
+     --ink-green    #14855a   confirmation text
+     --ink-gold     #8a6413   conference tier chips
+   Muted text on light:
+     --muted-strong #46586e   chips, emphasized meta
+     --muted        #66788c   descriptions, labels
+     --muted-faint  #8fa2b8   ids, faint tags
+   Light text on dark:
+     #eaf2fa (primary) / rgba(214,227,240,x) (muted)
+   Navy world: #0d2442 → #102c54 → #143a63
+   Brand #FE011C: light surfaces only, never glows on dark.
+   ============================================ */
+
+:root {
+  --premium-azure: #7dd3fc;
+  --premium-azure-int: #5ec1ff;
+  --premium-crimson: #ff5f6f;
+  --premium-violet: #b18cff;
+  --premium-green: #35d08a;
+  --premium-gold: #f4b63f;
+  --ink-azure: #1c6ea8;
+  --ink-crimson: #c40418;
+  --ink-violet: #6a48b8;
+  --ink-green: #14855a;
+  --ink-gold: #8a6413;
+  --muted-strong: #46586e;
+  --muted: #66788c;
+  --muted-faint: #8fa2b8;
+}
+
+/* ============================================
+   MOTION ACCESSIBILITY — SYSTEM-WIDE
+   Scroll-reveal content must never stay hidden
+   for users who prefer reduced motion.
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-fade-in-up {
+    animation: none;
+    opacity: 1;
+  }
+
+  .opacity-0 {
+    opacity: 1;
   }
 }

@@ -393,12 +393,12 @@ const Admin = () => {
             <div className="admin-login-card">
               <div className="admin-login-card-inner">
                 <div className="admin-login-logo">
-                  <img src="/logo.jpg" alt="CyberPro Global" className="admin-login-logo-img" />
+                  <img src="/logo.jpg" alt="Cyberpro Global" className="admin-login-logo-img" />
                 </div>
                 <div className="admin-login-kicker"><span /> ADMINISTRATOR PORTAL</div>
                 <div className="admin-login-heading">
                   <h1 className="admin-login-title">Welcome back</h1>
-                  <p className="admin-login-subtitle">Sign in to manage CyberPro Global content and enquiries.</p>
+                  <p className="admin-login-subtitle">Sign in to manage Cyberpro Global content and enquiries.</p>
                 </div>
 
                 <form className="admin-login-form" onSubmit={handleLogin}>
@@ -1145,7 +1145,7 @@ const Admin = () => {
     <div className="admin-layout">
       <aside className="admin-sidebar">
         <div className="admin-sidebar-brand">
-          <img src="/logo.jpg" alt="CyberPro Global" className="admin-sidebar-logo" />
+          <img src="/logo.jpg" alt="Cyberpro Global" className="admin-sidebar-logo" />
           <h2>ADMINISTRATION</h2>
         </div>
         

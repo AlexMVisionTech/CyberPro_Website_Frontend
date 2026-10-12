@@ -298,3 +298,976 @@
   .about-hero { padding: 100px 0 48px; }
   .about-values-grid { grid-template-columns: 1fr; }
 }
+
+/* ============================================
+   ABOUT v2 — PREMIUM
+   Design-system hero with proof chips, navy
+   commitments panel, azure value tiles,
+   refined faculty, closing band.
+   ============================================ */
+
+/* --- Hero: the shared navy world --- */
+.about-hero {
+  padding: 128px 0 84px;
+  background:
+    radial-gradient(80% 70% at 82% 10%, rgba(94, 193, 255, 0.15), transparent 55%),
+    radial-gradient(70% 60% at 10% 95%, rgba(255, 79, 112, 0.09), transparent 55%),
+    linear-gradient(158deg, #0d2442 0%, #102c54 55%, #143a63 100%);
+}
+
+.about-hero .hero-nova__grain {
+  position: absolute;
+}
+
+.about-hero .container {
+  position: relative;
+  z-index: 2;
+}
+
+.about-hero .breadcrumb {
+  background: rgba(148, 190, 233, 0.1);
+  border: 1px solid rgba(148, 190, 233, 0.18);
+  color: rgba(214, 232, 248, 0.75);
+}
+
+.about-hero .breadcrumb a {
+  color: rgba(214, 232, 248, 0.85);
+}
+
+.about-hero .breadcrumb a:hover {
+  color: #fff;
+}
+
+.about-hero__title {
+  color: #f2f8fd;
+  text-shadow: 0 1px 2px rgba(2, 10, 20, 0.22), 0 12px 40px rgba(2, 10, 20, 0.35);
+}
+
+.about-hero__desc {
+  color: rgba(214, 227, 240, 0.84);
+  text-shadow: 0 1px 2px rgba(2, 10, 20, 0.24);
+}
+
+/* Proof chips */
+.about-hero__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.about-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border: 1px solid rgba(148, 190, 233, 0.2);
+  border-radius: 11px;
+  background: rgba(148, 190, 233, 0.07);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  backdrop-filter: blur(10px) saturate(150%);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  color: #eaf2fa;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.about-chip svg {
+  color: #7dd3fc;
+  flex: 0 0 auto;
+}
+
+/* --- Commitments panel: navy instrument card --- */
+.about-commitments {
+  padding: 34px 32px;
+  border: 1px solid rgba(148, 190, 233, 0.18);
+  border-radius: 20px;
+  background:
+    radial-gradient(80% 90% at 88% 8%, rgba(94, 193, 255, 0.12), transparent 55%),
+    radial-gradient(80% 90% at 10% 95%, rgba(255, 79, 112, 0.08), transparent 55%),
+    linear-gradient(158deg, #0d2442 0%, #102c54 55%, #143a63 100%);
+  color: #fff;
+  box-shadow: 0 28px 56px rgba(6, 20, 40, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.about-commitments__title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #f2f8fd;
+  margin-bottom: 8px;
+}
+
+.about-commitments__list {
+  list-style: none;
+  display: grid;
+  margin: 0;
+  padding: 0;
+}
+
+.about-commitments__list li {
+  display: grid;
+  gap: 4px;
+  padding: 18px 0;
+  border-top: 1px solid rgba(148, 190, 233, 0.14);
+}
+
+.about-commitments__list li:first-child {
+  border-top: 0;
+}
+
+.about-commitments__list strong {
+  color: #7dd3fc;
+  font-size: 15.5px;
+  font-weight: 600;
+}
+
+.about-commitments__list span {
+  color: rgba(214, 227, 240, 0.78);
+  font-size: 14.5px;
+  line-height: 1.65;
+}
+
+/* --- Value cards: azure icon tiles --- */
+.value-card {
+  border-radius: 18px;
+}
+
+.value-icon {
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(94, 193, 255, 0.3);
+  border-radius: 12px;
+  background: rgba(94, 193, 255, 0.1);
+  color: #1c6ea8;
+}
+
+/* --- Faculty cards: refined --- */
+.faculty-card {
+  border-radius: 16px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.faculty-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 38px rgba(7, 25, 51, 0.12), 0 0 0 1px rgba(94, 193, 255, 0.14);
+}
+
+.faculty-avatar {
+  border: 1px solid rgba(94, 193, 255, 0.3);
+  box-shadow: 0 10px 24px rgba(7, 25, 51, 0.12);
+}
+
+.faculty-linkedin {
+  transition: all 0.2s ease;
+}
+
+.faculty-linkedin:hover {
+  background: rgba(94, 193, 255, 0.12);
+  color: #1c6ea8;
+}
+
+/* --- Closing band --- */
+.about-cta {
+  position: relative;
+  overflow: hidden;
+  border-block: 1px solid rgba(148, 190, 233, 0.14);
+  background:
+    radial-gradient(70% 90% at 12% 50%, rgba(255, 79, 112, 0.1), transparent 55%),
+    radial-gradient(70% 90% at 88% 50%, rgba(94, 193, 255, 0.12), transparent 55%),
+    linear-gradient(180deg, #0d2442 0%, #102c54 55%, #0d2442 100%);
+  color: #fff;
+}
+
+.about-cta .hero-nova__grain {
+  position: absolute;
+}
+
+.about-cta .container {
+  position: relative;
+  z-index: 2;
+}
+
+.about-cta h2 {
+  color: #f2f8fd;
+}
+
+.about-cta p {
+  color: rgba(214, 227, 240, 0.8);
+}
+
+.about-cta__kicker {
+  display: inline-block;
+  margin-bottom: 14px;
+  color: #7dd3fc;
+  font-family: var(--font-mono, ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.about-cta__ghost {
+  color: #eaf2fa;
+  border: 1px solid rgba(190, 214, 235, 0.35);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.about-cta__ghost:hover {
+  color: #fff;
+  border-color: rgba(190, 214, 235, 0.6);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================
+   THE CYBERPRO STORY — CHAPTER CARDS
+   The narrative told through real photos,
+   numbered like the site's tier rails.
+   ============================================ */
+
+.story-chapters {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 44px;
+}
+
+.story-chapter {
+  --chapter-accent: #7dd3fc;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(7, 25, 51, 0.08);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 30px rgba(7, 25, 51, 0.06);
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.story-chapter:hover {
+  transform: translateY(-5px);
+  border-color: color-mix(in srgb, var(--chapter-accent) 45%, transparent);
+  box-shadow: 0 22px 44px rgba(7, 25, 51, 0.12), 0 0 22px color-mix(in srgb, var(--chapter-accent) 12%, transparent);
+}
+
+.story-chapter__photo {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.story-chapter__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.story-chapter:hover .story-chapter__photo img {
+  transform: scale(1.06);
+}
+
+.story-chapter__photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 45%, rgba(7, 25, 51, 0.55) 100%);
+}
+
+.story-chapter__num {
+  position: absolute;
+  left: 14px;
+  bottom: 12px;
+  z-index: 2;
+  padding: 5px 10px;
+  border: 1px solid color-mix(in srgb, var(--chapter-accent) 55%, transparent);
+  border-radius: 8px;
+  background: rgba(4, 14, 28, 0.72);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: var(--chapter-accent);
+  font-family: var(--font-mono, ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.story-chapter__body {
+  padding: 18px 18px 20px;
+}
+
+.story-chapter__title {
+  font-size: 17px;
+  margin-bottom: 6px;
+  color: var(--text-primary);
+}
+
+.story-chapter__copy {
+  color: var(--text-secondary);
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+@media (max-width: 1024px) {
+  .story-chapters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .story-chapters {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   STORY BAND — MASTERPIECE (home page)
+   The chapters rendered as a cinematic dark
+   band: glass cards, glowing numbers, real
+   photography, per-chapter accents.
+   ============================================ */
+
+.story-band {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(72px, 9vw, 100px) 0;
+  border-block: 1px solid rgba(148, 190, 233, 0.14);
+  background:
+    radial-gradient(60% 70% at 85% 12%, rgba(94, 193, 255, 0.13), transparent 55%),
+    radial-gradient(60% 60% at 12% 90%, rgba(255, 79, 112, 0.08), transparent 55%),
+    linear-gradient(180deg, #0d2442 0%, #102c54 55%, #0d2442 100%);
+  color: #fff;
+}
+
+.story-band .hero-nova__grain {
+  position: absolute;
+}
+
+.story-band .container {
+  position: relative;
+  z-index: 2;
+}
+
+.story-band .section-label {
+  color: #7dd3fc;
+}
+
+.story-band .section-label::before {
+  background: linear-gradient(90deg, #7dd3fc, #ff7b8d);
+}
+
+.story-band .section-title {
+  color: #f2f8fd;
+  text-shadow: 0 1px 2px rgba(2, 10, 20, 0.22), 0 12px 40px rgba(2, 10, 20, 0.35);
+}
+
+.story-band .section-subtitle {
+  color: rgba(214, 227, 240, 0.8);
+  text-shadow: 0 1px 2px rgba(2, 10, 20, 0.24);
+}
+
+/* Glass chapter cards on the dark band */
+.story-band .story-chapter {
+  border: 1px solid rgba(148, 190, 233, 0.18);
+  border-radius: 18px;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015));
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  box-shadow: 0 24px 48px rgba(2, 12, 26, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.story-band .story-chapter:hover {
+  transform: translateY(-6px);
+  border-color: color-mix(in srgb, var(--chapter-accent) 55%, transparent);
+  box-shadow: 0 30px 60px rgba(2, 12, 26, 0.5), 0 0 28px color-mix(in srgb, var(--chapter-accent) 16%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.story-band .story-chapter__photo::after {
+  background: linear-gradient(180deg, rgba(4, 14, 28, 0.05) 20%, rgba(4, 14, 28, 0.72) 100%);
+}
+
+/* Glowing chapter numbers */
+.story-band .story-chapter__num {
+  top: 14px;
+  left: 14px;
+  bottom: auto;
+  padding: 6px 11px;
+  border-radius: 9px;
+  background: rgba(4, 14, 28, 0.78);
+  color: var(--chapter-accent);
+  text-shadow: 0 0 12px color-mix(in srgb, var(--chapter-accent) 70%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--chapter-accent) 45%, transparent), 0 8px 20px rgba(1, 6, 14, 0.5);
+}
+
+.story-band .story-chapter__body {
+  padding: 18px 18px 22px;
+}
+
+.story-band .story-chapter__title {
+  color: #f2f8fd;
+  font-size: 17.5px;
+}
+
+.story-band .story-chapter__copy {
+  color: rgba(214, 227, 240, 0.75);
+  font-size: 13.5px;
+}
+
+/* ============================================
+   LEADERSHIP — FEATURED TEAM TIER
+   Named executive cards above the wider-team
+   marquee: portrait, role, credentials, profile.
+   ============================================ */
+
+.leadership-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 44px;
+}
+
+.leader-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 26px 20px 24px;
+  border: 1px solid rgba(7, 25, 51, 0.08);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 30px rgba(7, 25, 51, 0.05);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.leader-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(94, 193, 255, 0.4);
+  box-shadow: 0 22px 44px rgba(7, 25, 51, 0.11), 0 0 0 1px rgba(94, 193, 255, 0.14);
+}
+
+.leader-card__photo {
+  position: relative;
+  width: 108px;
+  height: 108px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(94, 193, 255, 0.35);
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--bg-secondary);
+  box-shadow: 0 12px 28px rgba(7, 25, 51, 0.14), 0 0 0 5px rgba(94, 193, 255, 0.08);
+}
+
+.leader-card__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.leader-card:hover .leader-card__photo img {
+  transform: scale(1.06);
+}
+
+.leader-card__initials {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-heading);
+  font-size: 30px;
+  font-weight: 600;
+  color: #1c6ea8;
+}
+
+.leader-card__name {
+  font-size: 17.5px;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.leader-card__role {
+  color: #1c6ea8;
+  font-size: 13.5px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.leader-card__creds {
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.leader-card__linkedin {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: auto;
+  padding: 8px 14px;
+  border: 1px solid rgba(7, 25, 51, 0.12);
+  border-radius: 999px;
+  color: #46586e;
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.leader-card__linkedin:hover {
+  border-color: rgba(94, 193, 255, 0.5);
+  background: rgba(94, 193, 255, 0.08);
+  color: #1c6ea8;
+}
+
+@media (max-width: 1024px) {
+  .leadership-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .leadership-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   CORE VALUES — ACCENTED PROOF CARDS
+   Each value carries its own accent, a numbered
+   tag, and a concrete "in practice" line.
+   ============================================ */
+
+.value-card {
+  --value-accent: #7dd3fc;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 26px 24px 22px;
+  border: 1px solid rgba(7, 25, 51, 0.08);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 12px 30px rgba(7, 25, 51, 0.05);
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.value-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--value-accent), transparent 75%);
+  opacity: 0.85;
+}
+
+.value-card:hover {
+  transform: translateY(-5px);
+  border-color: color-mix(in srgb, var(--value-accent) 45%, transparent);
+  box-shadow: 0 22px 44px rgba(7, 25, 51, 0.11), 0 0 22px color-mix(in srgb, var(--value-accent) 10%, transparent);
+}
+
+.value-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.value-icon {
+  border-color: color-mix(in srgb, var(--value-accent) 35%, transparent);
+  background: color-mix(in srgb, var(--value-accent) 12%, #fff);
+  color: color-mix(in srgb, var(--value-accent) 55%, #071933);
+}
+
+.value-card__num {
+  font-family: var(--font-mono, ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #8fa2b8;
+}
+
+.value-card .card-title {
+  font-size: 18.5px;
+  margin-bottom: 8px;
+}
+
+.value-card .card-desc {
+  font-size: 14px;
+  line-height: 1.7;
+  flex: 1;
+}
+
+/* The proof line */
+.value-card__practice {
+  display: grid;
+  gap: 4px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(7, 25, 51, 0.08);
+}
+
+.value-card__practice-label {
+  font-family: var(--font-mono, ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--value-accent) 55%, #071933);
+}
+
+.value-card__practice-text {
+  color: var(--text-secondary);
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.55;
+}
+
+/* ============================================
+   CORE VALUES — EDITORIAL NUMERALS (no icons)
+   The number becomes the anchor: large, accent-
+   lit, with a hairline running off it.
+   ============================================ */
+
+.value-card__numrow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.value-card__num {
+  font-family: var(--font-mono, ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: var(--value-accent);
+  text-shadow: 0 0 20px color-mix(in srgb, var(--value-accent) 45%, transparent);
+}
+
+.value-card__numrule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--value-accent) 55%, transparent), transparent 85%);
+}
+
+/* ============================================
+   ABOUT — FINAL POLISH
+   Stale-glow removal, faculty card surfaces,
+   typography clamps, motion & focus standards.
+   ============================================ */
+
+/* Remove the legacy crimson blob — the hero's
+   design-system glows replace it */
+.about-hero::after {
+  display: none;
+}
+
+/* Values grid rhythm matches the story grid */
+.about-values-grid {
+  margin-top: 44px;
+}
+
+/* Faculty cards: real surfaces instead of floating content */
+.faculty-card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(7, 25, 51, 0.08);
+  padding: 24px 16px 20px;
+  box-shadow: 0 10px 26px rgba(7, 25, 51, 0.04);
+}
+
+.faculty-card:hover {
+  border-color: rgba(94, 193, 255, 0.4);
+  box-shadow: 0 20px 42px rgba(7, 25, 51, 0.1), 0 0 0 1px rgba(94, 193, 255, 0.14);
+}
+
+/* Consistent card heights: clamp long names and roles */
+.faculty-card h3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.6em;
+  font-size: 15.5px;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.faculty-card .faculty-role {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.4em;
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.faculty-creds {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* Keyboard focus on the LinkedIn actions */
+.faculty-linkedin:focus-visible,
+.leader-card__linkedin:focus-visible {
+  outline: 2px solid rgba(125, 211, 252, 0.7);
+  outline-offset: 2px;
+}
+
+/* Motion standards: the marquee respects reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .faculty-marquee {
+    animation: none;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ============================================
+   FACULTY — GLASS WIDGETS
+   Frosted cards refracting soft color washes,
+   edge-faded marquee.
+   ============================================ */
+
+/* Soft washes behind the glass so refraction shows */
+.about-faculty {
+  position: relative;
+  background:
+    radial-gradient(45% 60% at 12% 22%, rgba(94, 193, 255, 0.08), transparent 62%),
+    radial-gradient(45% 60% at 88% 82%, rgba(255, 79, 112, 0.05), transparent 62%);
+}
+
+/* Frosted faculty cards */
+.faculty-card {
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.38));
+  -webkit-backdrop-filter: blur(14px) saturate(175%);
+  backdrop-filter: blur(14px) saturate(175%);
+  -webkit-backdrop-filter: blur(14px) saturate(175%);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 16px 36px rgba(7, 25, 51, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.faculty-card:hover {
+  border-color: rgba(94, 193, 255, 0.45);
+  box-shadow:
+    0 24px 48px rgba(7, 25, 51, 0.12),
+    0 0 22px rgba(94, 193, 255, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+/* Glass avatar ring */
+.faculty-avatar {
+  background: rgba(255, 255, 255, 0.45);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 10px 24px rgba(7, 25, 51, 0.14), 0 0 0 4px rgba(94, 193, 255, 0.1);
+}
+
+/* Marquee edges dissolve instead of hard-cutting */
+.faculty-marquee-container {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+/* ============================================
+   FACULTY — CREDENTIAL BADGE CARDS
+   Operator-ID concept: hexagonal portraits
+   (the hero's hexagon DNA), mono staff IDs,
+   live status dots, operator-tag roles.
+   ============================================ */
+
+/* Staff ID row */
+.faculty-card__id {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(7, 25, 51, 0.08);
+}
+
+.faculty-card__id-text {
+  font-family: var(--font-mono, ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #8fa2b8;
+  white-space: nowrap;
+}
+
+.faculty-card__status {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #35d08a;
+  box-shadow: 0 0 8px rgba(53, 208, 138, 0.8);
+  animation: heroNovaPulse 2.2s ease-out infinite;
+}
+
+/* Hexagonal portrait with glow ring */
+.faculty-avatar {
+  width: 86px;
+  height: 96px;
+  margin-bottom: 14px;
+  background: rgba(255, 255, 255, 0.5);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  filter: drop-shadow(0 10px 20px rgba(7, 25, 51, 0.16)) drop-shadow(0 0 10px rgba(94, 193, 255, 0.35));
+  transition: filter 0.3s ease;
+}
+
+.faculty-card:hover .faculty-avatar {
+  filter: drop-shadow(0 14px 26px rgba(7, 25, 51, 0.2)) drop-shadow(0 0 16px rgba(94, 193, 255, 0.6));
+}
+
+.faculty-avatar__hex {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  display: grid;
+  place-items: center;
+  background: linear-gradient(160deg, rgba(94, 193, 255, 0.14), rgba(13, 36, 66, 0.08));
+}
+
+.faculty-avatar__hex img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.faculty-card:hover .faculty-avatar__hex img {
+  transform: scale(1.07);
+}
+
+.faculty-avatar__hex span {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 600;
+  color: #1c6ea8;
+}
+
+/* Role as an operator tag */
+.faculty-card .faculty-role {
+  font-family: var(--font-mono, ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1c6ea8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faculty-card__status {
+    animation: none;
+  }
+}
+
+/* ============================================
+   FACULTY — NEUTRAL PASS
+   Badge concept reverted; color dialed down:
+   no washes, no azure rings, quiet grayscale
+   surfaces with restrained hover.
+   ============================================ */
+
+/* Remove the color washes behind the cards */
+.about-faculty {
+  background: none;
+}
+
+/* Cards: quiet white, no glass tint games */
+.faculty-card {
+  background: rgba(255, 255, 255, 0.85);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(7, 25, 51, 0.07);
+  box-shadow: 0 8px 22px rgba(7, 25, 51, 0.04);
+}
+
+.faculty-card:hover {
+  border-color: rgba(7, 25, 51, 0.16);
+  box-shadow: 0 16px 34px rgba(7, 25, 51, 0.08);
+}
+
+/* Avatars: neutral ring, no azure halo */
+.faculty-avatar {
+  border: 1px solid rgba(7, 25, 51, 0.1);
+  background: var(--bg-secondary);
+  box-shadow: 0 8px 20px rgba(7, 25, 51, 0.08);
+}
+
+/* Roles: normal type, muted — no mono, no azure */
+.faculty-card .faculty-role {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--text-muted);
+}
+
+.faculty-creds {
+  color: var(--text-muted);
+}
+
+/* LinkedIn: neutral */
+.faculty-linkedin {
+  color: #8fa2b8;
+}
+
+.faculty-linkedin:hover {
+  color: var(--text-primary);
+  background: rgba(7, 25, 51, 0.05);
+}
+
+/* ============================================
+   FACULTY AVATARS — BACK TO ROUNDED
+   Cancels the hexagon clip so the original
+   circular portraits render again.
+   ============================================ */
+
+.faculty-avatar {
+  width: 160px;
+  height: 160px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  overflow: hidden;
+  clip-path: none;
+  filter: none;
+  background: #f1f5f9;
+}
+
+/* ============================================
+   FACULTY CARDS — TRANSPARENT
+   No surface: the widgets float freely.
+   ============================================ */
+
+.faculty-card {
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 0;
+  box-shadow: none;
+}
+
+.faculty-card:hover {
+  border: 0;
+  box-shadow: none;
+  transform: translateY(-3px);
+}

@@ -24,7 +24,7 @@ export default function Government() {
             <div className="breadcrumb"><Link to="/">Home</Link><span>/</span><span>Government</span></div>
             <span className="section-label">Public Sector & Civic Services</span>
             <h1 className="page-hero__title">Build the capability behind trusted digital services.</h1>
-            <p className="page-hero__desc">CyberPro works with public institutions to strengthen cybersecurity skills, support resilient operations, and help teams meet the demands of a changing digital environment.</p>
+            <p className="page-hero__desc">Cyberpro works with public institutions to strengthen cybersecurity skills, support resilient operations, and help teams meet the demands of a changing digital environment.</p>
             <div className="government-hero__actions">
               <a className="btn btn-primary btn-lg" href="#engage">Plan a conversation <ArrowRight size={18} /></a>
               <Link className="btn btn-outline btn-lg" to="/programs">Explore learning programs</Link>

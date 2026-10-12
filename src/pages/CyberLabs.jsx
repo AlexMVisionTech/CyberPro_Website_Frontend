@@ -24,7 +24,7 @@ const COMMANDS = {
 
 export default function CyberLabs() {
   const [history, setHistory] = useState([
-    { type: 'system', text: 'CyberPro Global — Virtual Security Lab v2.0\nType "help" for available commands.\n' }
+    { type: 'system', text: 'Cyberpro Global — Virtual Security Lab v2.0\nType "help" for available commands.\n' }
   ]);
   const [input, setInput] = useState('');
   const terminalBody = useRef(null);

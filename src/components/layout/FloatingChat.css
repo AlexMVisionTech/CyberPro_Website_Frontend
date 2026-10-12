@@ -328,3 +328,9 @@
   background: var(--primary-hover);
   transform: scale(1.05);
 }
+
+@media (prefers-reduced-motion: reduce) {
+  [class*="chat"] {
+    animation-duration: 0.01ms !important;
+  }
+}

@@ -26,7 +26,7 @@ function AppContent() {
   return (
     <>
       {!isAdmin && <Navbar />}
-      <main>
+      <main id="main-content">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/programs" element={<Programs />} />

@@ -98,6 +98,7 @@
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-xl);
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
@@ -106,5 +107,274 @@
   .contact-layout {
     grid-template-columns: 1fr;
     gap: 40px;
+  }
+}
+
+/* ============================================
+   CONTACT v2 — PREMIUM
+   Design-system hero with contact chips,
+   azure info tiles, elevated form card.
+   (This file is now actually imported — it
+   previously shipped with no import.)
+   ============================================ */
+
+/* --- Hero: the shared navy world --- */
+.contact-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 128px 0 84px;
+  background:
+    radial-gradient(80% 70% at 82% 10%, rgba(94, 193, 255, 0.15), transparent 55%),
+    radial-gradient(70% 60% at 10% 95%, rgba(255, 79, 112, 0.09), transparent 55%),
+    linear-gradient(158deg, #0d2442 0%, #102c54 55%, #143a63 100%);
+  color: #fff;
+  isolation: isolate;
+}
+
+.contact-hero .hero-nova__grain {
+  position: absolute;
+}
+
+.contact-hero .container {
+  position: relative;
+  z-index: 2;
+}
+
+.contact-hero .breadcrumb {
+  background: rgba(148, 190, 233, 0.1);
+  border: 1px solid rgba(148, 190, 233, 0.18);
+  color: rgba(214, 232, 248, 0.75);
+}
+
+.contact-hero .breadcrumb a {
+  color: rgba(214, 232, 248, 0.85);
+}
+
+.contact-hero .breadcrumb a:hover {
+  color: #fff;
+}
+
+.contact-hero .page-hero__title {
+  color: #f2f8fd;
+  text-shadow: 0 1px 2px rgba(2, 10, 20, 0.22), 0 12px 40px rgba(2, 10, 20, 0.35);
+}
+
+.contact-hero .page-hero__desc {
+  color: rgba(214, 227, 240, 0.84);
+  text-shadow: 0 1px 2px rgba(2, 10, 20, 0.24);
+  max-width: 640px;
+}
+
+/* Contact chips */
+.contact-hero__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.contact-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border: 1px solid rgba(148, 190, 233, 0.2);
+  border-radius: 11px;
+  background: rgba(148, 190, 233, 0.07);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  backdrop-filter: blur(10px) saturate(150%);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  color: #eaf2fa;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.contact-chip svg {
+  color: #7dd3fc;
+  flex: 0 0 auto;
+}
+
+/* --- Layout --- */
+.contact-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.contact-info__label {
+  display: block;
+  margin-bottom: 10px;
+  color: #1c6ea8;
+  font-family: var(--font-mono, ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.contact-info__title,
+.contact-form-card__title {
+  font-size: clamp(1.4rem, 2vw, 1.7rem);
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+}
+
+/* Info panel */
+.contact-info-panel {
+  padding: 28px;
+  border: 1px solid rgba(7, 25, 51, 0.08);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 14px 36px rgba(7, 25, 51, 0.06);
+}
+
+.contact-info-list {
+  display: grid;
+  gap: 18px;
+}
+
+.contact-info-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.contact-info-item + .contact-info-item {
+  padding-top: 18px;
+  border-top: 1px solid rgba(7, 25, 51, 0.07);
+}
+
+.contact-info-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(94, 193, 255, 0.28);
+  border-radius: 11px;
+  background: rgba(94, 193, 255, 0.1);
+  color: #1c6ea8;
+}
+
+.contact-info-item h3 {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #66788c;
+  margin-bottom: 4px;
+}
+
+.contact-info-item p,
+.contact-info-item a {
+  color: var(--text-primary);
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.65;
+  text-decoration: none;
+}
+
+.contact-info-item a:hover {
+  color: #1c6ea8;
+}
+
+/* Map placeholder */
+.contact-map {
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  margin-top: 26px;
+  padding: 26px 20px;
+  border: 1px dashed rgba(94, 193, 255, 0.35);
+  border-radius: 16px;
+  background: rgba(94, 193, 255, 0.05);
+  color: rgba(94, 193, 255, 0.55);
+  text-align: center;
+}
+
+.contact-map__place {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 14.5px;
+}
+
+.contact-map__note {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+/* --- Form card --- */
+.contact-form-card {
+  position: relative;
+  padding: 32px;
+  border: 1px solid rgba(7, 25, 51, 0.08);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 22px 48px rgba(7, 25, 51, 0.09);
+  overflow: hidden;
+}
+
+.contact-form-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #7dd3fc, #ff7b8d 55%, transparent 90%);
+}
+
+.contact-form-card__label {
+  display: block;
+  margin-bottom: 10px;
+  color: #1c6ea8;
+  font-family: var(--font-mono, ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 16px;
+}
+
+.form-textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+.contact-form-message {
+  margin-bottom: 14px;
+  padding: 12px 16px;
+  border: 1px solid rgba(53, 208, 138, 0.35);
+  border-radius: 12px;
+  background: rgba(53, 208, 138, 0.08);
+  color: #14855a;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.contact-form-submit {
+  width: 100%;
+  margin-top: 6px;
+}
+
+.contact-form-submit:hover {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 900px) {
+  .contact-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
   }
 }

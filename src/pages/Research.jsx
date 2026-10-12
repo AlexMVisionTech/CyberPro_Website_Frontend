@@ -12,6 +12,7 @@ export default function Research() {
   return (
     <div>
       <section className="cyber-hero-premium">
+        <span className="hero-nova__grain" aria-hidden="true" />
         <div className="container research-hero__inner">
           <div className="research-hero__copy">
             <div className="breadcrumb">
@@ -23,7 +24,7 @@ export default function Research() {
             <p className="page-hero__desc">Applied research in cybersecurity, AI safety, and critical infrastructure protection for institutions building resilient digital systems.</p>
             <div className="research-hero__actions">
               <Link to="/contact" className="btn btn-primary btn-lg">Partner With Us <ArrowRight size={18} /></Link>
-              <a href="#publications" className="btn btn-outline btn-lg">View Publications</a>
+              <a href="#publications" className="btn research-hero__ghost btn-lg">View Publications</a>
             </div>
           </div>
 
@@ -52,7 +53,19 @@ export default function Research() {
             <h2 className="section-title">Active Research Initiatives</h2>
             <p className="section-subtitle">Interdisciplinary teams working on problems that matter to Africa and the world.</p>
           </div>
-          {clustersLoading && <p>Loading research clusters…</p>}
+          {clustersLoading && (
+            <div className="research-grid">
+              {[0, 1, 2].map(i => (
+                <div className="program-card program-card--skeleton" key={i}>
+                  <div className="program-card__body">
+                    <div className="program-skeleton__block program-skeleton__block--title" />
+                    <div className="program-skeleton__block program-skeleton__block--text" />
+                    <div className="program-skeleton__block program-skeleton__block--text program-skeleton__block--short" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
           {clustersError && <p role="alert">{clustersError}</p>}
           <div className="research-grid">
             {clusters.map((c) => (
@@ -64,7 +77,8 @@ export default function Research() {
                 <h3 className="research-card__title">{c.title}</h3>
                 <p className="research-card__desc">{c.desc}</p>
                 <div className="research-card__lead">
-                  &gt; _LEAD: <span>{c.lead}</span>
+                  <span className="research-card__lead-label">Lead</span>
+                  <span className="research-card__lead-value">{c.lead}</span>
                 </div>
               </div>
             ))}
@@ -91,8 +105,8 @@ export default function Research() {
                   <h4>{pub.title}</h4>
                   <p>{pub.authors} — <em>{pub.venue}</em></p>
                 </div>
-                <span className={`badge ${pub.type === 'Journal' ? 'badge-crimson' : 'badge-navy'}`}>{pub.type}</span>
-                {pub.link ? <a href={pub.link} target="_blank" rel="noopener noreferrer" aria-label={`Open publication: ${pub.title}`}><ExternalLink size={16} className="publication-link-icon" /></a> : <ExternalLink size={16} className="publication-link-icon" />}
+                <span className={`pub-chip pub-chip--${pub.type === 'Journal' ? 'journal' : 'conference'}`}>{pub.type}</span>
+                {pub.link ? <a href={pub.link} target="_blank" rel="noopener noreferrer" aria-label={`Open publication: ${pub.title}`}><ExternalLink size={16} className="publication-link-icon" /></a> : <ExternalLink size={16} className="publication-link-icon publication-link-icon--disabled" />}
               </div>
             ))}
           </div>
@@ -100,12 +114,14 @@ export default function Research() {
       </section>
 
       <section className="section research-cta" id="collaborate">
+        <span className="hero-nova__grain" aria-hidden="true" />
         <div className="container research-cta__inner">
+          <span className="research-cta__kicker">Research partnerships</span>
           <h2 className="section-title">Collaborate With Our Research Labs</h2>
           <p className="section-subtitle">We welcome partnerships with industry, academia, and government institutions for joint research programs.</p>
           <div className="research-cta__actions">
             <Link to="/contact" className="btn btn-primary btn-lg">Get in Touch</Link>
-            <Link to="/corporate" className="btn btn-outline btn-lg">Corporate Partnerships</Link>
+            <Link to="/corporate" className="btn research-cta__ghost btn-lg">Corporate Partnerships</Link>
           </div>
         </div>
       </section>

@@ -335,7 +335,7 @@ export default function ApplicationModal({ isOpen, onClose, selectedProgram = ''
           {step === 3 && (
             <div className="step-content">
               <p style={{ fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '4px' }}>
-                Please review your details below. This preview is not submitted to CyberPro.
+                Please review your details below. This preview is not submitted to Cyberpro.
               </p>
 
               <div className="review-card">

@@ -407,3 +407,350 @@
     gap: 28px;
   }
 }
+
+/* ============================================
+   INSTITUTIONAL PATHWAYS — PREMIUM
+   Design-system hero, pathway cards, benefits,
+   requirements split, navy closing band.
+   ============================================ */
+
+/* --- Hero: the shared navy world --- */
+.admissions-hero {
+  padding: 128px 0 84px;
+  background:
+    radial-gradient(80% 70% at 82% 10%, rgba(94, 193, 255, 0.15), transparent 55%),
+    radial-gradient(70% 60% at 10% 95%, rgba(255, 79, 112, 0.09), transparent 55%),
+    linear-gradient(158deg, #0d2442 0%, #102c54 55%, #143a63 100%);
+}
+
+.admissions-hero .hero-nova__grain {
+  position: absolute;
+}
+
+.admissions-hero .container {
+  position: relative;
+  z-index: 2;
+}
+
+.admissions-hero .breadcrumb {
+  background: rgba(148, 190, 233, 0.1);
+  border: 1px solid rgba(148, 190, 233, 0.18);
+  color: rgba(214, 232, 248, 0.75);
+}
+
+.admissions-hero .breadcrumb a {
+  color: rgba(214, 232, 248, 0.85);
+}
+
+.admissions-hero .breadcrumb a:hover {
+  color: #fff;
+}
+
+.admissions-hero__title {
+  color: #f2f8fd;
+  text-shadow: 0 1px 2px rgba(2, 10, 20, 0.22), 0 12px 40px rgba(2, 10, 20, 0.35);
+}
+
+.admissions-hero__desc {
+  color: rgba(214, 227, 240, 0.84);
+  text-shadow: 0 1px 2px rgba(2, 10, 20, 0.24);
+}
+
+.admissions-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.admissions-ghost {
+  color: #eaf2fa;
+  border: 1px solid rgba(190, 214, 235, 0.35);
+  background: rgba(255, 255, 255, 0.06);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.admissions-ghost:hover {
+  color: #fff;
+  border-color: rgba(190, 214, 235, 0.6);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* --- Pathway cards --- */
+.pathway-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: 40px;
+}
+
+.pathway-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 26px;
+  border: 1px solid rgba(7, 25, 51, 0.08);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 30px rgba(7, 25, 51, 0.05);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.pathway-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(94, 193, 255, 0.4);
+  box-shadow: 0 22px 44px rgba(7, 25, 51, 0.12), 0 0 0 1px rgba(94, 193, 255, 0.12);
+}
+
+.pathway-card__icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(94, 193, 255, 0.3);
+  border-radius: 12px;
+  background: rgba(94, 193, 255, 0.1);
+  color: #1c6ea8;
+}
+
+.pathway-card__title {
+  font-size: 19px;
+  margin-bottom: 8px;
+}
+
+.pathway-card__desc {
+  color: var(--text-secondary);
+  font-size: 14.5px;
+  line-height: 1.65;
+  margin-bottom: 14px;
+}
+
+.pathway-card__points {
+  list-style: none;
+  display: grid;
+  gap: 7px;
+  margin-bottom: 20px;
+}
+
+.pathway-card__points li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #46586e;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.pathway-card__points svg {
+  color: #35d08a;
+  flex: 0 0 auto;
+}
+
+.pathway-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: auto;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.pathway-card__link svg {
+  transition: transform 0.22s ease;
+}
+
+.pathway-card__link:hover {
+  color: var(--primary-hover);
+}
+
+.pathway-card__link:hover svg {
+  transform: translateX(3px);
+}
+
+/* --- Benefits grid --- */
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 40px;
+}
+
+.benefit-card {
+  display: flex;
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid rgba(7, 25, 51, 0.08);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 22px rgba(7, 25, 51, 0.04);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.benefit-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 34px rgba(7, 25, 51, 0.09);
+}
+
+.benefit-card__icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(94, 193, 255, 0.28);
+  border-radius: 11px;
+  background: rgba(94, 193, 255, 0.1);
+  color: #1c6ea8;
+}
+
+.benefit-card__title {
+  font-size: 15.5px;
+  margin-bottom: 4px;
+}
+
+.benefit-card__desc {
+  color: var(--text-secondary);
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+/* --- Requirements split --- */
+.requirements-split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.requirements-panel {
+  padding: 28px;
+  border: 1px solid rgba(7, 25, 51, 0.08);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 30px rgba(7, 25, 51, 0.05);
+}
+
+.requirements-panel__title {
+  font-size: 18px;
+  margin-bottom: 18px;
+}
+
+.who-list {
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.who-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.who-list__icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(94, 193, 255, 0.28);
+  border-radius: 10px;
+  background: rgba(94, 193, 255, 0.1);
+  color: #1c6ea8;
+}
+
+.req-list {
+  list-style: none;
+  display: grid;
+  gap: 14px;
+}
+
+.req-list li {
+  display: grid;
+  gap: 3px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(7, 25, 51, 0.07);
+}
+
+.req-list li:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.req-list strong {
+  color: var(--text-primary);
+  font-size: 15px;
+}
+
+.req-list span {
+  color: var(--text-secondary);
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+/* --- Closing band --- */
+.admissions-cta {
+  position: relative;
+  overflow: hidden;
+  border-block: 1px solid rgba(148, 190, 233, 0.14);
+  background:
+    radial-gradient(70% 90% at 12% 50%, rgba(255, 79, 112, 0.1), transparent 55%),
+    radial-gradient(70% 90% at 88% 50%, rgba(94, 193, 255, 0.12), transparent 55%),
+    linear-gradient(180deg, #0d2442 0%, #102c54 55%, #0d2442 100%);
+  color: #fff;
+}
+
+.admissions-cta .hero-nova__grain {
+  position: absolute;
+}
+
+.admissions-cta .container {
+  position: relative;
+  z-index: 2;
+}
+
+.admissions-cta h2 {
+  color: #f2f8fd;
+}
+
+.admissions-cta p {
+  color: rgba(214, 227, 240, 0.8);
+}
+
+.admissions-cta__kicker {
+  display: inline-block;
+  margin-bottom: 14px;
+  color: #7dd3fc;
+  font-family: var(--font-mono, ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.admissions-cta__ghost {
+  color: #eaf2fa;
+  border: 1px solid rgba(190, 214, 235, 0.35);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.admissions-cta__ghost:hover {
+  color: #fff;
+  border-color: rgba(190, 214, 235, 0.6);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 900px) {
+  .pathway-grid,
+  .benefits-grid,
+  .requirements-split {
+    grid-template-columns: 1fr;
+  }
+}

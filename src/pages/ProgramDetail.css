@@ -74,7 +74,7 @@
 .program-detail__price-label {
   display: block;
   margin-bottom: 8px;
-  color: #ff9aa6;
+  color: #ff5f6f;
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.18em;
@@ -218,5 +218,299 @@
   .program-detail__actions .btn {
     width: 100%;
     justify-content: center;
+  }
+}
+
+/* ============================================
+   PROGRAM DETAIL v2 — PREMIUM
+   Tinted artwork hero, tier accents, pathway
+   strip, sticky sidebar, navy CTA card.
+   ============================================ */
+
+/* --- Hero: navy world with the program artwork
+     refracted through it --- */
+.pd-hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(110px, 14vh, 140px) 0 clamp(48px, 6vh, 64px);
+  background:
+    radial-gradient(80% 70% at 82% 10%, rgba(94, 193, 255, 0.14), transparent 55%),
+    radial-gradient(70% 60% at 10% 95%, rgba(255, 79, 112, 0.09), transparent 55%),
+    linear-gradient(158deg, #0d2442 0%, #102c54 55%, #143a63 100%);
+  color: #fff;
+  isolation: isolate;
+}
+
+.pd-hero__backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.pd-hero__backdrop img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.38;
+  filter: contrast(1.05) brightness(1.05) blur(1.5px);
+  mix-blend-mode: luminosity;
+}
+
+.pd-hero__backdrop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(6, 18, 34, 0.5) 0%, rgba(6, 18, 34, 0.2) 40%, rgba(6, 18, 34, 0.06) 100%),
+    linear-gradient(180deg, rgba(6, 18, 34, 0.3) 0%, rgba(6, 18, 34, 0.42) 100%);
+}
+
+.pd-hero .container {
+  position: relative;
+  z-index: 2;
+}
+
+.pd-hero .page-hero__title {
+  color: #f2f8fd;
+  text-shadow: 0 1px 2px rgba(2, 10, 20, 0.22), 0 12px 40px rgba(2, 10, 20, 0.35);
+}
+
+.pd-hero .page-hero__desc {
+  color: rgba(214, 227, 240, 0.84);
+  text-shadow: 0 1px 2px rgba(2, 10, 20, 0.24);
+  max-width: 640px;
+}
+
+.pd-hero .breadcrumb {
+  background: rgba(148, 190, 233, 0.1);
+  border: 1px solid rgba(148, 190, 233, 0.18);
+  color: rgba(214, 232, 248, 0.75);
+}
+
+.pd-hero .breadcrumb a {
+  color: rgba(214, 232, 248, 0.85);
+}
+
+.pd-hero .breadcrumb a:hover {
+  color: #fff;
+}
+
+/* Tier chip in the program's own accent */
+.pd-hero__tier {
+  --tier-accent: #7dd3fc;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 18px;
+  padding: 8px 15px;
+  border: 1px solid color-mix(in srgb, var(--tier-accent) 35%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tier-accent) 9%, rgba(255, 255, 255, 0.04));
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #eaf4fd;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.pd-hero__tier-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--tier-accent);
+  box-shadow: 0 0 10px var(--tier-accent);
+}
+
+/* Fact chips */
+.pd-hero__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 26px 0 30px;
+}
+
+.pd-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border: 1px solid rgba(148, 190, 233, 0.2);
+  border-radius: 11px;
+  background: rgba(148, 190, 233, 0.07);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  backdrop-filter: blur(10px) saturate(150%);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  color: #eaf2fa;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.pd-chip svg {
+  color: #7dd3fc;
+  flex: 0 0 auto;
+}
+
+.pd-chip--fee {
+  border-color: rgba(255, 95, 111, 0.35);
+  background: rgba(255, 95, 111, 0.08);
+  color: #ffe4e8;
+}
+
+.pd-chip--fee svg {
+  color: #ff7b8d;
+}
+
+.pd-chip--cert svg {
+  color: #35d08a;
+}
+
+.pd-hero__ghost {
+  color: #eaf2fa;
+  border: 1px solid rgba(190, 214, 235, 0.35);
+  background: rgba(255, 255, 255, 0.06);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.pd-hero__ghost:hover {
+  color: #fff;
+  border-color: rgba(190, 214, 235, 0.6);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* --- Pathway strip: the 4-tier progression with
+     the current tier lit --- */
+.pd-pathway {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 42px;
+  padding: 16px 20px;
+  border: 1px solid rgba(7, 25, 51, 0.08);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 10px 28px rgba(7, 25, 51, 0.06);
+}
+
+.pd-pathway__step {
+  --tier-accent: #7dd3fc;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  flex: 1 1 auto;
+  justify-content: center;
+  padding: 6px 12px;
+  color: #66788c;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.pd-pathway__step + .pd-pathway__step::before {
+  content: '';
+  position: absolute;
+  left: -14px;
+  width: 28px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(7, 25, 51, 0.16), transparent);
+}
+
+.pd-pathway__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(7, 25, 51, 0.14);
+  transition: all 0.3s ease;
+}
+
+.pd-pathway__name em {
+  font-family: var(--font-mono, ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace);
+  font-style: normal;
+  font-size: 10px;
+  color: #8fa2b8;
+  margin-right: 2px;
+}
+
+.pd-pathway__step--current {
+  color: color-mix(in srgb, var(--tier-accent) 55%, #071933);
+}
+
+.pd-pathway__step--current .pd-pathway__dot {
+  background: var(--tier-accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--tier-accent) 22%, transparent), 0 0 14px var(--tier-accent);
+}
+
+/* --- Sticky sidebar --- */
+.program-detail__sidebar {
+  position: sticky;
+  top: 96px;
+  align-self: start;
+}
+
+/* Details card: icon tiles, hairline rows */
+.pd-details-card {
+  border-radius: 18px;
+  box-shadow: 0 18px 44px rgba(7, 25, 51, 0.1), 0 0 0 1px rgba(7, 25, 51, 0.05);
+}
+
+.pd-meta-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(94, 193, 255, 0.28);
+  border-radius: 10px;
+  background: rgba(94, 193, 255, 0.1);
+  color: #1c6ea8;
+}
+
+.pd-fee {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* CTA card: navy band styling */
+.pd-cta-card {
+  background:
+    radial-gradient(80% 90% at 15% 10%, rgba(94, 193, 255, 0.14), transparent 55%),
+    radial-gradient(80% 90% at 88% 92%, rgba(255, 79, 112, 0.12), transparent 55%),
+    linear-gradient(158deg, #0d2442 0%, #102c54 55%, #143a63 100%);
+  border: 1px solid rgba(148, 190, 233, 0.18);
+  border-radius: 18px;
+  color: #fff;
+  box-shadow: 0 24px 48px rgba(6, 20, 40, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.pd-cta-card .program-detail__card-title {
+  color: #f2f8fd;
+}
+
+.pd-cta-card .program-detail__cta-text {
+  color: rgba(214, 227, 240, 0.8);
+}
+
+.pd-cta-secondary {
+  color: #eaf2fa;
+  border: 1px solid rgba(190, 214, 235, 0.35);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.pd-cta-secondary:hover {
+  color: #fff;
+  border-color: rgba(190, 214, 235, 0.6);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 900px) {
+  .program-detail__sidebar {
+    position: static;
   }
 }

@@ -7,7 +7,7 @@ export default function FloatingChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeChat, setActiveChat] = useState(null); // 'select', 'bot'
   const [messages, setMessages] = useState([
-    { id: 1, sender: 'bot', text: 'Hello! I am Dr. Akili, CyberPro\'s demo assistant. I can help you find your way around the site.' }
+    { id: 1, sender: 'bot', text: 'Hello! I am Dr. Akili, Cyberpro\'s demo assistant. I can help you find your way around the site.' }
   ]);
   const [inputValue, setInputValue] = useState('');
   const chatRef = useRef(null);
@@ -82,7 +82,7 @@ export default function FloatingChat() {
                   <div className="option-icon"><Phone size={20} /></div>
                   <div className="option-text">
                     <strong>Contact the team</strong>
-                    <span>Send an inquiry to CyberPro</span>
+                    <span>Send an inquiry to Cyberpro</span>
                   </div>
                 </Link>
                 

@@ -1,13 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Shield, Brain, Cloud, Server,
-  ArrowRight, ChevronRight, Star, Check, Building2, GraduationCap, CalendarDays,
-  BriefcaseBusiness, ChevronLeft, Landmark
+  Server, ArrowRight, ChevronRight, Star, Building2, GraduationCap,
+  CalendarDays, ChevronLeft, Radar, Clock
 } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import Partners from '../components/sections/Partners';
-import { useModal } from '../hooks/useModal.jsx';
 import usePrograms from '../hooks/usePrograms';
 import useApiCollection from '../hooks/useApiCollection';
 import './Home.css';
@@ -19,26 +17,58 @@ const CAT_LABELS = {
   expert: "Expert",
 };
 
-const TABS = [
-  { key: "all", label: "All Courses" },
-  { key: "foundation", label: "Foundations" },
-  { key: "intermediate", label: "Intermediate" },
-  { key: "advanced", label: "Advanced" },
-  { key: "expert", label: "Expert" },
+function programSlug(program) {
+  return `/programs/${program.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}-${program.id}`;
+}
+
+const HERO_AUDIENCES = [
+  {
+    key: 'individuals',
+    label: 'Individuals',
+    desc: 'Hands-on labs, global certifications, and career support for your next role in security, AI, or cloud.',
+    cta: 'Explore Programs',
+    to: '/programs',
+  },
+  {
+    key: 'industry',
+    label: 'Industry',
+    desc: 'Workforce capability programs that upskill teams across cybersecurity, cloud, and AI — built for enterprise scale.',
+    cta: 'Industry Solutions',
+    to: '/corporate',
+  },
+  {
+    key: 'government',
+    label: 'Government',
+    desc: 'National cyber readiness — capability programs that secure public services and critical infrastructure.',
+    cta: 'Government Solutions',
+    to: '/government',
+  },
 ];
 
-const HERO_FAST_PATHS = [
-  { icon: Shield, title: 'Cybersecurity', text: 'SOC, ethical hacking, forensics, and risk.', to: '/programs' },
-  { icon: Brain, title: 'AI & Data', text: 'AI, machine learning, automation, and analytics.', to: '/programs' },
-  { icon: Cloud, title: 'Cloud & DevOps', text: 'Cloud platforms, networks, CI/CD, and containers.', to: '/programs' },
-  { icon: Server, title: 'Virtual Labs', text: 'Practice real scenarios in guided sandboxes.', to: '/cyber-labs' },
-];
+function useTypewriter(text, speed = 42, startDelay = 350) {
+  const [typed, setTyped] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches ? text : ''
+  );
 
-const AUDIENCE_PATHS = [
-  { icon: GraduationCap, title: 'Individuals', focus: 'LEARNING PATHWAYS', text: 'Develop practical skills for the next step in your technology career.', link: 'Explore learning', to: '/programs' },
-  { icon: Building2, title: 'Industry', focus: 'WORKFORCE PARTNERSHIPS', text: 'Build digital capability across your teams and organization.', link: 'Explore solutions', to: '/corporate' },
-  { icon: BriefcaseBusiness, title: 'Government', focus: 'PUBLIC RESILIENCE', text: 'Advance cyber readiness and technology skills across public services.', link: 'Start a conversation', to: '/contact' },
-];
+  useEffect(() => {
+    if (typed === text) return;
+    let index = 0;
+    let interval;
+    const start = setTimeout(() => {
+      interval = setInterval(() => {
+        index += 1;
+        setTyped(text.slice(0, index));
+        if (index >= text.length) clearInterval(interval);
+      }, speed);
+    }, startDelay);
+    return () => {
+      clearTimeout(start);
+      if (interval) clearInterval(interval);
+    };
+  }, [text, speed, startDelay]);
+
+  return typed;
+}
 
 function eventTimestamp(event) {
   const match = event.date?.match(/[A-Za-z]{3,9}\s+\d{1,2},?\s+\d{4}/);
@@ -87,70 +117,82 @@ function StatItem({ target, suffix, label }) {
 }
 
 const TESTIMONIALS = [
-  { initials: 'KO', name: 'Kevin Omondi', role: 'SOC Analyst at Safaricom', quote: 'The hands-on sandbox labs at CyberPro Global were a game-changer. I transitioned from IT helpdesk to a SOC Analyst role within 6 months.' },
+  { initials: 'KO', name: 'Kevin Omondi', role: 'SOC Analyst at Safaricom', quote: 'The hands-on sandbox labs at Cyberpro Global were a game-changer. I transitioned from IT helpdesk to a SOC Analyst role within 6 months.' },
   { initials: 'AM', name: 'Amina M.', role: 'AI Engineer at Microsoft', quote: 'The curriculum offered the perfect balance of statistical theory and model deployment pipelines. Exactly what I needed to upskill.' },
   { initials: 'JN', name: 'Joseph Njuguna', role: 'Cloud Specialist at KCB Bank', quote: 'The AWS certification preparation sessions helped me pass on my first attempt. The lab simulation was extremely close to real-world production.' },
 ];
 
-const TERMINAL_LINES = [
-  { text: '[ALERT] Scanning 10.0.0.5...', color: 'alert' },
-  { text: '[BLOCK] SQL injection attempt blocked at 14:18:01', color: 'block' },
-  { text: '[SCAN] Port 22/tcp open - SSH brute force detected', color: 'alert' },
-  { text: '[DEFEND] Firewall rule #1042 updated', color: 'defend' },
-  { text: '[ALERT] XSS payload intercepted on /login', color: 'alert' },
-  { text: '[OK] SSL certificate valid for cyberpro.global', color: 'ok' },
-  { text: '[BLOCK] IP 192.168.1.45 banned - 3 failed attempts', color: 'block' },
-  { text: '[DEFEND] IDS signature updated - 1,247 rules active', color: 'defend' },
-  { text: '[ALERT] DDoS traffic spike detected - 15k req/s', color: 'alert' },
-  { text: '[MITIGATE] Rate limiting enabled on gateway', color: 'defend' },
-  { text: '[OK] Intrusion prevention system armed', color: 'ok' },
-  { text: '[ALERT] Malware hash matched: Trojan.Win32.Emotet', color: 'alert' },
-  { text: '[DEFEND] Endpoint isolated and quarantined', color: 'defend' },
-  { text: '[BLOCK] Suspicious outbound connection to 45.33.x.x', color: 'block' },
-  { text: '[OK] Security audit passed - 0 critical findings', color: 'ok' },
-];
-
 const GLOBE_LATITUDES = Array.from({ length: 9 }, (_, index) => -64 + index * 16);
 const GLOBE_LONGITUDES = Array.from({ length: 12 }, (_, index) => index * 15);
-const SECTOR_ROUTES = [
-  { longitude: -34, latitude: 22, label: 'ACADEMIA' },
-  { longitude: 24, latitude: -8, label: 'INDUSTRY' },
-  { longitude: 152, latitude: -24, label: 'GOVERNMENT' },
-];
-const NETWORK_SECTORS = [
-  { icon: GraduationCap, title: 'Academia', focus: 'Learning & research', to: '/programs' },
-  { icon: Building2, title: 'Industry', focus: 'Workforce capability', to: '/corporate' },
-  { icon: Landmark, title: 'Government', focus: 'Public resilience', to: '/contact' },
-];
 
 function GlobeMatrix({ rotation }) {
   const longitude = `rotateY(${rotation}deg)`;
   return (
-    <div className="hero__globe-scene" aria-label="Rotating three-dimensional CyberPro network globe">
+    <div className="hero__globe-scene" aria-label="Rotating three-dimensional Cyberpro network globe">
       <div className="hero__globe-halo" />
+      <span className="hero__globe-bezel" aria-hidden="true" />
       <div className="hero__globe-shell">
         <div className="hero__globe-sphere">
           <div className="hero__globe-surface" />
           <div className="hero__globe-continents" />
           <div className="hero__globe-grid" style={{ transform: longitude }}>
             {GLOBE_LATITUDES.map(latitude => <span className="hero__globe-latitude" key={latitude} style={{ '--latitude': `${latitude}deg` }} />)}
-            {GLOBE_LONGITUDES.map(degree => <span className="hero__globe-longitude" key={degree} style={{ transform: `rotateY(${degree}deg)` }} />)}
+            {GLOBE_LONGITUDES.map(degree => <span className={`hero__globe-longitude${degree === 0 ? ' hero__globe-longitude--scanner' : ''}`} key={degree} style={{ transform: `rotateY(${degree}deg)` }} />)}
           </div>
-          <div className="hero__globe-network" aria-label="Academia, industry, and government connected through CyberPro">
+          <div className="hero__globe-network" aria-label="Academia, industry, and government connected through Cyberpro">
               <svg className="hero__globe-network-map" viewBox="0 0 300 300" aria-hidden="true">
-                <defs><linearGradient id="networkFlow" x1="0" y1="1" x2="1" y2="0"><stop stopColor="#ff4568" /><stop offset=".52" stopColor="#9a91ff" /><stop offset="1" stopColor="#45e6f3" /></linearGradient></defs>
+                <defs><linearGradient id="networkFlow" x1="0" y1="1" x2="1" y2="0"><stop stopColor="#ff5f6f" /><stop offset=".52" stopColor="#b18cff" /><stop offset="1" stopColor="#7dd3fc" /></linearGradient></defs>
                 <path className="hero__globe-network-arc hero__globe-network-arc--academia" d="M52 78 Q112 77 150 150" />
                 <path className="hero__globe-network-arc hero__globe-network-arc--industry" d="M248 78 Q188 77 150 150" />
                 <path className="hero__globe-network-arc hero__globe-network-arc--government" d="M150 264 Q122 205 150 150" />
-                <circle className="hero__globe-network-endpoint hero__globe-network-endpoint--academia" cx="52" cy="78" r="4" />
-                <circle className="hero__globe-network-endpoint hero__globe-network-endpoint--industry" cx="248" cy="78" r="4" />
-                <circle className="hero__globe-network-endpoint hero__globe-network-endpoint--government" cx="150" cy="264" r="4" />
+                <circle className="hero__globe-network-endpoint hero__globe-network-endpoint--academia" cx="52" cy="78" r="4">
+                  <animate attributeName="r" values="4;5.4;4" dur="3.2s" repeatCount="indefinite" />
+                </circle>
+                <circle className="hero__globe-network-endpoint hero__globe-network-endpoint--industry" cx="248" cy="78" r="4">
+                  <animate attributeName="r" values="4;5.4;4" dur="3.2s" begin="1s" repeatCount="indefinite" />
+                </circle>
+                <circle className="hero__globe-network-endpoint hero__globe-network-endpoint--government" cx="150" cy="264" r="4">
+                  <animate attributeName="r" values="4;5.4;4" dur="3.2s" begin="2s" repeatCount="indefinite" />
+                </circle>
+                <circle className="hero__globe-network-pulse hero__globe-network-pulse--academia" r="2.6" fill="#7dd3fc" opacity="0">
+                  <animateMotion dur="5.5s" repeatCount="indefinite" path="M52 78 Q112 77 150 150" />
+                  <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.12;0.82;1" dur="5.5s" repeatCount="indefinite" />
+                </circle>
+                <circle className="hero__globe-network-pulse hero__globe-network-pulse--industry" r="2.6" fill="#b18cff" opacity="0">
+                  <animateMotion dur="6.5s" begin="0.9s" repeatCount="indefinite" path="M248 78 Q188 77 150 150" />
+                  <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.12;0.82;1" dur="6.5s" begin="0.9s" repeatCount="indefinite" />
+                </circle>
+                <circle className="hero__globe-network-pulse hero__globe-network-pulse--government" r="2.6" fill="#ff5f6f" opacity="0">
+                  <animateMotion dur="7s" begin="1.7s" repeatCount="indefinite" path="M150 264 Q122 205 150 150" />
+                  <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.12;0.82;1" dur="7s" begin="1.7s" repeatCount="indefinite" />
+                </circle>
+                <path className="hero__globe-network-threat" d="M-34,-18 Q-6,10 28,42" />
+                <path className="hero__globe-network-threat" d="M334,262 Q300,246 272,212" />
+                <circle className="hero__globe-network-threat-pulse" r="2.2" fill="#ff5f6f" opacity="0">
+                  <animateMotion dur="2.8s" repeatCount="indefinite" path="M-34,-18 Q-6,10 28,42" />
+                  <animate attributeName="opacity" values="0;1;1;0.9;0" keyTimes="0;0.1;0.8;0.9;1" dur="2.8s" repeatCount="indefinite" />
+                </circle>
+                <circle className="hero__globe-network-threat-pulse" r="2.2" fill="#ff5f6f" opacity="0">
+                  <animateMotion dur="3.7s" begin="1.2s" repeatCount="indefinite" path="M334,262 Q300,246 272,212" />
+                  <animate attributeName="opacity" values="0;1;1;0.9;0" keyTimes="0;0.1;0.8;0.9;1" dur="3.7s" begin="1.2s" repeatCount="indefinite" />
+                </circle>
+                <circle className="hero__globe-network-flash" cx="28" cy="42" r="1" opacity="0">
+                  <animate attributeName="r" values="1;1;12" keyTimes="0;0.82;1" dur="2.8s" repeatCount="indefinite" />
+                  <animate attributeName="opacity" values="0;0;0.9;0" keyTimes="0;0.82;0.9;1" dur="2.8s" repeatCount="indefinite" />
+                </circle>
+                <circle className="hero__globe-network-flash" cx="272" cy="212" r="1" opacity="0">
+                  <animate attributeName="r" values="1;1;12" keyTimes="0;0.82;1" dur="3.7s" begin="1.2s" repeatCount="indefinite" />
+                  <animate attributeName="opacity" values="0;0;0.9;0" keyTimes="0;0.82;0.9;1" dur="3.7s" begin="1.2s" repeatCount="indefinite" />
+                </circle>
               </svg>
               <span className="hero__globe-network-name hero__globe-network-name--academia">ACADEMIA</span>
               <span className="hero__globe-network-name hero__globe-network-name--industry">INDUSTRY</span>
               <span className="hero__globe-network-name hero__globe-network-name--government">GOVERNMENT</span>
-              <span className="hero__globe-network-brand"><img src="/logo%20blue.jpg" alt="CyberPro" /></span>
+              <span className="hero__globe-network-brand"><img src="/logo%20blue.jpg" alt="Cyberpro" /></span>
           </div>
+          <span className="hero__globe-scan" aria-hidden="true" />
+          <span className="hero__globe-specular" aria-hidden="true" />
+          <span className="hero__globe-specular hero__globe-specular--rim" aria-hidden="true" />
           <div className="hero__globe-front-glow" />
         </div>
       </div>
@@ -162,172 +204,14 @@ function GlobeMatrix({ rotation }) {
   );
 }
 
-function AutoTypingTerminal() {
-  const [lines, setLines] = useState([]);
-  const [lineIndex, setLineIndex] = useState(0);
-
-  useEffect(() => {
-    const current = TERMINAL_LINES[lineIndex];
-    if (!current) return;
-
-    const timeout = setTimeout(() => {
-      setLines(prev => {
-        const next = [...prev, current];
-        if (next.length > 8) next.shift();
-        return next;
-      });
-      setLineIndex((lineIndex + 1) % TERMINAL_LINES.length);
-    }, 300 + Math.random() * 400);
-
-    return () => clearTimeout(timeout);
-  }, [lineIndex]);
-
-  return (
-    <>
-      {lines.map((line, i) => (
-        <div key={i} className={`hero__terminal-line hero__terminal-line--${line.color}`}>
-          <span className="hero__terminal-prompt">{line.text}</span>
-        </div>
-      ))}
-    </>
-  );
-}
-
-function FeaturedEventCard() {
-  const [displayedLines, setDisplayedLines] = useState([]);
-  const [currentLine, setCurrentLine] = useState(0);
-  const [charIndex, setCharIndex] = useState(0);
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, mins: 0, secs: 0 });
-
-  const eventDate = new Date('2026-10-27T08:00:00');
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const now = new Date();
-      const diff = eventDate - now;
-      if (diff <= 0) {
-        setTimeLeft({ days: 0, hours: 0, mins: 0, secs: 0 });
-        return;
-      }
-      setTimeLeft({
-        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
-        mins: Math.floor((diff / (1000 * 60)) % 60),
-        secs: Math.floor((diff / 1000) % 60),
-      });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const codeLines = [
-    { text: '$ initialize --event="cyberweek-africa"', color: 'ok' },
-    { text: '>> Loading threat_intelligence_modules...', color: 'defend' },
-    { text: '>> Connecting to KICC-Nairobi servers...', color: 'alert' },
-    { text: '>> 4800 delegates authenticated ✓', color: 'ok' },
-    { text: '>> AI.Security.Ethics summit armed', color: 'defend' },
-    { text: '>> Hackathon challenge deployed ✓', color: 'ok' },
-    { text: '$ register --delegate --early-bird', color: 'alert' },
-    { text: '>> Redirecting to cyberweekafrica.com...', color: 'defend' },
-  ];
-
-  useEffect(() => {
-    if (currentLine >= codeLines.length) {
-      setTimeout(() => {
-        setDisplayedLines([]);
-        setCurrentLine(0);
-        setCharIndex(0);
-      }, 3000);
-      return;
-    }
-
-    const line = codeLines[currentLine];
-    if (charIndex < line.text.length) {
-      const timeout = setTimeout(() => {
-        setCharIndex(charIndex + 1);
-      }, 30 + Math.random() * 40);
-      return () => clearTimeout(timeout);
-    } else {
-      const timeout = setTimeout(() => {
-        setDisplayedLines(prev => [...prev, line]);
-        setCurrentLine(currentLine + 1);
-        setCharIndex(0);
-      }, 400);
-      return () => clearTimeout(timeout);
-    }
-  }, [currentLine, charIndex]);
-
-  return (
-    <a href="https://www.cyberweekafrica.com/register/" target="_blank" rel="noopener noreferrer" className="cyberweek-card">
-      <div className="cyberweek-card__scanline" />
-      <div className="cyberweek-card__header">
-        <div className="cyberweek-card__dots">
-          <span /><span /><span />
-        </div>
-        <span className="cyberweek-card__filename">cyberweek-africa.exe</span>
-        <div className="cyberweek-card__status">
-          <span className="cyberweek-card__status-dot" />
-          LIVE
-        </div>
-      </div>
-      <div className="cyberweek-card__terminal">
-        {displayedLines.map((line, i) => (
-          <div key={i} className={`cyberweek-card__line cyberweek-card__line--${line.color}`}>
-            {line.text}
-          </div>
-        ))}
-        {currentLine < codeLines.length && (
-          <div className={`cyberweek-card__line cyberweek-card__line--${codeLines[currentLine].color}`}>
-            {codeLines[currentLine].text.slice(0, charIndex)}
-            <span className="cyberweek-card__cursor">_</span>
-          </div>
-        )}
-      </div>
-      <div className="cyberweek-card__info">
-        <div className="cyberweek-card__title-row">
-          <span className="cyberweek-card__event-badge">FEATURED EVENT</span>
-          <span className="cyberweek-card__date">Oct 27-31, 2026</span>
-        </div>
-        <h3 className="cyberweek-card__title">Cyberweek Africa</h3>
-        <p className="cyberweek-card__venue">KICC, Nairobi • Cyber Threat Intelligence</p>
-        <div className="cyberweek-card__countdown">
-          <div className="cyberweek-card__countdown-item">
-            <span className="cyberweek-card__countdown-value">{timeLeft.days}</span>
-            <span className="cyberweek-card__countdown-label">Days</span>
-          </div>
-          <span className="cyberweek-card__countdown-sep">:</span>
-          <div className="cyberweek-card__countdown-item">
-            <span className="cyberweek-card__countdown-value">{String(timeLeft.hours).padStart(2, '0')}</span>
-            <span className="cyberweek-card__countdown-label">Hrs</span>
-          </div>
-          <span className="cyberweek-card__countdown-sep">:</span>
-          <div className="cyberweek-card__countdown-item">
-            <span className="cyberweek-card__countdown-value">{String(timeLeft.mins).padStart(2, '0')}</span>
-            <span className="cyberweek-card__countdown-label">Min</span>
-          </div>
-          <span className="cyberweek-card__countdown-sep">:</span>
-          <div className="cyberweek-card__countdown-item">
-            <span className="cyberweek-card__countdown-value">{String(timeLeft.secs).padStart(2, '0')}</span>
-            <span className="cyberweek-card__countdown-label">Sec</span>
-          </div>
-        </div>
-        <div className="cyberweek-card__cta">
-          <span>Join 4800+ Delegates</span>
-          <ArrowRight size={16} />
-        </div>
-      </div>
-    </a>
-  );
-}
-
 export default function Home() {
   const [activeTab, setActiveTab] = useState('all');
-  const [activeSector, setActiveSector] = useState('academia');
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [activeAdvantage, setActiveAdvantage] = useState(1);
+  const [audience, setAudience] = useState('individuals');
   const [globeRotation, setGlobeRotation] = useState(0);
   const globeRotationRef = useRef(0);
   const globeDragX = useRef(null);
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [activeAdvantage, setActiveAdvantage] = useState(1);
-  const { openModal } = useModal();
   const { programs, loading: programsLoading, error: programsError } = usePrograms();
   const { items: events } = useApiCollection('/events');
   const filtered = (activeTab === 'all' ? programs : programs.filter(p => p.cat === activeTab)).slice(0, 6);
@@ -337,7 +221,15 @@ export default function Home() {
   const featuredEventImage = featuredEvent?.title === 'Cyberweek Africa 2026'
     ? '/images/events/cyberweek.png'
     : featuredEvent?.img;
+  const featuredEventDays = (() => {
+    if (!featuredEvent) return null;
+    const ts = eventTimestamp(featuredEvent);
+    if (ts === Number.MAX_SAFE_INTEGER) return null;
+    const days = Math.ceil((ts - Date.now()) / 86400000);
+    return days > 0 ? days : null;
+  })();
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const timer = setInterval(() => {
       setCurrentSlide(s => (s + 1) % TESTIMONIALS.length);
     }, 5000);
@@ -345,6 +237,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     let frame;
     let previousTime;
     const animateGlobe = (time) => {
@@ -360,57 +253,153 @@ export default function Home() {
     return () => cancelAnimationFrame(frame);
   }, []);
 
+  const dragGlobe = (event) => {
+    globeDragX.current = event.clientX;
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const moveGlobe = (event) => {
+    if (globeDragX.current !== null) {
+      globeRotationRef.current = (globeRotationRef.current + (event.clientX - globeDragX.current) * 0.35) % 360;
+      setGlobeRotation(globeRotationRef.current);
+      globeDragX.current = event.clientX;
+    }
+  };
+
+  const releaseGlobe = () => { globeDragX.current = null; };
+
+  const featuredProgramSlug = featuredProgram ? programSlug(featuredProgram) : '/programs';
+  const programTiers = ['foundation', 'intermediate', 'advanced', 'expert'].filter(cat => programs.some(p => p.cat === cat));
+  const programTabs = [{ key: 'all', label: 'All Programs' }, ...programTiers.map(cat => ({ key: cat, label: CAT_LABELS[cat] }))];
+
+  const activeAudience = HERO_AUDIENCES.find(a => a.key === audience) ?? HERO_AUDIENCES[0];
+  const eyebrowText = useTypewriter('ADMISSIONS OPEN · 2026 COHORTS');
+  const [hudCount, setHudCount] = useState(1284);
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const countTimer = setInterval(() => setHudCount(c => c + Math.floor(Math.random() * 3) + 1), 2400);
+    return () => clearInterval(countTimer);
+  }, []);
+
   return (
     <div className="home">
-      <section className="hero">
-        <div className="hero__bg" />
-        <div className="hero__grid-overlay" />
-        
-        <div className="container hero__academy">
-          <div className="hero__stage hero__stage--globe">
-            <div className="hero__content hero__content--globe">
-              <div className="hero__announcement" aria-label="Technology. Security. Resilience.">
-                <span className="hero__announcement-dot" aria-hidden="true" />
-                <span>Technology</span><b aria-hidden="true" />
-                <span>Security</span><b aria-hidden="true" />
-                <span>Resilience</span>
-              </div>
-              <h1 className="hero__title">Engineering <span className="hero__title-accent">Sovereign AI, Data Integrity <i aria-hidden="true">&amp;</i> Global Cyber Defense.</span></h1>
-              <p className="hero__desc">CYBERPRO unites academia, enterprise, and government to build breach-resilient digital infrastructure across Africa and beyond.</p>
-              <div className="hero__actions">
-                <Link to="/about" className="btn btn-primary btn-lg">Discover Cyberpro <ArrowRight size={17} /></Link>
-                <Link to="/contact" className="btn btn-outline btn-lg"><Building2 size={17} /> Talk to our team</Link>
-              </div>
-              <div className="hero__featured" aria-label="Featured at CyberPro">
-                <div className="hero__featured-grid">
-                  <Link to="/events" className="hero-feature-card hero-feature-card--event">
-                    {featuredEventImage && <img className="hero-feature-card__image" src={featuredEventImage} alt="" />}
-                    <span className="hero-feature-card__copy"><small>Featured event {featuredEvent?.date ? `· ${featuredEvent.date}` : ''}</small><strong>{featuredEvent?.title || 'Events & community'}</strong><span>{featuredEvent?.type || 'Workshops, webinars and meetups'}</span></span>
-                    <ArrowRight size={17} />
-                  </Link>
-                  <Link to={featuredProgram ? `/programs/${featuredProgram.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}-${featuredProgram.id}` : '/programs'} className="hero-feature-card hero-feature-card--course">
-                    {featuredProgram?.img && <img className="hero-feature-card__image" src={featuredProgram.img} alt="" />}
-                    <span className="hero-feature-card__copy"><small>Featured course</small><strong>{featuredProgram?.title || (programsLoading ? 'Explore our programs' : 'Professional learning')}</strong><span>{featuredProgram?.dur || 'Practical, career-focused pathways'}</span></span>
-                    <ArrowRight size={17} />
-                  </Link>
-                  <Link to="/cyber-labs" className="hero-feature-card hero-feature-card--lab">
-                    <span className="hero-feature-card__icon"><Server size={18} /></span>
-                    <span className="hero-feature-card__copy"><small>Featured lab</small><strong>Virtual Cyber Labs</strong><span>Practice in guided environments</span></span>
-                    <ArrowRight size={17} />
-                  </Link>
-                </div>
-              </div>
+      <section className="hero-nova" aria-label="Cyberpro Global introduction">
+        <div className="hero-nova__backdrop" aria-hidden="true">
+          <span className="hero-nova__photo" />
+          <span className="hero-nova__photo-veil" />
+          <span className="hero-nova__photo-glass" />
+          <span className="hero-nova__aurora hero-nova__aurora--crimson" />
+          <span className="hero-nova__aurora hero-nova__aurora--azure" />
+          <span className="hero-nova__aurora hero-nova__aurora--violet" />
+          <span className="hero-nova__gridlines" />
+          <span className="hero-nova__stars">
+            <i /><i /><i /><i /><i /><i /><i /><i /><i /><i />
+          </span>
+          <span className="hero-nova__grain" />
+        </div>
+
+        <div className="container hero-nova__layout">
+          <div className="hero-nova__content">
+            <p className="hero-nova__eyebrow" aria-label="Admissions open · 2026 cohorts">
+              <span className="hero-nova__eyebrow-prompt" aria-hidden="true">&gt;</span>
+              <span className="hero-nova__eyebrow-dot" aria-hidden="true" />
+              <span className="hero-nova__eyebrow-text">{eyebrowText}</span>
+              <span className="hero-nova__eyebrow-cursor" aria-hidden="true" />
+            </p>
+            <h1 className="hero-nova__title">
+              Master cyber defense the way it&rsquo;s <span className="hero-nova__title-accent">actually fought.</span>
+            </h1>
+            <p className="hero-nova__sub">
+              Cyberpro Global trains professionals in live-fire labs, certification-aligned programs,
+              and real-world career support — from first login to first day on the job.
+            </p>
+            <div className="hero-nova__audiences" aria-label="Choose your path">
+              {HERO_AUDIENCES.map(item => (
+                <button
+                  key={item.key}
+                  type="button"
+                  className={`hero-nova__audience-btn${audience === item.key ? ' hero-nova__audience-btn--active' : ''}`}
+                  onClick={() => setAudience(item.key)}
+                  aria-pressed={audience === item.key}
+                >
+                  {item.label}
+                </button>
+              ))}
             </div>
+            <p className="hero-nova__audience-desc" key={audience}>
+              {activeAudience.desc}
+            </p>
+            <div className="hero-nova__actions">
+              <Link to={activeAudience.to} className="btn btn-primary btn-lg">{activeAudience.cta} <ArrowRight size={17} /></Link>
+              <Link to="/contact" className="btn hero-nova__btn-ghost btn-lg"><Building2 size={17} /> Talk to our team</Link>
+            </div>
+          </div>
+
+          <div className="hero-nova__visual">
             <div className="hero__globe-panel">
-              <div className="hero__globe-hud">
-                <span className="hero__globe-hud-brand"><Shield size={15} /><span><small>CYBERPRO / NETWORK 01</small><strong>GLOBAL DIGITAL NETWORK</strong></span></span>
-                <span className="hero__globe-hud-live"><i /><span><small>NETWORK STATUS</small><strong>LIVE CONNECTIONS <b>WORLDWIDE</b></strong></span></span>
+              <div className="hero__globe-hud" aria-label="Cyberpro network status">
+                <span className="hero__globe-hud-brand"><Radar size={15} /><span><small>CYBERPRO / NETWORK 01</small><strong>GLOBAL DIGITAL NETWORK</strong></span></span>
+                <span className="hero__globe-hud-live"><i /><span><small>NETWORK STATUS</small><strong><b>{hudCount.toLocaleString()}</b> LIVE CONNECTIONS</strong></span></span>
               </div>
-              <div className="hero__globe-wrap" onPointerDown={event => { globeDragX.current = event.clientX; event.currentTarget.setPointerCapture(event.pointerId); }} onPointerMove={event => { if (globeDragX.current !== null) { globeRotationRef.current = (globeRotationRef.current + (event.clientX - globeDragX.current) * 0.35) % 360; setGlobeRotation(globeRotationRef.current); globeDragX.current = event.clientX; } }} onPointerUp={() => { globeDragX.current = null; }} onPointerCancel={() => { globeDragX.current = null; }}>
+              <div
+                className="hero__globe-wrap"
+                onPointerDown={dragGlobe}
+                onPointerMove={moveGlobe}
+                onPointerUp={releaseGlobe}
+                onPointerCancel={releaseGlobe}
+              >
                 <GlobeMatrix rotation={globeRotation} />
               </div>
-              <div className="hero__globe-caption"><span>Cybersecurity <b>·</b> Artificial Intelligence</span></div>
+              <span className="hero__globe-values-rule" aria-hidden="true" />
+              <div className="hero__globe-values" aria-label="Technology, Security, Resilience">
+                <span className="hero__globe-values-word hero__globe-values-word--tech">Technology</span>
+                <i aria-hidden="true" />
+                <span className="hero__globe-values-word hero__globe-values-word--sec">Security</span>
+                <i aria-hidden="true" />
+                <span className="hero__globe-values-word hero__globe-values-word--res">Resilience</span>
+              </div>
             </div>
+          </div>
+        </div>
+
+        <div className="container">
+          <div className="hero-nova__featured" aria-label="Featured at Cyberpro">
+            <Link to="/events" className="hero-nova__fcard hero-nova__fcard--event">
+              <span className="hero-nova__fcard-thumb">
+                {featuredEventImage
+                  ? <img src={featuredEventImage} alt="" loading="lazy" />
+                  : <CalendarDays size={20} aria-hidden="true" />}
+              </span>
+              <span className="hero-nova__fcard-copy">
+                <span className="hero-nova__fcard-status"><i aria-hidden="true" />EVENT{featuredEventDays ? ` · T-${featuredEventDays} DAYS` : ' · REGISTRATION OPEN'}</span>
+                <strong>{featuredEvent?.title || 'Events & community'}</strong>
+                <span>{[featuredEvent?.date, featuredEvent?.type || 'Workshops, webinars and meetups'].filter(Boolean).join(' · ')}</span>
+              </span>
+              <ArrowRight size={16} className="hero-nova__fcard-arrow" aria-hidden="true" />
+            </Link>
+            <Link to={featuredProgramSlug} className="hero-nova__fcard hero-nova__fcard--course">
+              <span className="hero-nova__fcard-thumb">
+                {featuredProgram?.img
+                  ? <img src={featuredProgram.img} alt="" loading="lazy" />
+                  : <GraduationCap size={20} aria-hidden="true" />}
+              </span>
+              <span className="hero-nova__fcard-copy">
+                <span className="hero-nova__fcard-status"><i aria-hidden="true" />PROGRAM · ENROLLING NOW</span>
+                <strong>{featuredProgram?.title || (programsLoading ? 'Loading programs…' : 'Professional learning')}</strong>
+                <span>{featuredProgram?.dur || 'Practical, career-focused pathways'}</span>
+              </span>
+              <ArrowRight size={16} className="hero-nova__fcard-arrow" aria-hidden="true" />
+            </Link>
+            <Link to="/cyber-labs" className="hero-nova__fcard hero-nova__fcard--lab">
+              <span className="hero-nova__fcard-thumb hero-nova__fcard-thumb--icon"><Server size={20} aria-hidden="true" /></span>
+              <span className="hero-nova__fcard-copy">
+                <span className="hero-nova__fcard-status"><i aria-hidden="true" />LAB · ALWAYS-ON</span>
+                <strong>Virtual Cyber Labs</strong>
+                <span>Practice in guided sandboxes</span>
+              </span>
+              <ArrowRight size={16} className="hero-nova__fcard-arrow" aria-hidden="true" />
+            </Link>
           </div>
         </div>
       </section>
@@ -422,18 +411,19 @@ export default function Home() {
             <div style={{ textAlign: 'center' }}>
               <span className="section-label">Professional learning</span>
               <h2 className="section-title">Build capability for what comes next.</h2>
-              <p className="section-subtitle">Explore practical pathways in cybersecurity, cloud, AI, and software development.</p>
+              <p className="section-subtitle">Practical, certification-aligned programs in cybersecurity, cloud, AI, and digital governance — from first skills to specialist practice.</p>
             </div>
           </ScrollReveal>
 
           <ScrollReveal delay={0.1}>
             <div className="flex-center" style={{ marginBottom: '32px' }}>
-              <div className="tabs">
-                {TABS.map(tab => (
+              <div className="tabs" role="group" aria-label="Program levels">
+                {programTabs.map(tab => (
                   <button
                     key={tab.key}
                     className={`tab-btn ${activeTab === tab.key ? 'active' : ''}`}
                     onClick={() => setActiveTab(tab.key)}
+                    aria-pressed={activeTab === tab.key}
                   >
                     {tab.label}
                   </button>
@@ -443,8 +433,20 @@ export default function Home() {
           </ScrollReveal>
 
           <div className="grid grid-3">
-            {programsLoading && <p>Loading courses…</p>}
+            {programsLoading && [0, 1, 2].map(i => (
+              <div className="program-card program-card--skeleton" key={`skeleton-${i}`}>
+                <div className="program-card__image program-skeleton__block" />
+                <div className="program-card__body">
+                  <div className="program-skeleton__block program-skeleton__block--title" />
+                  <div className="program-skeleton__block program-skeleton__block--text" />
+                  <div className="program-skeleton__block program-skeleton__block--text program-skeleton__block--short" />
+                </div>
+              </div>
+            ))}
             {programsError && <p role="alert">{programsError}</p>}
+            {!programsLoading && !programsError && filtered.length === 0 && (
+              <p className="programs-empty">No programs published in this level yet — explore another tier.</p>
+            )}
             {filtered.map((prog, i) => (
               <ScrollReveal key={i} delay={i * 0.06}>
                 <div className="program-card">
@@ -453,14 +455,13 @@ export default function Home() {
                     <span className="program-card__category">{CAT_LABELS[prog.cat]}</span>
                   </div>
                   <div className="program-card__body">
-                    <h3 className="program-card__title">{prog.title}</h3>
+                    <h3 className="program-card__title"><Link to={programSlug(prog)}>{prog.title}</Link></h3>
                     <p className="program-card__desc">{prog.desc}</p>
                     <div className="program-card__meta">
-                      <span className="badge badge-navy">{prog.dur}</span>
-                      <span className="badge badge-blue">{prog.fee}</span>
-                      <span className="badge badge-green">{prog.lvl}</span>
+                      <span className="program-card__dur"><Clock size={13} aria-hidden="true" />{prog.dur}</span>
+                      <span className="badge badge-crimson">{prog.fee}</span>
                     </div>
-                    <Link to="/programs" className="card-link">
+                    <Link to={programSlug(prog)} className="card-link">
                       View Details <ChevronRight size={16} />
                     </Link>
                   </div>
@@ -471,9 +472,23 @@ export default function Home() {
 
           <ScrollReveal delay={0.2}>
             <div style={{ textAlign: 'center', marginTop: '36px' }}>
-              <Link to="/programs" className="btn btn-outline btn-lg">View All {programs.length} Courses <ArrowRight size={18} /></Link>
+              <Link to="/programs" className="btn btn-outline btn-lg">View All {programs.length} Programs <ArrowRight size={18} /></Link>
             </div>
           </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="impact-section">
+        <div className="container">
+          <div className="impact-bar">
+            <StatItem target={1500} suffix="+" label="Learners reached" />
+            <div className="impact-divider" />
+            <StatItem target={13} suffix="" label="Learning pathways" />
+            <div className="impact-divider" />
+            <StatItem target={45} suffix="+" label="Partner organizations" />
+            <div className="impact-divider" />
+            <StatItem target={94} suffix="%" label="Alumni employment" />
+          </div>
         </div>
       </section>
 
@@ -496,16 +511,20 @@ export default function Home() {
                 <p className="advantages-command__desc">Every learner moves through a practical sequence: simulate, certify, compete, and launch.</p>
                 <div className="advantages-command__metrics">
                   <div>
-                    <strong>4</strong>
-                    <span>Career pillars</span>
+                    <strong>01</strong>
+                    <span>Simulate</span>
                   </div>
                   <div>
-                    <strong>13</strong>
-                    <span>Programs</span>
+                    <strong>02</strong>
+                    <span>Certify</span>
                   </div>
                   <div>
-                  <strong>4</strong>
-                  <span>Learning advantages</span>
+                    <strong>03</strong>
+                    <span>Compete</span>
+                  </div>
+                  <div>
+                    <strong>04</strong>
+                    <span>Launch</span>
                   </div>
                 </div>
               </div>
@@ -578,27 +597,13 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="impact-section">
-        <div className="container">
-          <div className="impact-bar">
-            <StatItem target={1500} suffix="+" label="Learners reached" />
-            <div className="impact-divider" />
-            <StatItem target={13} suffix="" label="Learning pathways" />
-            <div className="impact-divider" />
-            <StatItem target={45} suffix="+" label="Partner organizations" />
-            <div className="impact-divider" />
-            <StatItem target={94} suffix="%" label="Alumni employment" />
-          </div>
-        </div>
-      </section>
-
       <section className="section section-alt success-section">
         <div className="container">
           <ScrollReveal>
             <div style={{ textAlign: 'center' }}>
               <span className="section-label">People and outcomes</span>
               <h2 className="section-title">Skills that make a difference.</h2>
-              <p className="section-subtitle">Hear from professionals who have grown their capabilities with CyberPro.</p>
+              <p className="section-subtitle">Hear from professionals who have grown their capabilities with Cyberpro.</p>
             </div>
           </ScrollReveal>
           <ScrollReveal delay={0.15}>
@@ -613,7 +618,7 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="testimonial-stars">
-                    {[...Array(5)].map((_, j) => <Star key={j} size={16} fill="#5d9fbe" color="#5d9fbe" />)}
+                    {[...Array(5)].map((_, j) => <Star key={j} size={16} fill="#f4b63f" color="#f4b63f" />)}
                   </div>
                   <p className="testimonial-quote">"{t.quote}"</p>
                 </div>
@@ -641,7 +646,15 @@ export default function Home() {
       </section>
 
       <section className="cta-section">
+        <span className="hero-nova__grain" aria-hidden="true" />
         <div className="container cta-inner">
+          <div className="hero__globe-values cta-values" aria-label="Technology, Security, Resilience">
+            <span className="hero__globe-values-word hero__globe-values-word--tech">Technology</span>
+            <i aria-hidden="true" />
+            <span className="hero__globe-values-word hero__globe-values-word--sec">Security</span>
+            <i aria-hidden="true" />
+            <span className="hero__globe-values-word hero__globe-values-word--res">Resilience</span>
+          </div>
           <span className="cta-kicker">Start a conversation</span>
           <h2 className="cta-title">
             <span>Let’s build a more</span>
@@ -650,7 +663,7 @@ export default function Home() {
           </h2>
           <p className="cta-desc">Tell us what you’re working toward. We’ll help you find the right place to start.</p>
           <div className="flex-center gap-4">
-            <Link to="/contact" className="btn btn-white btn-lg">Contact CyberPro</Link>
+            <Link to="/contact" className="btn btn-white btn-lg">Contact Cyberpro</Link>
             <Link to="/about" className="btn btn-outline btn-lg">Learn about us</Link>
           </div>
         </div>

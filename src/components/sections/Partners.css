@@ -64,6 +64,7 @@
   width: 180px;
   flex-shrink: 0;
   transition: var(--transition);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
 
@@ -98,7 +99,7 @@
 }
 
 .home .partners-title { color: #0a1b32; }
-.home .partners-subtitle { color: #536579; }
+.home .partners-subtitle { color: #66788c; }
 .home .partner-card {
   background: #fff;
   border-color: rgba(10, 27, 50, 0.1);
@@ -123,5 +124,38 @@
   }
   .partner-logo-wrapper {
     height: 64px;
+  }
+}
+
+/* ============================================
+   PARTNERS — SLIM TRUST STRIP
+   One caption line over the marquee. Replaces
+   the former label + title + subtitle header.
+   ============================================ */
+
+.partners-section {
+  padding: 30px 0;
+}
+
+.partners-caption {
+  margin-bottom: 18px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #6d7d92;
+}
+
+.partners-header {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partners-marquee {
+    animation: none;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
   }
 }

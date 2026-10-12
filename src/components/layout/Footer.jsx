@@ -12,7 +12,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="footer__brand-col">
             <Link to="/" className="footer__brand">
-              <img src="/logo.jpg" alt="CyberPro Global" className="footer__logo" />
+              <img src="/logo.jpg" alt="Cyberpro Global" className="footer__logo" />
             </Link>
             <p className="footer__tagline">
               Africa's Premier Technology Academy. Building world-class cybersecurity, AI, and cloud professionals.
@@ -83,7 +83,7 @@ export default function Footer() {
         </div>
 
         <div className="footer__bottom">
-          <p>&copy; {new Date().getFullYear()} CyberPro Global. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Cyberpro Global. All rights reserved.</p>
           <div className="footer__bottom-links"><Link to="/contact">Privacy & terms inquiries</Link></div>
         </div>
       </div>

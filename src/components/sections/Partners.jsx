@@ -16,15 +16,11 @@ export default function Partners() {
     <section className="partners-section">
       <div className="container">
         <ScrollReveal>
-          <div className="partners-header">
-            <span className="section-label">Our Partners</span>
-            <h2 className="partners-title">Trusted by Leading Institutions</h2>
-            <p className="partners-subtitle">
-              Collaborating with top universities, government agencies, and industry leaders to deliver world-class technology education.
-            </p>
-          </div>
+          <p className="partners-caption">
+            Trusted by leading universities, government agencies, and industry partners
+          </p>
         </ScrollReveal>
-        
+
         <div className="partners-marquee-container">
           <div className="partners-marquee">
             {/* Double the array for seamless infinite scroll */}
